@@ -1,0 +1,24 @@
+# Maven
+/target/
+/.mvn/wrapper/maven-wrapper.jar
+
+# Logs
+*.log
+
+# Eclipse
+.classpath
+.project
+.settings/
+.metadata/
+
+# IntelliJ (just in case)
+.idea/
+*.iml
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Spring Boot config (keep secrets local)
+src/main/resources/application.properties
+src/main/resources/application-*.properties
