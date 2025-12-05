@@ -1,3 +1,18 @@
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,9 +20,143 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: transparent; /* page div handles the gradient */
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+h1,
+h2,
+h3 {
+  margin-top: 0;
+}
+
+/* 🔹 This MUST exist for your animation name */
+@keyframes salonGradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+.services-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.services-layout-left,
+.services-layout-right {
+  width: 100%;
+}
+
+/* Desktop: side-by-side */
+@media (min-width: 960px) {
+  .services-layout {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  .services-layout-left {
+    flex: 2;
+  }
+  .services-layout-right {
+    flex: 1;
+  }
+}
+/* Services page layout: grid on the left, cart on the right (desktop) */
+.services-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.services-layout-left,
+.services-layout-right {
+  width: 100%;
+}
+
+/* Desktop: show services and cart side-by-side */
+@media (min-width: 1024px) {
+  .services-layout {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .services-layout-left {
+    flex: 3;
+  }
+
+  .services-layout-right {
+    flex: 1.3;
+  }
+  /* ===== Promo ticker animation under hero ===== */
+.promo-marquee-inner {
+  display: inline-block;
+  padding-left: 100%;
+  white-space: nowrap;
+  animation: promoScroll 18s linear infinite;
+  font-size: 14px;
+  color: #e5e7eb;
+}
+
+@keyframes promoScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+/* ===== Hero promo ticker animation ===== */
+.promo-marquee-inner {
+  display: inline-block;
+  white-space: nowrap;
+  padding: 0 1.5rem;
+  font-size: 14px;
+  color: #e5e7eb;
+
+  /* Start fully off the right side, move to left, then loop */
+  animation: promoScroll 22s linear infinite;
+}
+
+@keyframes promoScroll {
+  0% {
+    transform: translateX(100%);   /* start off-screen on the right */
+  }
+  100% {
+    transform: translateX(-100%);  /* move off-screen to the left */
+  }
+}
+/* Make placeholders in the Add Blog Post form clearly visible */
+.admin-blog-post input::placeholder,
+.admin-blog-post textarea::placeholder {
+  color: #cf0101 !important;  /* light pink/white, very visible */
+  opacity: 1;
+}
+
+/* Extra vendor prefixes just in case */
+.admin-blog-post input::-webkit-input-placeholder,
+.admin-blog-post textarea::-webkit-input-placeholder {
+  color: #e710e7 !important;
+}
+
+.admin-blog-post input::-moz-placeholder,
+.admin-blog-post textarea::-moz-placeholder {
+  color: #e20ce2 !important;
+}
+
+.admin-blog-post input:-ms-input-placeholder,
+.admin-blog-post textarea:-ms-input-placeholder {
+  color: #ffe4ff !important;
+}
+
+
+}
+

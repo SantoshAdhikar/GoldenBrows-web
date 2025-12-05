@@ -1,0 +1,431 @@
+// src/components/ServiceSection.js
+import React, { useEffect, useMemo, useState } from "react";
+import { API_BASE } from "../apiConfig";
+import { styles } from "../styles";
+
+function prettyCategory(cat) {
+  if (!cat) return "";
+  return cat
+    .toString()
+    .replace(/_/g, " ")
+    .toLowerCase()
+    .split(" ")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
+}
+
+export default function ServiceSection() {
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  // cart state
+  const [cart, setCart] = useState([]);
+
+  // booking form state
+  const [bookingDate, setBookingDate] = useState("");
+  const [bookingTime, setBookingTime] = useState("");
+  const [bookingStaff, setBookingStaff] = useState("Any staff");
+  const [bookingName, setBookingName] = useState("");
+  const [bookingPhone, setBookingPhone] = useState("");
+  const [bookingEmail, setBookingEmail] = useState("");
+  const [bookingNotes, setBookingNotes] = useState("");
+  const [bookingMessage, setBookingMessage] = useState("");
+
+  // staff options from backend
+  const [staffOptions, setStaffOptions] = useState(["Any staff"]);
+
+  // load services
+  useEffect(() => {
+    async function loadServices() {
+      try {
+        const res = await fetch(`${API_BASE}/services`);
+        if (!res.ok) throw new Error("Failed to load services");
+        const data = await res.json();
+        setServices(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadServices();
+  }, []);
+
+  // load staff
+  useEffect(() => {
+    async function loadStaff() {
+      try {
+        // 🔴 change this path if your backend uses something else
+        // e.g. /team-members, /employees, etc.
+        // const res = await fetch(`${API_BASE}/staff`);
+        const res = await fetch(`${API_BASE}/employees`);
+
+        if (!res.ok) throw new Error("Failed to load staff");
+
+        const data = await res.json();
+
+        const names = data.map((s) => {
+          if (s.displayName) return s.displayName;
+          if (s.name) return s.name;
+          return `${s.firstName ?? ""} ${s.lastName ?? ""}`.trim();
+        });
+
+        setStaffOptions(["Any staff", ...names]);
+      } catch (err) {
+        console.error("Error loading staff", err);
+      }
+    }
+
+    loadStaff();
+  }, []);
+
+  // categories from backend
+  const categories = useMemo(() => {
+    const set = new Set();
+    services.forEach((s) => {
+      if (s.category) set.add(s.category);
+    });
+    return ["All", ...Array.from(set).sort()];
+  }, [services]);
+
+  const visibleServices =
+    selectedCategory === "All"
+      ? services
+      : services.filter((s) => s.category === selectedCategory);
+
+  // neon colors per card
+  const neonStyles = [
+    { border: "#22d3ee", shadow: "rgba(34, 211, 238, 0.6)" }, // cyan
+    { border: "#a855f7", shadow: "rgba(168, 85, 247, 0.6)" }, // purple
+    { border: "#f97316", shadow: "rgba(249, 115, 22, 0.6)" }, // orange
+    { border: "#4ade80", shadow: "rgba(74, 222, 128, 0.6)" }, // green
+  ];
+
+  // cart helpers
+  const isInCart = (id) => cart.some((item) => item.id === id);
+
+  const toggleCart = (service) => {
+    setCart((prev) => {
+      const exists = prev.some((item) => item.id === service.id);
+      if (exists) {
+        return prev.filter((item) => item.id !== service.id);
+      }
+      return [...prev, service];
+    });
+  };
+
+  const removeFromCart = (id) => {
+    setCart((prev) => prev.filter((item) => item.id !== id));
+  };
+
+  const cartTotal = cart.reduce((sum, s) => sum + (s.price || 0), 0);
+  const totalMinutes = cart.reduce(
+    (sum, s) => sum + (s.durationMinutes || 0),
+    0
+  );
+
+  const handleBookingSubmit = (e) => {
+    e.preventDefault();
+    setBookingMessage("");
+
+    if (cart.length === 0) {
+      setBookingMessage("Please add at least one service to your cart first.");
+      return;
+    }
+    if (!bookingDate || !bookingTime || !bookingName || !bookingPhone) {
+      setBookingMessage(
+        "Please fill in date, time, name, and phone before requesting."
+      );
+      return;
+    }
+
+    // later you can hook to backend/email here
+    setBookingMessage(
+      `Thank you, ${bookingName}! We’ve received your request for ${cart.length} service(s). We’ll contact you to confirm your appointment.`
+    );
+  };
+
+  return (
+    <section style={styles.section}>
+      <h2 style={styles.sectionTitle}>All Services</h2>
+      <p style={styles.sectionSubtitle}>
+        Browse all services, add them to your cart, and send an appointment
+        request with your preferred date and time.
+      </p>
+
+      <div className="services-layout">
+        {/* LEFT: neon service cards */}
+        <div className="services-layout-left">
+          {/* Category filter buttons */}
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 8,
+              marginBottom: 16,
+            }}
+          >
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setSelectedCategory(cat)}
+                style={{
+                  padding: "6px 12px",
+                  borderRadius: 999,
+                  border:
+                    cat === selectedCategory
+                      ? "1px solid #22c55e"
+                      : "1px solid #4b5563",
+                  backgroundColor:
+                    cat === selectedCategory
+                      ? "#22c55e"
+                      : "rgba(15, 23, 42, 0.9)",
+                  color: cat === selectedCategory ? "#0b1120" : "#e5e7eb",
+                  fontSize: 13,
+                  cursor: "pointer",
+                }}
+              >
+                {cat === "All" ? "All" : prettyCategory(cat)}
+              </button>
+            ))}
+          </div>
+
+          {loading && <p>Loading services...</p>}
+          {error && <p style={{ color: "red" }}>{error}</p>}
+          {!loading && !error && visibleServices.length === 0 && (
+            <p>No services available yet.</p>
+          )}
+
+          <div style={styles.servicesGrid}>
+            {visibleServices.map((s, index) => {
+              const neon = neonStyles[index % neonStyles.length];
+              const cardStyle = {
+                ...styles.serviceCard,
+                borderColor: neon.border,
+                boxShadow: `0 0 22px ${neon.shadow}`,
+              };
+              const inCart = isInCart(s.id);
+
+              return (
+                <div key={s.id} style={cardStyle}>
+                  {/* category label */}
+                  {s.category && (
+                    <p style={{ ...styles.serviceLabel, color: neon.border }}>
+                      {prettyCategory(s.category)}
+                    </p>
+                  )}
+
+                  {/* image */}
+                  {s.imagePath && (
+                    <div style={{ marginBottom: 8 }}>
+                      <img
+                        src={API_BASE.replace("/api", "") + s.imagePath}
+                        alt={s.name}
+                        style={{
+                          width: 80,
+                          height: 80,
+                          objectFit: "cover",
+                          borderRadius: 8,
+                          marginBottom: 8,
+                        }}
+                      />
+                    </div>
+                  )}
+
+                  {/* name */}
+                  <h3 style={styles.serviceName}>{s.name}</h3>
+
+                  {/* description */}
+                  {s.description && (
+                    <p style={styles.serviceDescription}>{s.description}</p>
+                  )}
+
+                  {/* price + duration row */}
+                  <div style={styles.serviceMetaRow}>
+                    <span style={styles.servicePrice}>${s.price}</span>
+                    <span style={styles.serviceDuration}>
+                      {s.durationMinutes} min
+                    </span>
+                  </div>
+
+                  {/* add/remove cart button */}
+                  <button
+                    type="button"
+                    onClick={() => toggleCart(s)}
+                    style={
+                      inCart ? styles.cartRemoveButton : styles.cartAddButton
+                    }
+                  >
+                    {inCart ? "Remove from cart" : "Add to cart"}
+                  </button>
+
+                  {!s.active && (
+                    <p
+                      style={{ color: "#f97373", fontSize: 13, marginTop: 6 }}
+                    >
+                      Currently inactive
+                    </p>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* RIGHT: cart summary + booking form */}
+        <div className="services-layout-right">
+          <div style={styles.cartPanel}>
+            <h3 style={styles.cartPanelTitle}>
+              Selected Services ({cart.length})
+            </h3>
+
+            {cart.length === 0 ? (
+              <p style={styles.cartEmptyText}>
+                No services selected yet. Click &quot;Add to cart&quot; on any
+                service to build your appointment.
+              </p>
+            ) : (
+              <>
+                <ul style={styles.cartList}>
+                  {cart.map((item) => (
+                    <li key={item.id} style={styles.cartListItem}>
+                      <div>
+                        <div style={styles.cartItemName}>{item.name}</div>
+                        <div style={styles.cartItemMeta}>
+                          <span>${item.price}</span>
+                          <span>{item.durationMinutes} min</span>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => removeFromCart(item.id)}
+                        style={styles.cartListRemoveButton}
+                        aria-label="Remove from cart"
+                      >
+                        ×
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+
+                <div style={styles.cartTotals}>
+                  <div style={styles.cartTotalsRow}>
+                    <span>Total price</span>
+                    <span>${cartTotal.toFixed(2)}</span>
+                  </div>
+                  <div style={styles.cartTotalsRow}>
+                    <span>Estimated time</span>
+                    <span>{totalMinutes} min</span>
+                  </div>
+                </div>
+
+                {/* Booking form */}
+                <form onSubmit={handleBookingSubmit} style={styles.bookingForm}>
+                  <div style={styles.bookingRow}>
+                    <label style={styles.bookingLabel}>
+                      Date
+                      <input
+                        type="date"
+                        value={bookingDate}
+                        onChange={(e) => setBookingDate(e.target.value)}
+                        style={styles.bookingInput}
+                      />
+                    </label>
+                    <label style={styles.bookingLabel}>
+                      Time
+                      <input
+                        type="time"
+                        value={bookingTime}
+                        onChange={(e) => setBookingTime(e.target.value)}
+                        style={styles.bookingInput}
+                      />
+                    </label>
+                  </div>
+
+                  <label style={styles.bookingLabel}>
+                    Preferred staff (optional)
+                    <select
+                      value={bookingStaff}
+                      onChange={(e) => setBookingStaff(e.target.value)}
+                      style={{
+                        ...styles.bookingInput,
+                        ...styles.bookingSelect,
+                      }}
+                    >
+                      {staffOptions.map((s) => (
+                        <option key={s} value={s}>
+                          {s}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+
+                  <div style={styles.bookingRow}>
+                    <label style={styles.bookingLabel}>
+                      Name
+                      <input
+                        type="text"
+                        value={bookingName}
+                        onChange={(e) => setBookingName(e.target.value)}
+                        style={styles.bookingInput}
+                      />
+                    </label>
+                    <label style={styles.bookingLabel}>
+                      Phone
+                      <input
+                        type="tel"
+                        value={bookingPhone}
+                        onChange={(e) => setBookingPhone(e.target.value)}
+                        style={styles.bookingInput}
+                      />
+                    </label>
+                  </div>
+
+                  <label style={styles.bookingLabel}>
+                    Email (optional)
+                    <input
+                      type="email"
+                      value={bookingEmail}
+                      onChange={(e) => setBookingEmail(e.target.value)}
+                      style={styles.bookingInput}
+                    />
+                  </label>
+
+                  <label style={styles.bookingLabel}>
+                    Notes (optional)
+                    <textarea
+                      value={bookingNotes}
+                      onChange={(e) => setBookingNotes(e.target.value)}
+                      style={styles.bookingTextarea}
+                    />
+                  </label>
+
+                  <button type="submit" style={styles.bookingSubmitButton}>
+                    Request Appointment
+                  </button>
+
+                  {bookingMessage && (
+                    <p
+                      style={{
+                        marginTop: 6,
+                        fontSize: 12,
+                        color: bookingMessage.startsWith("Thank you")
+                          ? "#bbf7d0"
+                          : "#fecaca",
+                      }}
+                    >
+                      {bookingMessage}
+                    </p>
+                  )}
+                </form>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
