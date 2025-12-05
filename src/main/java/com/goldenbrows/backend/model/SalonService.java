@@ -43,4 +43,12 @@ public class SalonService {
     @NotNull
     @Column(nullable = false)
     private Boolean active = true;
+ // NEW: category like "Face Threading / Waxing", "Brows", "Waxing", etc.
+    
+    
+    @Column(length = 100)
+    private String category;
+
+    // NEW: where we’ll store the photo path, e.g. "/images/services/123_face.jpg"
+    private String imagePath;
 }

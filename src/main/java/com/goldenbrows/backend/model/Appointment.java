@@ -3,6 +3,8 @@ package com.goldenbrows.backend.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
+import com.goldenbrows.backend.model.Employee;
+
 
 import java.time.LocalDateTime;
 
@@ -34,6 +36,11 @@ public class Appointment {
     @Column(length = 200)
     private String email;
     
+    @ManyToOne
+    @JoinColumn(name = "employee_id")
+    private Employee employee;   // optional: which staff will do the service
+
+    
  // New relation to Customer
     @ManyToOne
     @JoinColumn(name = "customer_id")
@@ -49,9 +56,20 @@ public class Appointment {
     private LocalDateTime appointmentTime;
 
     @NotNull
+//    @Enumerated(EnumType.STRING)
+//    @Column(nullable = false, length = 20)
+//    private AppointmentStatus status = AppointmentStatus.PENDING;
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false)
     private AppointmentStatus status = AppointmentStatus.PENDING;
+
+    public AppointmentStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(AppointmentStatus status) {
+        this.status = status;
+    }
 
     @Size(max = 500)
     @Column(length = 500)
