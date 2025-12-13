@@ -31,6 +31,7 @@ import com.goldenbrows.backend.repository.CustomerRepository;
 import com.goldenbrows.backend.repository.EmployeeRepository;
 import com.goldenbrows.backend.repository.SalonServiceRepository;
 import com.goldenbrows.backend.service.NotificationService;
+import com.goldenbrows.backend.until.ValidationUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -125,7 +126,9 @@ public class AppointmentController {
     @PostMapping
     public ResponseEntity<?> create(@RequestBody AppointmentRequest req) {
 
-        // basic validation
+        // ---------- VALIDATION ----------
+        
+        // 1) Basic required field validation
         if (req.getServiceIds() == null || req.getServiceIds().isEmpty()) {
             return ResponseEntity.badRequest().body("At least one service must be selected.");
         }
@@ -135,48 +138,52 @@ public class AppointmentController {
         if (req.getPhone() == null || req.getPhone().isBlank()) {
             return ResponseEntity.badRequest().body("Phone is required.");
         }
+        if (req.getEmail() == null || req.getEmail().isBlank()) {
+            return ResponseEntity.badRequest().body("Email is required.");
+        }
         if (req.getDate() == null || req.getTime() == null) {
             return ResponseEntity.badRequest().body("Date and time are required.");
         }
-     // 2) Validate email format (very simple regex)
-        String email = req.getEmail().trim();
-        if (!email.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
+
+        // 2) Validate email format using utility
+        if (!ValidationUtil.isValidEmail(req.getEmail())) {
             return ResponseEntity.badRequest().body("Please enter a valid email address.");
         }
 
-     // 3) Validate US phone number: exactly 10 digits, simple NANP rules
-        String digitsOnly = req.getPhone().replaceAll("[^0-9]", "");
-
-        // 10 digits, area code and prefix cannot start with 0 or 1
-        if (!digitsOnly.matches("^[2-9][0-9]{2}[2-9][0-9]{6}$")) {
-            return ResponseEntity
-                .badRequest()
+        // 3) Validate US phone number using utility
+        if (!ValidationUtil.isValidUSPhone(req.getPhone())) {
+            return ResponseEntity.badRequest()
                 .body("Please enter a valid U.S. phone number (10 digits).");
         }
 
-        
-        
+        // 4) Normalize phone and email for storage
+        String normalizedPhone = ValidationUtil.getPhoneDigits(req.getPhone());
+        String normalizedEmail = ValidationUtil.normalizeEmail(req.getEmail());
 
-        // parse date + time from strings sent by frontend
+        // ---------- DATE/TIME PARSING ----------
+        
+        // Parse date + time from strings sent by frontend
         LocalDate date;
         LocalTime timePart;
         try {
             date = LocalDate.parse(req.getDate());      // "2025-12-05"
             timePart = LocalTime.parse(req.getTime());  // "13:19"
         } catch (DateTimeParseException ex) {
-            return ResponseEntity.badRequest().body("Invalid date or time.");
+            return ResponseEntity.badRequest().body("Invalid date or time format.");
         }
 
         LocalDateTime appointmentTime = LocalDateTime.of(date, timePart);
 
-        // must be in the future
+        // Must be in the future
         if (appointmentTime.isBefore(LocalDateTime.now())) {
-            return ResponseEntity.badRequest().body("Appointment time must be in the future");
+            return ResponseEntity.badRequest().body("Appointment time must be in the future.");
         }
 
-        // load & validate all selected services
+        // ---------- SERVICE VALIDATION ----------
+        
+        // Load & validate all selected services
         List<SalonService> services = new ArrayList<>();
-        int maxDuration = 30; // used for overlap check if staff selected
+        int maxDuration = 30; // Used for overlap check if staff selected
 
         for (Long serviceId : req.getServiceIds()) {
             Optional<SalonService> serviceOpt = salonServiceRepository.findById(serviceId);
@@ -194,19 +201,21 @@ public class AppointmentController {
                 maxDuration = service.getDurationMinutes();
             }
         }
-        
-        
 
-        // optional staff assignment
+        // ---------- EMPLOYEE ASSIGNMENT ----------
+        
+        // Optional staff assignment
         Employee assignedEmployee = null;
         if (req.getEmployeeId() != null) {
             var employeeOpt = employeeRepository.findById(req.getEmployeeId());
             if (employeeOpt.isEmpty() || Boolean.FALSE.equals(employeeOpt.get().getActive())) {
-                return ResponseEntity.badRequest().body("Selected employee is not available");
+                return ResponseEntity.badRequest().body("Selected employee is not available.");
             }
             assignedEmployee = employeeOpt.get();
         }
 
+        // ---------- BUSINESS HOURS VALIDATION ----------
+        
         // Business hours logic in America/Los_Angeles using DST
         ZoneId zoneId = ZoneId.of("America/Los_Angeles");
         ZonedDateTime zoned = appointmentTime.atZone(zoneId);
@@ -231,11 +240,13 @@ public class AppointmentController {
 
         if (localTime.isBefore(openTime) || localTime.isAfter(closeTime)) {
             String msg = "Appointment time must be between "
-                    + openTime + " and " + closeTime + " for " + dayOfWeek;
+                    + openTime + " and " + closeTime + " for " + dayOfWeek + ".";
             return ResponseEntity.badRequest().body(msg);
         }
 
-        // prevent double booking for that employee and time window
+        // ---------- DOUBLE BOOKING CHECK ----------
+        
+        // Prevent double booking for that employee and time window
         if (assignedEmployee != null) {
             LocalDateTime start = appointmentTime;
             LocalDateTime end = appointmentTime.plusMinutes(maxDuration);
@@ -248,23 +259,27 @@ public class AppointmentController {
             if (existsOverlap) {
                 return ResponseEntity.badRequest().body(
                         "This staff member already has an appointment around that time. " +
-                                "Please choose another time or staff member."
+                        "Please choose another time or staff member."
                 );
             }
         }
 
-        // find or create Customer by phone
-        Customer customer = customerRepository.findFirstByPhone(req.getPhone())
+        // ---------- CUSTOMER LOOKUP/CREATION ----------
+        
+        // Find or create Customer by phone (using normalized phone)
+        Customer customer = customerRepository.findFirstByPhone(normalizedPhone)
                 .orElseGet(() -> {
                     Customer c = Customer.builder()
                             .fullName(req.getCustomerName())
-                            .phone(req.getPhone())
-                            .email(req.getEmail())
+                            .phone(normalizedPhone)
+                            .email(normalizedEmail)
                             .build();
                     return customerRepository.save(c);
                 });
 
-        // create one Appointment per service (same customer, same time)
+        // ---------- APPOINTMENT CREATION ----------
+        
+        // Create one Appointment per service (same customer, same time)
         List<Appointment> created = new ArrayList<>();
 
         for (SalonService service : services) {
@@ -273,8 +288,8 @@ public class AppointmentController {
                     .customer(customer)
                     .employee(assignedEmployee)
                     .customerName(req.getCustomerName())
-                    .phone(req.getPhone())
-                    .email(req.getEmail())
+                    .phone(normalizedPhone)
+                    .email(normalizedEmail)
                     .appointmentTime(appointmentTime)
                     .status(AppointmentStatus.PENDING)
                     .notes(req.getNotes())
@@ -285,7 +300,9 @@ public class AppointmentController {
             created.add(saved);
         }
 
-        // if only one service -> return single object, otherwise list
+        // ---------- RESPONSE ----------
+        
+        // If only one service -> return single object, otherwise list
         if (created.size() == 1) {
             Appointment saved = created.get(0);
             return ResponseEntity
@@ -299,23 +316,25 @@ public class AppointmentController {
         }
     }
     
+    // ---------- AVAILABLE TIMES ----------
+    
     @GetMapping("/available-times")
     public ResponseEntity<List<String>> getAvailableTimes(
             @RequestParam String date,
             @RequestParam(required = false) Long employeeId) {
 
-        // date comes as "2025-12-10"
+        // Date comes as "2025-12-10"
         LocalDate day = LocalDate.parse(date);
 
-        // full day range for that date
+        // Full day range for that date
         LocalDateTime startOfDay = day.atStartOfDay();             // 2025-12-10T00:00
         LocalDateTime endOfDay   = day.plusDays(1).atStartOfDay(); // 2025-12-11T00:00 (exclusive)
 
-        // 1) get all appointments for that date (all employees)
+        // 1) Get all appointments for that date (all employees)
         List<Appointment> booked = appointmentRepository
                 .findByAppointmentTimeBetween(startOfDay, endOfDay);
 
-        // 2) if employeeId is given, filter to that employee
+        // 2) If employeeId is given, filter to that employee
         if (employeeId != null) {
             booked = booked.stream()
                     .filter(a ->
@@ -326,12 +345,12 @@ public class AppointmentController {
                     .collect(Collectors.toList());
         }
 
-        // 3) collect booked times (LocalTime only)
+        // 3) Collect booked times (LocalTime only)
         Set<LocalTime> bookedTimes = booked.stream()
                 .map(a -> a.getAppointmentTime().toLocalTime())
                 .collect(Collectors.toCollection(HashSet::new));
 
-        // 4) build all possible slots (e.g. 10:00–19:00 every 30 min)
+        // 4) Build all possible slots (e.g. 10:00–19:00 every 30 min)
         LocalTime open  = LocalTime.of(10, 0); // 10:00
         LocalTime close = LocalTime.of(19, 0); // 19:00
         int slotMinutes = 30;
@@ -347,7 +366,6 @@ public class AppointmentController {
 
         return ResponseEntity.ok(freeSlots);
     }
-
 
     // ---------- STATUS UPDATE ----------
 

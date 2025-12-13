@@ -37,7 +37,22 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/employees/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/blog/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/contact/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/gallery/**").permitAll()  
+                .requestMatchers(HttpMethod.GET, "/uploads/**").permitAll()
+             // Reviews - public access
+                .requestMatchers(HttpMethod.GET, "/api/reviews").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/reviews/featured").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/reviews/stats").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/reviews").permitAll()  // Customers can submit
 
+             // FAQs - public access
+                .requestMatchers(HttpMethod.GET, "/api/faqs").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/faqs/category/**").permitAll()
+             // Promotions - public access
+                .requestMatchers(HttpMethod.GET, "/api/promotions").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/promotions/featured").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/promotions/validate/**").permitAll()
+                
                 // 🔓 Customers can create bookings *without* login
                 .requestMatchers(HttpMethod.POST, "/api/appointments").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/appointments/**").permitAll()
@@ -45,7 +60,11 @@ public class SecurityConfig {
                 // 🔓 Blog comments are also public
                 .requestMatchers(HttpMethod.POST, "/api/blog/*/comments").permitAll()
 
-                // 🔐 Admin-only writes: services, employees, contact, blog posts, etc.
+                // 🔐 Admin-only writes: gallery, services, employees, contact, blog posts, etc.
+                .requestMatchers(HttpMethod.POST, "/api/gallery/**").hasRole("ADMIN")     
+                .requestMatchers(HttpMethod.PUT, "/api/gallery/**").hasRole("ADMIN")      
+                .requestMatchers(HttpMethod.DELETE, "/api/gallery/**").hasRole("ADMIN")   
+                
                 .requestMatchers(HttpMethod.PUT,  "/api/contact/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/api/services/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/api/employees/**").hasRole("ADMIN")
@@ -63,6 +82,23 @@ public class SecurityConfig {
                 .requestMatchers("/api/blog/admin/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/blog/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PATCH, "/api/blog/**").hasRole("ADMIN")
+             // Reviews - admin only
+                .requestMatchers(HttpMethod.GET, "/api/reviews/all").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/reviews/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PATCH, "/api/reviews/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/reviews/**").hasRole("ADMIN")
+                
+             // FAQs - admin only
+                .requestMatchers(HttpMethod.GET, "/api/faqs/all").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/faqs").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/faqs/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/faqs/**").hasRole("ADMIN")
+                
+             // Promotions - admin only
+                .requestMatchers(HttpMethod.GET, "/api/promotions/all").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/promotions").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/promotions/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/promotions/**").hasRole("ADMIN")
                 
 
                 // Everything else: no auth needed (frontend assets, etc.)

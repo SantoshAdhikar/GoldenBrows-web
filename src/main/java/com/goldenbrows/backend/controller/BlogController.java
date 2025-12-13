@@ -48,6 +48,12 @@ public class BlogController {
     public List<BlogPost> listPublished() {
         return blogPostRepository.findByPublishedTrueOrderByCreatedAtDesc();
     }
+    
+    @GetMapping("/latest")
+    public ResponseEntity<List<BlogPost>> getLatest() {
+        List<BlogPost> latest = blogPostRepository.findAllByOrderByCreatedAtDesc();
+        return ResponseEntity.ok(latest);
+    }
 
     // Get one published post by numeric id
     @GetMapping("/{id}")
