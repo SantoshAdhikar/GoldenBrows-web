@@ -1,28 +1,88 @@
 // src/components/Hero.js
-import React from "react";
+// UPDATED: Loads social links from backend API
+
+import React, { useEffect, useState } from "react";
+import { API_BASE } from "../apiConfig";
 import { styles } from "../styles";
 
 const PROMO_TEXT =
   "🎉 Live Promotion: 20% OFF for new clients · Free brow tint with any full-face threading · Refer a friend and you both get $5 OFF · Same-day appointments available · ";
 
 export default function Hero() {
+  const [socialLinks, setSocialLinks] = useState({
+    facebook: "",
+    instagram: "",
+    tiktok: "",
+    twitter: "",
+  });
+
+  // Load social links from backend
+  useEffect(() => {
+    async function loadSocialLinks() {
+      try {
+        const res = await fetch(`${API_BASE}/contact`);
+        if (res.ok) {
+          const data = await res.json();
+          setSocialLinks({
+            facebook: data.facebookUrl || "",
+            instagram: data.instagramUrl || "",
+            tiktok: data.tiktokUrl || "",
+            twitter: data.twitterUrl || "",
+          });
+        }
+      } catch (err) {
+        console.error("Failed to load social links:", err);
+      }
+    }
+    loadSocialLinks();
+  }, []);
+
   const handleScrollToBooking = () => {
-    const el = document.getElementById("booking-section");
+    const el = document.getElementById("services-booking-section");
     if (el) {
       el.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      window.scrollTo({ top: window.innerHeight, behavior: "smooth" });
     }
   };
 
+  // Define social icons with gradients
+  const heroSocialIcons = [
+    {
+      name: "Facebook",
+      url: socialLinks.facebook,
+      icon: "f",
+      gradient: "linear-gradient(135deg,#2563eb,#1d4ed8)",
+    },
+    {
+      name: "Instagram",
+      url: socialLinks.instagram,
+      icon: "IG",
+      gradient: "linear-gradient(135deg,#f97316,#ec4899)",
+    },
+    {
+      name: "TikTok",
+      url: socialLinks.tiktok,
+      icon: "♬",
+      gradient: "linear-gradient(135deg,#22d3ee,#a855f7)",
+    },
+    {
+      name: "X",
+      url: socialLinks.twitter,
+      icon: "𝕏",
+      gradient: "linear-gradient(135deg,#020617,#0f172a)",
+    },
+  ];
+
   return (
     <>
-      {/* Local CSS just for the promo ticker so it DEFINITELY animates */}
       <style>{`
         @keyframes gbPromoScroll {
           0% {
-            transform: translateX(100%);   /* start off screen on the right */
+            transform: translateX(100%);
           }
           100% {
-            transform: translateX(-100%);  /* end off screen on the left */
+            transform: translateX(-100%);
           }
         }
 
@@ -37,7 +97,6 @@ export default function Hero() {
       `}</style>
 
       <section style={styles.heroSection}>
-        {/* TOP ROW: left = title + button, right = socials */}
         <div style={styles.heroRow}>
           {/* LEFT SIDE */}
           <div style={styles.heroLeft}>
@@ -62,89 +121,23 @@ export default function Hero() {
           <div style={styles.heroRight}>
             <p style={styles.heroRightTitle}>Follow &amp; Contact</p>
             <div style={styles.heroSocialRow}>
-              {/* Facebook */}
-              <a
-                href="https://www.facebook.com/your-page"
-                target="_blank"
-                rel="noreferrer"
-                title="Facebook"
-                style={{
-                  ...styles.heroSocialIcon,
-                  background: "linear-gradient(135deg,#2563eb,#1d4ed8)",
-                }}
-              >
-                f
-              </a>
-
-              {/* Instagram */}
-              <a
-                href="https://www.instagram.com/your-page"
-                target="_blank"
-                rel="noreferrer"
-                title="Instagram"
-                style={{
-                  ...styles.heroSocialIcon,
-                  background: "linear-gradient(135deg,#f97316,#ec4899)",
-                }}
-              >
-                IG
-              </a>
-
-              {/* Threads */}
-              <a
-                href="https://www.threads.net/@your-page"
-                target="_blank"
-                rel="noreferrer"
-                title="Threads"
-                style={{
-                  ...styles.heroSocialIcon,
-                  background: "linear-gradient(135deg,#000000,#111827)",
-                }}
-              >
-                @
-              </a>
-
-              {/* WhatsApp */}
-              <a
-                href="https://wa.me/1XXXXXXXXXX" // <- put your real number
-                target="_blank"
-                rel="noreferrer"
-                title="WhatsApp"
-                style={{
-                  ...styles.heroSocialIcon,
-                  background: "linear-gradient(135deg,#22c55e,#15803d)",
-                }}
-              >
-                WA
-              </a>
-
-              {/* TikTok */}
-              <a
-                href="https://www.tiktok.com/@your-page"
-                target="_blank"
-                rel="noreferrer"
-                title="TikTok"
-                style={{
-                  ...styles.heroSocialIcon,
-                  background: "linear-gradient(135deg,#22d3ee,#a855f7)",
-                }}
-              >
-                ♬
-              </a>
-
-              {/* X (Twitter) */}
-              <a
-                href="https://x.com/your-page"
-                target="_blank"
-                rel="noreferrer"
-                title="X"
-                style={{
-                  ...styles.heroSocialIcon,
-                  background: "linear-gradient(135deg,#020617,#0f172a)",
-                }}
-              >
-                𝕏
-              </a>
+              {heroSocialIcons
+                .filter((social) => social.url) // Only show if URL exists
+                .map((social) => (
+                  <a
+                    key={social.name}
+                    href={social.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    title={social.name}
+                    style={{
+                      ...styles.heroSocialIcon,
+                      background: social.gradient,
+                    }}
+                  >
+                    {social.icon}
+                  </a>
+                ))}
             </div>
           </div>
         </div>

@@ -201,7 +201,7 @@ export default function AdminServicesManager({ authHeader }) {
               width: "100%",
               borderCollapse: "collapse",
               fontSize: 14,
-              color: "#f9fafb",
+              color: "#e213c6ff", //this is the manage services & images color
             }}
           >
             <thead>
@@ -319,7 +319,7 @@ export default function AdminServicesManager({ authHeader }) {
                           }
                         />
                       ) : s.active ? (
-                        <span style={{ color: "#4ade80" }}>Yes</span>
+                        <span style={{ color: "#8a20e0ff" }}>Yes</span>
                       ) : (
                         <span style={{ color: "#f97373" }}>No</span>
                       )}
@@ -380,7 +380,7 @@ export default function AdminServicesManager({ authHeader }) {
                             disabled={togglingId === s.id}
                             style={{
                               ...actionBtnBase,
-                              backgroundColor: s.active ? "#7f1d1d" : "#065f46",
+                              backgroundColor: s.active ? "#e25555ff" : "#065f46",
                               borderColor: s.active ? "#fecaca" : "#6ee7b7",
                               color: s.active ? "#fee2e2" : "#ecfdf3",
                             }}

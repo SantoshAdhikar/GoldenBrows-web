@@ -27,10 +27,42 @@ export default function BlogSection() {
 
       {posts.map((post) => (
         <article key={post.id} style={styles.blogListCard}>
-          <h3 style={styles.blogListTitle}>{post.title}</h3>
+          {/* Clickable title */}
+          <Link 
+            to={`/blog/${post.slug}`} 
+            style={{ 
+              textDecoration: "none",
+              color: "inherit"
+            }}
+          >
+            <h3 style={{
+              ...styles.blogListTitle,
+              cursor: "pointer",
+              transition: "color 0.2s",
+            }}
+            onMouseEnter={(e) => e.target.style.color = "#a855f7"}
+            onMouseLeave={(e) => e.target.style.color = "#674846"}
+            >
+              {post.title}
+            </h3>
+          </Link>
 
+          {/* Clickable excerpt */}
           {post.excerpt && (
-            <p style={styles.blogListExcerpt}>{post.excerpt}</p>
+            <Link 
+              to={`/blog/${post.slug}`} 
+              style={{ 
+                textDecoration: "none",
+                color: "inherit"
+              }}
+            >
+              <p style={{
+                ...styles.blogListExcerpt,
+                cursor: "pointer",
+              }}>
+                {post.excerpt}
+              </p>
+            </Link>
           )}
 
           {post.createdAt && (

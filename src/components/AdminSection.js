@@ -74,6 +74,65 @@ function AdminSection({ adminAuth, setAdminAuth }) {
   const [contactMaps, setContactMaps] = useState("");
   const [contactLogoUrl, setContactLogoUrl] = useState("");
   const [contactError, setContactError] = useState("");
+  const [contactTwitter, setContactTwitter] = useState("");
+
+  // ---------- GALLERY STATE ----------
+  const [galleryItems, setGalleryItems] = useState([]);
+  const [galleryLoading, setGalleryLoading] = useState(false);
+  const [galleryError, setGalleryError] = useState("");
+  const [editingGalleryId, setEditingGalleryId] = useState(null);
+  const [galleryForm, setGalleryForm] = useState({
+    
+    title: "",
+    description: "",
+    imageUrl: "",
+    beforeImageUrl: "",
+    category: "",
+    featured: false,
+    active: true,
+    displayOrder: 0,
+    customerName: "",
+  });
+  const [uploadingGalleryMain, setUploadingGalleryMain] = useState(false);
+  const [uploadingGalleryBefore, setUploadingGalleryBefore] = useState(false);
+
+// FAQ state
+const [faqs, setFaqs] = useState([]);
+const [faqsLoading, setFaqsLoading] = useState(false);
+const [editingFaqId, setEditingFaqId] = useState(null);
+const [faqForm, setFaqForm] = useState({
+  question: "",
+  answer: "",
+  category: "",
+  displayOrder: 0,
+  active: true
+});
+
+const [promotions, setPromotions] = useState([]);
+const [promotionsLoading, setPromotionsLoading] = useState(false);
+const [editingPromotionId, setEditingPromotionId] = useState(null);
+const [promotionForm, setPromotionForm] = useState({
+  title: "",
+  description: "",
+  discountText: "",
+  code: "",
+  startDate: "",
+  endDate: "",
+  active: true,
+  featured: false,
+  bannerColor: "#ff6b6b",
+  termsAndConditions: "",
+  displayOrder: 0
+});
+
+
+  // Review state
+const [reviews, setReviews] = useState([]);
+const [reviewsLoading, setReviewsLoading] = useState(false);
+const [editingReviewId, setEditingReviewId] = useState(null);
+const [replyText, setReplyText] = useState("");
+
+
 
   // ---------- APPOINTMENTS DASHBOARD ----------
   const [appointments, setAppointments] = useState([]);
@@ -129,6 +188,10 @@ function AdminSection({ adminAuth, setAdminAuth }) {
       loadContact();
       loadComments();
       loadAdminBlogPosts();
+      loadGallery();
+      loadReviews();
+      loadFAQs();
+      loadPromotions();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [adminAuth]);
@@ -226,34 +289,35 @@ function AdminSection({ adminAuth, setAdminAuth }) {
   // ---------- CONTACT ----------
 
   async function loadContact() {
-    if (!adminAuth) return;
-    try {
-      setContactError("");
-      const res = await fetch(`${API_BASE}/contact`, {
-        headers: authHeader(),
-      });
+  if (!adminAuth) return;
+  try {
+    setContactError("");
+    const res = await fetch(`${API_BASE}/contact`, {
+      headers: authHeader(),
+    });
 
-      if (!res.ok) {
-        if (res.status === 404) return; // not created yet
-        const text = await res.text();
-        throw new Error(text || "Failed to load contact info");
-      }
-
-      const data = await res.json();
-      setContactPhone(data.phone || "");
-      setContactEmail(data.email || "");
-      setContactAddress1(data.addressLine1 || "");
-      setContactAddress2(data.addressLine2 || "");
-      setContactInstagram(data.instagramUrl || "");
-      setContactFacebook(data.facebookUrl || "");
-      setContactTiktok(data.tiktokUrl || "");
-      setContactYelp(data.yelpUrl || "");
-      setContactMaps(data.googleMapsUrl || "");
-      setContactLogoUrl(data.logoUrl || "");
-    } catch (err) {
-      setContactError(err.message);
+    if (!res.ok) {
+      if (res.status === 404) return;
+      const text = await res.text();
+      throw new Error(text || "Failed to load contact info");
     }
+
+    const data = await res.json();
+    setContactPhone(data.phone || "");
+    setContactEmail(data.email || "");
+    setContactAddress1(data.addressLine1 || "");
+    setContactAddress2(data.addressLine2 || "");
+    setContactInstagram(data.instagramUrl || "");
+    setContactFacebook(data.facebookUrl || "");
+    setContactTiktok(data.tiktokUrl || "");
+    setContactYelp(data.yelpUrl || "");
+    setContactTwitter(data.twitterUrl || ""); // ← ADD THIS LINE
+    setContactMaps(data.googleMapsUrl || "");
+    setContactLogoUrl(data.logoUrl || "");
+  } catch (err) {
+    setContactError(err.message);
   }
+}
 
   function startEditEmployee(emp) {
     setEditingEmployeeId(emp.id);
@@ -295,46 +359,47 @@ function AdminSection({ adminAuth, setAdminAuth }) {
   }
 
   async function handleSaveContact(e) {
-    e.preventDefault();
-    setSaveMessage("");
-    setContactError("");
+  e.preventDefault();
+  setSaveMessage("");
+  setContactError("");
 
-    if (!adminAuth) return;
+  if (!adminAuth) return;
 
-    const payload = {
-      salonName: "Golden Brows Threading & Beauty Studio",
-      addressLine1: contactAddress1,
-      addressLine2: contactAddress2,
-      phone: contactPhone,
-      email: contactEmail,
-      instagramUrl: contactInstagram,
-      facebookUrl: contactFacebook,
-      tiktokUrl: contactTiktok,
-      yelpUrl: contactYelp,
-      googleMapsUrl: contactMaps,
-      logoUrl: contactLogoUrl,
-    };
+  const payload = {
+    salonName: "Golden Brows Threading & Beauty Studio",
+    addressLine1: contactAddress1,
+    addressLine2: contactAddress2,
+    phone: contactPhone,
+    email: contactEmail,
+    instagramUrl: contactInstagram,
+    facebookUrl: contactFacebook,
+    tiktokUrl: contactTiktok,
+    yelpUrl: contactYelp,
+    twitterUrl: contactTwitter, // ← ADD THIS LINE
+    googleMapsUrl: contactMaps,
+    logoUrl: contactLogoUrl,
+  };
 
-    try {
-      const res = await fetch(`${API_BASE}/contact`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          ...authHeader(),
-        },
-        body: JSON.stringify(payload),
-      });
+  try {
+    const res = await fetch(`${API_BASE}/contact`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        ...authHeader(),
+      },
+      body: JSON.stringify(payload),
+    });
 
-      if (!res.ok) {
-        const text = await res.text();
-        throw new Error(text || "Failed to save contact info");
-      }
-
-      setSaveMessage("Contact & social info saved.");
-    } catch (err) {
-      setContactError(err.message);
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error(text || "Failed to save contact info");
     }
+
+    setSaveMessage("Contact & social info saved.");
+  } catch (err) {
+    setContactError(err.message);
   }
+}
 
   // ---------- COMMENTS ADMIN ----------
 
@@ -467,6 +532,55 @@ function AdminSection({ adminAuth, setAdminAuth }) {
     }
   }
 
+  async function handleLogoFileChange(e) {
+  const file = e.target.files && e.target.files[0];
+  if (!file || !adminAuth) return;
+
+  // Validate file type
+  const validTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+  if (!validTypes.includes(file.type)) {
+    alert('Please upload a PNG or JPEG image only.');
+    return;
+  }
+
+  // Optional: Validate file size (e.g., max 5MB)
+  const maxSize = 5 * 1024 * 1024; // 5MB
+  if (file.size > maxSize) {
+    alert('Logo file size must be less than 5MB.');
+    return;
+  }
+
+  try {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    // Upload to backend - adjust endpoint to match your backend
+    const res = await fetch(`${API_BASE}/contact/upload-logo`, {
+      method: 'POST',
+      headers: {
+        ...authHeader(),
+        // Don't set Content-Type for FormData
+      },
+      body: formData,
+    });
+
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error(text || 'Failed to upload logo');
+    }
+
+    const data = await res.json();
+    const url = data.logoUrl || data.url;
+    if (url) {
+      setContactLogoUrl(url);
+      setSaveMessage('Logo uploaded successfully! Remember to click "Save Contact" to save changes.');
+    }
+  } catch (err) {
+    console.error(err);
+    alert(err.message || 'Logo upload failed');
+  }
+}
+
   // ---------- ADD / EDIT EMPLOYEE ----------
 
   async function handleSaveEmployee(e) {
@@ -524,6 +638,502 @@ function AdminSection({ adminAuth, setAdminAuth }) {
       await refreshEmployees();
     } catch (err) {
       setSaveMessage("Error saving employee: " + err.message);
+    }
+  }
+
+  // ---------- GALLERY ADMIN ----------
+
+  async function loadGallery() {
+    if (!adminAuth) return;
+    setGalleryLoading(true);
+    setGalleryError("");
+
+    try {
+      const res = await fetch(`${API_BASE}/gallery/all`, {
+        headers: authHeader(),
+      });
+      if (!res.ok) throw new Error("Failed to load gallery");
+      const data = await res.json();
+      setGalleryItems(data);
+    } catch (err) {
+      setGalleryError(err.message);
+      setGalleryItems([]);
+    } finally {
+      setGalleryLoading(false);
+    }
+  }
+
+  async function loadReviews() {
+  setReviewsLoading(true);
+  try {
+    const res = await fetch(`${API_BASE}/reviews/all`, {
+      headers: authHeader()
+    });
+    if (!res.ok) throw new Error("Failed to load reviews");
+    const data = await res.json();
+    setReviews(data);
+  } catch (err) {
+    console.error("Failed to load reviews:", err);
+  } finally {
+    setReviewsLoading(false);
+  }
+}
+
+async function loadFAQs() {
+  setFaqsLoading(true);
+  try {
+    const res = await fetch(`${API_BASE}/faqs/all`, {
+      headers: authHeader()
+    });
+    if (!res.ok) throw new Error("Failed to load FAQs");
+    const data = await res.json();
+    setFaqs(data);
+  } catch (err) {
+    console.error("Failed to load FAQs:", err);
+  } finally {
+    setFaqsLoading(false);
+  }
+}
+
+async function handleToggleApproval(reviewId, currentStatus) {
+  try {
+    const res = await fetch(
+      `${API_BASE}/reviews/${reviewId}/approve?approved=${!currentStatus}`,
+      {
+        method: "PATCH",
+        headers: authHeader()
+      }
+    );
+    if (!res.ok) throw new Error("Failed to update approval");
+    await loadReviews(); // Reload
+  } catch (err) {
+    console.error("Failed to toggle approval:", err);
+    alert("Failed to update approval status");
+  }
+}
+
+async function handleToggleFeatured(reviewId, currentStatus) {
+  try {
+    const res = await fetch(
+      `${API_BASE}/reviews/${reviewId}/feature?featured=${!currentStatus}`,
+      {
+        method: "PATCH",
+        headers: authHeader()
+      }
+    );
+    if (!res.ok) throw new Error("Failed to update featured");
+    await loadReviews(); // Reload
+  } catch (err) {
+    console.error("Failed to toggle featured:", err);
+    alert("Failed to update featured status");
+  }
+}
+
+async function handleSaveReply(reviewId) {
+  try {
+    const res = await fetch(
+      `${API_BASE}/reviews/${reviewId}/reply`,
+      {
+        method: "PATCH",
+        headers: {
+          ...authHeader(),
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ reply: replyText })
+      }
+    );
+    if (!res.ok) throw new Error("Failed to save reply");
+    
+    setEditingReviewId(null);
+    setReplyText("");
+    await loadReviews();
+  } catch (err) {
+    console.error("Failed to save reply:", err);
+    alert("Failed to save reply");
+  }
+}
+
+function startEditFaq(faq) {
+  setEditingFaqId(faq.id);
+  setFaqForm({
+    question: faq.question,
+    answer: faq.answer,
+    category: faq.category || "",
+    displayOrder: faq.displayOrder,
+    active: faq.active
+  });
+}
+
+function cancelFaqEdit() {
+  setEditingFaqId(null);
+  setFaqForm({
+    question: "",
+    answer: "",
+    category: "",
+    displayOrder: 0,
+    active: true
+  });
+}
+
+async function handleSaveFaq(e) {
+  e.preventDefault();
+  
+  // Validation
+  if (!faqForm.question.trim() || !faqForm.answer.trim()) {
+    alert("Question and answer are required");
+    return;
+  }
+
+  try {
+    const url = editingFaqId 
+      ? `${API_BASE}/faqs/${editingFaqId}` 
+      : `${API_BASE}/faqs`;
+    
+    const method = editingFaqId ? "PUT" : "POST";
+    
+    const res = await fetch(url, {
+      method,
+      headers: {
+        ...authHeader(),
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(faqForm)
+    });
+
+    if (!res.ok) throw new Error("Failed to save FAQ");
+    
+    await loadFAQs();
+    cancelFaqEdit();
+  } catch (err) {
+    console.error("Failed to save FAQ:", err);
+    alert("Failed to save FAQ");
+  }
+}
+
+async function handleDeleteFaq(id) {
+  if (!window.confirm("Are you sure you want to delete this FAQ?")) {
+    return;
+  }
+  
+  try {
+    const res = await fetch(`${API_BASE}/faqs/${id}`, {
+      method: "DELETE",
+      headers: authHeader()
+    });
+    if (!res.ok) throw new Error("Failed to delete FAQ");
+    await loadFAQs();
+  } catch (err) {
+    console.error("Failed to delete FAQ:", err);
+    alert("Failed to delete FAQ");
+  }
+}
+
+async function handleDeleteReview(reviewId) {
+  if (!window.confirm("Are you sure you want to delete this review?")) {
+    return;
+  }
+  
+  try {
+    const res = await fetch(`${API_BASE}/reviews/${reviewId}`, {
+      method: "DELETE",
+      headers: authHeader()
+    });
+    if (!res.ok) throw new Error("Failed to delete review");
+    await loadReviews();
+  } catch (err) {
+    console.error("Failed to delete review:", err);
+    alert("Failed to delete review");
+  }
+}
+
+// ============================================
+// PROMOTIONS FUNCTIONS
+// ============================================
+
+async function loadPromotions() {
+  setPromotionsLoading(true);
+  try {
+    const res = await fetch(`${API_BASE}/promotions/all`, {
+      headers: authHeader()
+    });
+    if (!res.ok) throw new Error("Failed to load promotions");
+    const data = await res.json();
+    setPromotions(data);
+  } catch (err) {
+    console.error("Failed to load promotions:", err);
+  } finally {
+    setPromotionsLoading(false);
+  }
+}
+
+function startEditPromotion(promo) {
+  setEditingPromotionId(promo.id);
+  
+  const formatDateForInput = (dateString) => {
+    const date = new Date(dateString);
+    return date.toISOString().slice(0, 16);
+  };
+  
+  setPromotionForm({
+    title: promo.title,
+    description: promo.description,
+    discountText: promo.discountText || "",
+    code: promo.code || "",
+    startDate: formatDateForInput(promo.startDate),
+    endDate: formatDateForInput(promo.endDate),
+    active: promo.active,
+    featured: promo.featured,
+    bannerColor: promo.bannerColor || "#ff6b6b",
+    termsAndConditions: promo.termsAndConditions || "",
+    displayOrder: promo.displayOrder
+  });
+}
+
+function cancelPromotionEdit() {
+  setEditingPromotionId(null);
+  setPromotionForm({
+    title: "",
+    description: "",
+    discountText: "",
+    code: "",
+    startDate: "",
+    endDate: "",
+    active: true,
+    featured: false,
+    bannerColor: "#ff6b6b",
+    termsAndConditions: "",
+    displayOrder: 0
+  });
+}
+
+async function handleSavePromotion(e) {
+  e.preventDefault();
+  
+  if (!promotionForm.title.trim() || !promotionForm.description.trim()) {
+    alert("Title and description are required");
+    return;
+  }
+  
+  if (!promotionForm.startDate || !promotionForm.endDate) {
+    alert("Start and end dates are required");
+    return;
+  }
+  
+  if (new Date(promotionForm.endDate) <= new Date(promotionForm.startDate)) {
+    alert("End date must be after start date");
+    return;
+  }
+
+  try {
+    const url = editingPromotionId 
+      ? `${API_BASE}/promotions/${editingPromotionId}` 
+      : `${API_BASE}/promotions`;
+    
+    const method = editingPromotionId ? "PUT" : "POST";
+    
+    const payload = {
+      ...promotionForm,
+      startDate: new Date(promotionForm.startDate).toISOString(),
+      endDate: new Date(promotionForm.endDate).toISOString()
+    };
+    
+    const res = await fetch(url, {
+      method,
+      headers: {
+        ...authHeader(),
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (!res.ok) throw new Error("Failed to save promotion");
+    
+    await loadPromotions();
+    cancelPromotionEdit();
+    alert(editingPromotionId ? "Promotion updated!" : "Promotion added!");
+  } catch (err) {
+    console.error("Failed to save promotion:", err);
+    alert("Failed to save promotion");
+  }
+}
+
+async function handleDeletePromotion(id) {
+  if (!window.confirm("Are you sure you want to delete this promotion?")) {
+    return;
+  }
+  
+  try {
+    const res = await fetch(`${API_BASE}/promotions/${id}`, {
+      method: "DELETE",
+      headers: authHeader()
+    });
+    if (!res.ok) throw new Error("Failed to delete promotion");
+    await loadPromotions();
+    alert("Promotion deleted!");
+  } catch (err) {
+    console.error("Failed to delete promotion:", err);
+    alert("Failed to delete promotion");
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+function startEditReply(review) {
+  setEditingReviewId(review.id);
+  setReplyText(review.adminReply || "");
+}
+
+function cancelEditReply() {
+  setEditingReviewId(null);
+  setReplyText("");
+}
+
+
+  function startEditGallery(item) {
+    setEditingGalleryId(item.id);
+    setGalleryForm({
+      title: item.title || "",
+      description: item.description || "",
+      imageUrl: item.imageUrl || "",
+      beforeImageUrl: item.beforeImageUrl || "",
+      category: item.category || "",
+      featured: item.featured || false,
+      active: item.active !== false,
+      displayOrder: item.displayOrder || 0,
+      customerName: item.customerName || "",
+    });
+    setSaveMessage("");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function cancelGalleryEdit() {
+    setEditingGalleryId(null);
+    setGalleryForm({
+      title: "",
+      description: "",
+      imageUrl: "",
+      beforeImageUrl: "",
+      category: "",
+      featured: false,
+      active: true,
+      displayOrder: 0,
+      customerName: "",
+    });
+  }
+
+  async function handleSaveGallery(e) {
+    e.preventDefault();
+    setSaveMessage("");
+
+    if (!adminAuth) return;
+
+    if (!galleryForm.title.trim()) {
+      setSaveMessage("Error: Gallery title is required.");
+      return;
+    }
+
+    if (!galleryForm.imageUrl.trim()) {
+      setSaveMessage("Error: Please upload a main image.");
+      return;
+    }
+
+    const isEdit = editingGalleryId != null;
+
+    const url = isEdit
+      ? `${API_BASE}/gallery/${editingGalleryId}`
+      : `${API_BASE}/gallery`;
+
+    const method = isEdit ? "PUT" : "POST";
+
+    try {
+      const res = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+          ...authHeader(),
+        },
+        body: JSON.stringify(galleryForm),
+      });
+
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(text || "Failed to save gallery item");
+      }
+
+      setSaveMessage(
+        isEdit
+          ? "Gallery item updated successfully."
+          : "Gallery item added successfully."
+      );
+
+      cancelGalleryEdit();
+      await loadGallery();
+    } catch (err) {
+      setSaveMessage("Error saving gallery item: " + err.message);
+    }
+  }
+
+  async function handleDeleteGallery(id) {
+    if (!adminAuth) return;
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this gallery item?"
+    );
+    if (!confirmed) return;
+
+    try {
+      const res = await fetch(`${API_BASE}/gallery/${id}`, {
+        method: "DELETE",
+        headers: authHeader(),
+      });
+
+      if (!res.ok) throw new Error("Failed to delete gallery item");
+
+      setSaveMessage("Gallery item deleted.");
+      await loadGallery();
+    } catch (err) {
+      alert(err.message || "Failed to delete gallery item");
+    }
+  }
+
+  async function handleGalleryImageUpload(file, type = "main") {
+    if (!file || !adminAuth) return;
+
+    const isMain = type === "main";
+    isMain ? setUploadingGalleryMain(true) : setUploadingGalleryBefore(true);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("type", type);
+
+      const res = await fetch(`${API_BASE}/gallery/upload-image`, {
+        method: "POST",
+        headers: authHeader(),
+        body: formData,
+      });
+
+      if (!res.ok) throw new Error("Upload failed");
+
+      const data = await res.json();
+      setGalleryForm((prev) => ({
+        ...prev,
+        [isMain ? "imageUrl" : "beforeImageUrl"]: data.imageUrl,
+      }));
+
+      setSaveMessage(`${isMain ? "Main" : "Before"} image uploaded successfully.`);
+    } catch (err) {
+      alert("Upload error: " + err.message);
+    } finally {
+      isMain ? setUploadingGalleryMain(false) : setUploadingGalleryBefore(false);
     }
   }
 
@@ -1014,6 +1624,16 @@ function AdminSection({ adminAuth, setAdminAuth }) {
                   style={styles.input}
                 />
               </label>
+              <label style={styles.label}>
+  Twitter/X URL
+  <input
+    type="text"
+    value={contactTwitter}
+    onChange={(e) => setContactTwitter(e.target.value)}
+    style={styles.input}
+    placeholder="https://x.com/your-page"
+  />
+</label>
 
               <label style={styles.label}>
                 Yelp URL
@@ -1026,17 +1646,54 @@ function AdminSection({ adminAuth, setAdminAuth }) {
               </label>
 
               <label style={styles.label}>
-                Logo URL (optional)
-                <input
-                  type="text"
-                  value={contactLogoUrl}
-                  onChange={(e) =>
-                    setContactLogoUrl(e.target.value)
-                  }
-                  style={styles.input}
-                  placeholder="https://…/logo.png"
-                />
-              </label>
+  Logo (PNG, JPEG, JPG)
+  <div style={{ marginBottom: 8 }}>
+    <input
+      type="file"
+      accept="image/png,image/jpeg,image/jpg"
+      onChange={handleLogoFileChange}
+      style={{
+        ...styles.input,
+        padding: '8px',
+        cursor: 'pointer',
+      }}
+    />
+  </div>
+  
+  {/* Show current logo if exists */}
+  {contactLogoUrl && (
+    <div style={{ marginTop: 8, marginBottom: 8 }}>
+      <img
+        src={contactLogoUrl}
+        alt="Current logo"
+        style={{
+          maxWidth: 200,
+          maxHeight: 100,
+          border: '1px solid #e0d6cf',
+          borderRadius: 4,
+          padding: 4,
+        }}
+      />
+      <p style={{ fontSize: 11, color: '#666', marginTop: 4 }}>
+        Current logo
+      </p>
+    </div>
+  )}
+  
+  {/* Optional: Manual URL input */}
+  <details style={{ marginTop: 8 }}>
+    <summary style={{ cursor: 'pointer', fontSize: 12, color: '#666' }}>
+      Or enter logo URL manually
+    </summary>
+    <input
+      type="text"
+      value={contactLogoUrl}
+      onChange={(e) => setContactLogoUrl(e.target.value)}
+      style={{ ...styles.input, marginTop: 4 }}
+      placeholder="https://…/logo.png"
+    />
+  </details>
+</label>
 
               <button type="submit" style={styles.primaryButton}>
                 Save Contact
@@ -1098,6 +1755,166 @@ function AdminSection({ adminAuth, setAdminAuth }) {
               <button type="submit" style={styles.primaryButton}>
                 {editingBlogId ? "Update Blog Post" : "Save Blog Post"}
               </button>
+            </form>
+
+            {/* Add / Edit Gallery Item */}
+            <form onSubmit={handleSaveGallery} style={styles.form}>
+              <h3 style={{ marginBottom: 8 }}>
+                {editingGalleryId ? "Edit Gallery" : "Add Gallery Item"}
+              </h3>
+
+              <label style={styles.label}>
+                Title *
+                <input
+                  type="text"
+                  value={galleryForm.title}
+                  onChange={(e) =>
+                    setGalleryForm({ ...galleryForm, title: e.target.value })
+                  }
+                  style={styles.input}
+                />
+              </label>
+
+              <label style={styles.label}>
+                Description
+                <textarea
+                  value={galleryForm.description}
+                  onChange={(e) =>
+                    setGalleryForm({ ...galleryForm, description: e.target.value })
+                  }
+                  style={{ ...styles.input, minHeight: 60, resize: "vertical" }}
+                />
+              </label>
+
+              <label style={styles.label}>
+                Category (e.g., Threading, Facial, Waxing)
+                <input
+                  type="text"
+                  value={galleryForm.category}
+                  onChange={(e) =>
+                    setGalleryForm({ ...galleryForm, category: e.target.value })
+                  }
+                  style={styles.input}
+                  placeholder="Threading"
+                />
+              </label>
+
+              <label style={styles.label}>
+                Main Image (or "After" image) *
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) =>
+                    e.target.files[0] &&
+                    handleGalleryImageUpload(e.target.files[0], "main")
+                  }
+                  disabled={uploadingGalleryMain}
+                  style={styles.input}
+                />
+                {uploadingGalleryMain && <span style={{ fontSize: 12 }}>Uploading...</span>}
+                {galleryForm.imageUrl && (
+                  <img
+                    src={API_BASE.replace("/api", "") + galleryForm.imageUrl}
+                    alt="Preview"
+                    style={{ width: 100, height: 100, objectFit: "cover", marginTop: 8, borderRadius: 8 }}
+                  />
+                )}
+              </label>
+
+              <label style={styles.label}>
+                Before Image (optional - for before/after)
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) =>
+                    e.target.files[0] &&
+                    handleGalleryImageUpload(e.target.files[0], "before")
+                  }
+                  disabled={uploadingGalleryBefore}
+                  style={styles.input}
+                />
+                {uploadingGalleryBefore && <span style={{ fontSize: 12 }}>Uploading...</span>}
+                {galleryForm.beforeImageUrl && (
+                  <img
+                    src={API_BASE.replace("/api", "") + galleryForm.beforeImageUrl}
+                    alt="Before Preview"
+                    style={{ width: 100, height: 100, objectFit: "cover", marginTop: 8, borderRadius: 8 }}
+                  />
+                )}
+              </label>
+
+              <label style={styles.label}>
+                Customer Name (optional)
+                <input
+                  type="text"
+                  value={galleryForm.customerName}
+                  onChange={(e) =>
+                    setGalleryForm({ ...galleryForm, customerName: e.target.value })
+                  }
+                  style={styles.input}
+                  placeholder="Optional: customer who allowed this photo"
+                />
+              </label>
+
+              <label style={styles.label}>
+                Display Order (lower = first)
+                <input
+                  type="number"
+                  value={galleryForm.displayOrder}
+                  onChange={(e) =>
+                    setGalleryForm({
+                      ...galleryForm,
+                      displayOrder: parseInt(e.target.value) || 0,
+                    })
+                  }
+                  style={styles.input}
+                />
+              </label>
+
+              <label style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+                <input
+                  type="checkbox"
+                  checked={galleryForm.featured}
+                  onChange={(e) =>
+                    setGalleryForm({ ...galleryForm, featured: e.target.checked })
+                  }
+                />
+                Featured on homepage
+              </label>
+
+              <label style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <input
+                  type="checkbox"
+                  checked={galleryForm.active}
+                  onChange={(e) =>
+                    setGalleryForm({ ...galleryForm, active: e.target.checked })
+                  }
+                />
+                Active (published)
+              </label>
+
+              <div style={{ marginTop: 8 }}>
+                <button type="submit" style={styles.primaryButton}>
+                  {editingGalleryId ? "Update Gallery" : "Save Gallery"}
+                </button>
+                {editingGalleryId && (
+                  <button
+                    type="button"
+                    onClick={cancelGalleryEdit}
+                    style={{
+                      marginLeft: 8,
+                      fontSize: 12,
+                      padding: "6px 10px",
+                      borderRadius: 4,
+                      border: "1px solid #ccb9aa",
+                      backgroundColor: "#fff",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Cancel
+                  </button>
+                )}
+              </div>
             </form>
 
 
@@ -1437,6 +2254,1049 @@ function AdminSection({ adminAuth, setAdminAuth }) {
               </div>
             )}
           </div>
+
+          {/* Gallery items admin list */}
+          <div style={{ marginTop: 32 }}>
+            <h3 style={{ marginBottom: 8 }}>Gallery Items</h3>
+
+            {galleryLoading && <p>Loading gallery...</p>}
+            {galleryError && (
+              <p style={{ color: "red", fontSize: 13 }}>{galleryError}</p>
+            )}
+
+            {!galleryLoading && galleryItems.length === 0 && (
+              <p>No gallery items yet.</p>
+            )}
+
+            {!galleryLoading && galleryItems.length > 0 && (
+              <div style={{ overflowX: "auto" }}>
+                <table
+                  style={{
+                    width: "100%",
+                    borderCollapse: "collapse",
+                    fontSize: 13,
+                  }}
+                >
+                  <thead>
+                    <tr>
+                      <th style={thStyle}>Images</th>
+                      <th style={thStyle}>Title</th>
+                      <th style={thStyle}>Category</th>
+                      <th style={thStyle}>Order</th>
+                      <th style={thStyle}>Featured</th>
+                      <th style={thStyle}>Active</th>
+                      <th style={thStyle}>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {galleryItems.map((item) => {
+                      const backendBase = API_BASE.replace("/api", "");
+                      return (
+                        <tr key={item.id}>
+                          <td style={tdStyle}>
+                            <div style={{ display: "flex", gap: 4 }}>
+                              {item.beforeImageUrl && (
+                                <img
+                                  src={backendBase + item.beforeImageUrl}
+                                  alt="Before"
+                                  style={{
+                                    width: 50,
+                                    height: 50,
+                                    objectFit: "cover",
+                                    borderRadius: 4,
+                                  }}
+                                />
+                              )}
+                              <img
+                                src={backendBase + item.imageUrl}
+                                alt={item.title}
+                                style={{
+                                  width: 50,
+                                  height: 50,
+                                  objectFit: "cover",
+                                  borderRadius: 4,
+                                }}
+                              />
+                            </div>
+                          </td>
+                          <td style={tdStyle}>{item.title}</td>
+                          <td style={tdStyle}>{item.category}</td>
+                          <td style={tdStyle}>{item.displayOrder}</td>
+                          <td style={tdStyle}>{item.featured ? "⭐ Yes" : "No"}</td>
+                          <td style={tdStyle}>{item.active ? "✅ Yes" : "❌ No"}</td>
+                          <td style={tdStyle}>
+                            <button
+                              type="button"
+                              onClick={() => startEditGallery(item)}
+                              style={smallBtn("#2563eb")}
+                            >
+                              Edit
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleDeleteGallery(item.id)}
+                              style={smallBtn("crimson")}
+                            >
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+
+
+{/* Reviews Management - ADD AFTER Gallery Items section */}
+<div style={{
+  background: "rgba(255, 248, 220, 0.9)",
+  borderRadius: 12,
+  padding: 20,
+  marginBottom: 24,
+  border: "1px solid rgba(103, 72, 70, 0.3)"
+}}>
+  <h3 style={{ fontSize: 20, marginBottom: 16, color: "#674846" }}>
+    Customer Reviews
+  </h3>
+  
+  {reviewsLoading ? (
+    <p>Loading reviews...</p>
+  ) : (
+    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+      {reviews.length === 0 ? (
+        <p>No reviews yet.</p>
+      ) : (
+        reviews.map(review => (
+          <div
+            key={review.id}
+            style={{
+              padding: 16,
+              backgroundColor: review.approved 
+                ? "rgba(209, 250, 229, 0.3)" 
+                : "rgba(254, 243, 199, 0.3)",
+              borderRadius: 8,
+              border: "1px solid rgba(103, 72, 70, 0.2)"
+            }}
+          >
+            {/* Review Header */}
+            <div style={{ 
+              display: "flex", 
+              justifyContent: "space-between",
+              alignItems: "start",
+              marginBottom: 12
+            }}>
+              <div>
+                <div style={{ fontWeight: 600, fontSize: 16 }}>
+                  {review.customerName}
+                </div>
+                <div style={{ fontSize: 24 }}>
+                  {"⭐".repeat(review.rating)}{"☆".repeat(5 - review.rating)}
+                </div>
+                {review.serviceReceived && (
+                  <div style={{ fontSize: 12, color: "#666", fontStyle: "italic" }}>
+                    {review.serviceReceived}
+                  </div>
+                )}
+              </div>
+              <div style={{ fontSize: 12, color: "#999" }}>
+                {new Date(review.createdAt).toLocaleDateString()}
+              </div>
+            </div>
+
+            {/* Review Comment */}
+            <p style={{ 
+              marginBottom: 12,
+              padding: 12,
+              backgroundColor: "rgba(255, 255, 255, 0.5)",
+              borderRadius: 6,
+              lineHeight: 1.6
+            }}>
+              {review.comment}
+            </p>
+
+            {/* Admin Reply */}
+            {editingReviewId === review.id ? (
+              <div style={{ marginBottom: 12 }}>
+                <label style={{ display: "block", marginBottom: 8 }}>
+                  Your Reply:
+                  <textarea
+                    value={replyText}
+                    onChange={(e) => setReplyText(e.target.value)}
+                    style={{
+                      width: "100%",
+                      padding: 10,
+                      fontSize: 14,
+                      border: "1px solid rgba(103, 72, 70, 0.3)",
+                      borderRadius: 8,
+                      backgroundColor: "rgba(255, 248, 220, 0.5)",
+                      minHeight: 80,
+                      resize: "vertical",
+                      fontFamily: "inherit"
+                    }}
+                    placeholder="Write your reply to this customer..."
+                  />
+                </label>
+                <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
+                  <button
+                    onClick={() => handleSaveReply(review.id)}
+                    style={{
+                      padding: "6px 12px",
+                      fontSize: 13,
+                      backgroundColor: "#674846",
+                      color: "#fff8dc",
+                      border: "none",
+                      borderRadius: 6,
+                      cursor: "pointer"
+                    }}
+                  >
+                    Save Reply
+                  </button>
+                  <button
+                    onClick={cancelEditReply}
+                    style={{
+                      padding: "6px 12px",
+                      fontSize: 13,
+                      backgroundColor: "#e5e5e5",
+                      color: "#333",
+                      border: "none",
+                      borderRadius: 6,
+                      cursor: "pointer"
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            ) : review.adminReply ? (
+              <div style={{
+                padding: 12,
+                backgroundColor: "rgba(103, 72, 70, 0.1)",
+                borderRadius: 6,
+                marginBottom: 12
+              }}>
+                <strong>Your Reply:</strong>
+                <p style={{ marginTop: 4 }}>{review.adminReply}</p>
+                <button
+                  onClick={() => startEditReply(review)}
+                  style={{
+                    marginTop: 8,
+                    padding: "6px 12px",
+                    fontSize: 13,
+                    backgroundColor: "#674846",
+                    color: "#fff8dc",
+                    border: "none",
+                    borderRadius: 6,
+                    cursor: "pointer"
+                  }}
+                >
+                  Edit Reply
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => startEditReply(review)}
+                style={{
+                  marginBottom: 12,
+                  padding: "6px 12px",
+                  fontSize: 13,
+                  backgroundColor: "#674846",
+                  color: "#fff8dc",
+                  border: "none",
+                  borderRadius: 6,
+                  cursor: "pointer"
+                }}
+              >
+                💬 Reply to Customer
+              </button>
+            )}
+
+            {/* Action Buttons */}
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              <button
+                onClick={() => handleToggleApproval(review.id, review.approved)}
+                style={{
+                  padding: "6px 12px",
+                  fontSize: 13,
+                  backgroundColor: review.approved ? "#ef4444" : "#22c55e",
+                  color: "white",
+                  border: "none",
+                  borderRadius: 6,
+                  cursor: "pointer"
+                }}
+              >
+                {review.approved ? "❌ Unapprove" : "✅ Approve"}
+              </button>
+              
+              <button
+                onClick={() => handleToggleFeatured(review.id, review.featured)}
+                style={{
+                  padding: "6px 12px",
+                  fontSize: 13,
+                  backgroundColor: review.featured ? "#94a3b8" : "#f59e0b",
+                  color: "white",
+                  border: "none",
+                  borderRadius: 6,
+                  cursor: "pointer"
+                }}
+              >
+                {review.featured ? "⭐ Unfeature" : "⭐ Feature on Homepage"}
+              </button>
+              
+              <button
+                onClick={() => handleDeleteReview(review.id)}
+                style={{
+                  padding: "6px 12px",
+                  fontSize: 13,
+                  backgroundColor: "#dc2626",
+                  color: "white",
+                  border: "none",
+                  borderRadius: 6,
+                  cursor: "pointer"
+                }}
+              >
+                🗑️ Delete
+              </button>
+            </div>
+
+            {/* Status Badges */}
+            <div style={{ 
+              display: "flex", 
+              gap: 8, 
+              marginTop: 12,
+              fontSize: 11,
+              fontWeight: 600
+            }}>
+              {review.approved && (
+                <span style={{
+                  backgroundColor: "#22c55e",
+                  color: "white",
+                  padding: "2px 8px",
+                  borderRadius: 4
+                }}>
+                  APPROVED
+                </span>
+              )}
+              {!review.approved && (
+                <span style={{
+                  backgroundColor: "#f59e0b",
+                  color: "white",
+                  padding: "2px 8px",
+                  borderRadius: 4
+                }}>
+                  PENDING
+                </span>
+              )}
+              {review.featured && (
+                <span style={{
+                  backgroundColor: "#a855f7",
+                  color: "white",
+                  padding: "2px 8px",
+                  borderRadius: 4
+                }}>
+                  FEATURED
+                </span>
+              )}
+            </div>
+          </div>
+        ))
+      )}
+    </div>
+  )}
+</div>
+
+
+{/* FAQ Management */}
+<div style={{
+  background: "rgba(255, 248, 220, 0.9)",
+  borderRadius: 12,
+  padding: 20,
+  marginBottom: 24,
+  border: "1px solid rgba(103, 72, 70, 0.3)"
+}}>
+  <h3 style={{ fontSize: 20, marginBottom: 16, color: "#674846" }}>
+    FAQ Management
+  </h3>
+
+  {/* Add/Edit FAQ Form */}
+  <form onSubmit={handleSaveFaq} style={{ marginBottom: 24 }}>
+    <div style={{
+      display: "grid",
+      gap: 16,
+      padding: 16,
+      backgroundColor: "rgba(255, 255, 255, 0.5)",
+      borderRadius: 8
+    }}>
+      <label style={{ display: "block" }}>
+        <strong>Question *</strong>
+        <input
+          type="text"
+          value={faqForm.question}
+          onChange={(e) => setFaqForm({ ...faqForm, question: e.target.value })}
+          style={{
+            width: "100%",
+            padding: 10,
+            fontSize: 14,
+            border: "1px solid rgba(103, 72, 70, 0.3)",
+            borderRadius: 8,
+            backgroundColor: "rgba(255, 248, 220, 0.5)",
+            marginTop: 4
+          }}
+          placeholder="e.g., How long does eyebrow threading take?"
+          required
+        />
+      </label>
+
+      <label style={{ display: "block" }}>
+        <strong>Answer *</strong>
+        <textarea
+          value={faqForm.answer}
+          onChange={(e) => setFaqForm({ ...faqForm, answer: e.target.value })}
+          style={{
+            width: "100%",
+            padding: 10,
+            fontSize: 14,
+            border: "1px solid rgba(103, 72, 70, 0.3)",
+            borderRadius: 8,
+            backgroundColor: "rgba(255, 248, 220, 0.5)",
+            minHeight: 100,
+            resize: "vertical",
+            fontFamily: "inherit",
+            marginTop: 4
+          }}
+          placeholder="Provide a detailed answer..."
+          required
+        />
+      </label>
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16 }}>
+        <label style={{ display: "block" }}>
+          <strong>Category</strong>
+          <input
+            type="text"
+            value={faqForm.category}
+            onChange={(e) => setFaqForm({ ...faqForm, category: e.target.value })}
+            style={{
+              width: "100%",
+              padding: 10,
+              fontSize: 14,
+              border: "1px solid rgba(103, 72, 70, 0.3)",
+              borderRadius: 8,
+              backgroundColor: "rgba(255, 248, 220, 0.5)",
+              marginTop: 4
+            }}
+            placeholder="e.g., Booking, Services"
+          />
+        </label>
+
+        <label style={{ display: "block" }}>
+          <strong>Display Order</strong>
+          <input
+            type="number"
+            value={faqForm.displayOrder}
+            onChange={(e) => setFaqForm({ ...faqForm, displayOrder: parseInt(e.target.value) || 0 })}
+            style={{
+              width: "100%",
+              padding: 10,
+              fontSize: 14,
+              border: "1px solid rgba(103, 72, 70, 0.3)",
+              borderRadius: 8,
+              backgroundColor: "rgba(255, 248, 220, 0.5)",
+              marginTop: 4
+            }}
+            placeholder="0"
+          />
+        </label>
+
+        <label style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 28 }}>
+          <input
+            type="checkbox"
+            checked={faqForm.active}
+            onChange={(e) => setFaqForm({ ...faqForm, active: e.target.checked })}
+            style={{ width: 20, height: 20 }}
+          />
+          <strong>Active (Published)</strong>
+        </label>
+      </div>
+
+      <div style={{ display: "flex", gap: 8 }}>
+        <button
+          type="submit"
+          style={{
+            padding: "10px 20px",
+            fontSize: 14,
+            backgroundColor: "#674846",
+            color: "#fff8dc",
+            border: "none",
+            borderRadius: 8,
+            cursor: "pointer",
+            fontWeight: 600
+          }}
+        >
+          {editingFaqId ? "Update FAQ" : "Add FAQ"}
+        </button>
+        {editingFaqId && (
+          <button
+            type="button"
+            onClick={cancelFaqEdit}
+            style={{
+              padding: "10px 20px",
+              fontSize: 14,
+              backgroundColor: "#e5e5e5",
+              color: "#333",
+              border: "none",
+              borderRadius: 8,
+              cursor: "pointer"
+            }}
+          >
+            Cancel
+          </button>
+        )}
+      </div>
+    </div>
+  </form>
+
+  {/* FAQ List */}
+  {faqsLoading ? (
+    <p>Loading FAQs...</p>
+  ) : (
+    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+      {faqs.length === 0 ? (
+        <p>No FAQs yet. Add your first FAQ above!</p>
+      ) : (
+        faqs.map(faq => (
+          <div
+            key={faq.id}
+            style={{
+              padding: 16,
+              backgroundColor: faq.active 
+                ? "rgba(192, 153, 44, 0.3)" 
+                : "rgba(254, 243, 199, 0.3)",
+              borderRadius: 8,
+              border: "1px solid rgba(103, 72, 70, 0.2)"
+            }}
+          >
+            {/* Question */}
+            <div style={{ fontWeight: 600, fontSize: 16, marginBottom: 8 }}>
+              Q: {faq.question}
+            </div>
+
+            {/* Answer Preview */}
+            <div style={{
+              fontSize: 14,
+              color: "#666",
+              marginBottom: 8,
+              padding: 8,
+              backgroundColor: "rgba(255, 255, 255, 0.5)",
+              borderRadius: 4
+            }}>
+              A: {faq.answer.substring(0, 100)}{faq.answer.length > 100 ? "..." : ""}
+            </div>
+
+            {/* Metadata */}
+            <div style={{
+              display: "flex",
+              gap: 12,
+              fontSize: 12,
+              color: "#666",
+              marginBottom: 12
+            }}>
+              {faq.category && (
+                <span style={{
+                  backgroundColor: "rgba(103, 72, 70, 0.1)",
+                  padding: "2px 8px",
+                  borderRadius: 4,
+                  fontWeight: 600
+                }}>
+                  {faq.category}
+                </span>
+              )}
+              <span>Order: {faq.displayOrder}</span>
+              <span style={{
+                color: faq.active ? "#22c55e" : "#f59e0b",
+                fontWeight: 600
+              }}>
+                {faq.active ? "✓ ACTIVE" : "○ INACTIVE"}
+              </span>
+            </div>
+
+            {/* Actions */}
+            <div style={{ display: "flex", gap: 8 }}>
+              <button
+                onClick={() => startEditFaq(faq)}
+                style={{
+                  padding: "6px 12px",
+                  fontSize: 13,
+                  backgroundColor: "#674846",
+                  color: "#fff8dc",
+                  border: "none",
+                  borderRadius: 6,
+                  cursor: "pointer"
+                }}
+              >
+                ✏️ Edit
+              </button>
+              <button
+                onClick={() => handleDeleteFaq(faq.id)}
+                style={{
+                  padding: "6px 12px",
+                  fontSize: 13,
+                  backgroundColor: "#dc2626",
+                  color: "white",
+                  border: "none",
+                  borderRadius: 6,
+                  cursor: "pointer"
+                }}
+              >
+                🗑️ Delete
+              </button>
+            </div>
+          </div>
+        ))
+      )}
+    </div>
+  )}
+</div>
+
+{/* Promotions Management */}
+<div style={{
+  background: "rgba(255, 248, 220, 0.9)",
+  borderRadius: 12,
+  padding: 20,
+  marginBottom: 24,
+  border: "1px solid rgba(103, 72, 70, 0.3)"
+}}>
+  <h3 style={{ fontSize: 20, marginBottom: 16, color: "#674846" }}>
+    🎁 Promotions Management
+  </h3>
+
+  {/* Add/Edit Promotion Form */}
+  <form onSubmit={handleSavePromotion} style={{ marginBottom: 24 }}>
+    <div style={{
+      display: "grid",
+      gap: 16,
+      padding: 16,
+      backgroundColor: "rgba(255, 255, 255, 0.5)",
+      borderRadius: 8
+    }}>
+      <label style={{ display: "block" }}>
+        <strong>Title *</strong>
+        <input
+          type="text"
+          value={promotionForm.title}
+          onChange={(e) => setPromotionForm({ ...promotionForm, title: e.target.value })}
+          style={{
+            width: "100%",
+            padding: 10,
+            fontSize: 14,
+            border: "1px solid rgba(103, 72, 70, 0.3)",
+            borderRadius: 8,
+            backgroundColor: "rgba(255, 248, 220, 0.5)",
+            marginTop: 4
+          }}
+          placeholder="e.g., First Visit Special"
+          required
+        />
+      </label>
+
+      <label style={{ display: "block" }}>
+        <strong>Description *</strong>
+        <textarea
+          value={promotionForm.description}
+          onChange={(e) => setPromotionForm({ ...promotionForm, description: e.target.value })}
+          style={{
+            width: "100%",
+            padding: 10,
+            fontSize: 14,
+            border: "1px solid rgba(103, 72, 70, 0.3)",
+            borderRadius: 8,
+            backgroundColor: "rgba(255, 248, 220, 0.5)",
+            minHeight: 80,
+            resize: "vertical",
+            fontFamily: "inherit",
+            marginTop: 4
+          }}
+          placeholder="Describe the promotion in detail..."
+          required
+        />
+      </label>
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+        <label style={{ display: "block" }}>
+          <strong>Discount Text</strong>
+          <input
+            type="text"
+            value={promotionForm.discountText}
+            onChange={(e) => setPromotionForm({ ...promotionForm, discountText: e.target.value })}
+            style={{
+              width: "100%",
+              padding: 10,
+              fontSize: 14,
+              border: "1px solid rgba(103, 72, 70, 0.3)",
+              borderRadius: 8,
+              backgroundColor: "rgba(255, 248, 220, 0.5)",
+              marginTop: 4
+            }}
+            placeholder="e.g., 20% OFF, $10 OFF"
+          />
+        </label>
+
+        <label style={{ display: "block" }}>
+          <strong>Promo Code</strong>
+          <input
+            type="text"
+            value={promotionForm.code}
+            onChange={(e) => setPromotionForm({ ...promotionForm, code: e.target.value.toUpperCase() })}
+            style={{
+              width: "100%",
+              padding: 10,
+              fontSize: 14,
+              border: "1px solid rgba(103, 72, 70, 0.3)",
+              borderRadius: 8,
+              backgroundColor: "rgba(255, 248, 220, 0.5)",
+              marginTop: 4
+            }}
+            placeholder="e.g., FIRST20"
+          />
+        </label>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+        <label style={{ display: "block" }}>
+          <strong>Start Date & Time *</strong>
+          <input
+            type="datetime-local"
+            value={promotionForm.startDate}
+            onChange={(e) => setPromotionForm({ ...promotionForm, startDate: e.target.value })}
+            style={{
+              width: "100%",
+              padding: 10,
+              fontSize: 14,
+              border: "1px solid rgba(103, 72, 70, 0.3)",
+              borderRadius: 8,
+              backgroundColor: "rgba(255, 248, 220, 0.5)",
+              marginTop: 4
+            }}
+            required
+          />
+        </label>
+
+        <label style={{ display: "block" }}>
+          <strong>End Date & Time *</strong>
+          <input
+            type="datetime-local"
+            value={promotionForm.endDate}
+            onChange={(e) => setPromotionForm({ ...promotionForm, endDate: e.target.value })}
+            style={{
+              width: "100%",
+              padding: 10,
+              fontSize: 14,
+              border: "1px solid rgba(103, 72, 70, 0.3)",
+              borderRadius: 8,
+              backgroundColor: "rgba(255, 248, 220, 0.5)",
+              marginTop: 4
+            }}
+            required
+          />
+        </label>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16 }}>
+        <label style={{ display: "block" }}>
+          <strong>Banner Color</strong>
+          <input
+            type="color"
+            value={promotionForm.bannerColor}
+            onChange={(e) => setPromotionForm({ ...promotionForm, bannerColor: e.target.value })}
+            style={{
+              width: "100%",
+              height: 42,
+              border: "1px solid rgba(103, 72, 70, 0.3)",
+              borderRadius: 8,
+              cursor: "pointer",
+              marginTop: 4
+            }}
+          />
+        </label>
+
+        <label style={{ display: "block" }}>
+          <strong>Display Order</strong>
+          <input
+            type="number"
+            value={promotionForm.displayOrder}
+            onChange={(e) => setPromotionForm({ ...promotionForm, displayOrder: parseInt(e.target.value) || 0 })}
+            style={{
+              width: "100%",
+              padding: 10,
+              fontSize: 14,
+              border: "1px solid rgba(103, 72, 70, 0.3)",
+              borderRadius: 8,
+              backgroundColor: "rgba(255, 248, 220, 0.5)",
+              marginTop: 4
+            }}
+            placeholder="0"
+          />
+        </label>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 28 }}>
+          <label style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <input
+              type="checkbox"
+              checked={promotionForm.active}
+              onChange={(e) => setPromotionForm({ ...promotionForm, active: e.target.checked })}
+              style={{ width: 20, height: 20 }}
+            />
+            <strong>Active</strong>
+          </label>
+          <label style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <input
+              type="checkbox"
+              checked={promotionForm.featured}
+              onChange={(e) => setPromotionForm({ ...promotionForm, featured: e.target.checked })}
+              style={{ width: 20, height: 20 }}
+            />
+            <strong>Featured (Homepage)</strong>
+          </label>
+        </div>
+      </div>
+
+      <label style={{ display: "block" }}>
+        <strong>Terms & Conditions</strong>
+        <input
+          type="text"
+          value={promotionForm.termsAndConditions}
+          onChange={(e) => setPromotionForm({ ...promotionForm, termsAndConditions: e.target.value })}
+          style={{
+            width: "100%",
+            padding: 10,
+            fontSize: 14,
+            border: "1px solid rgba(103, 72, 70, 0.3)",
+            borderRadius: 8,
+            backgroundColor: "rgba(255, 248, 220, 0.5)",
+            marginTop: 4
+          }}
+          placeholder="e.g., New customers only, Cannot be combined with other offers"
+        />
+      </label>
+
+      <div style={{ display: "flex", gap: 8 }}>
+        <button
+          type="submit"
+          style={{
+            padding: "10px 20px",
+            fontSize: 14,
+            backgroundColor: "#674846",
+            color: "#fff8dc",
+            border: "none",
+            borderRadius: 8,
+            cursor: "pointer",
+            fontWeight: 600
+          }}
+        >
+          {editingPromotionId ? "Update Promotion" : "Add Promotion"}
+        </button>
+        {editingPromotionId && (
+          <button
+            type="button"
+            onClick={cancelPromotionEdit}
+            style={{
+              padding: "10px 20px",
+              fontSize: 14,
+              backgroundColor: "#e5e5e5",
+              color: "#333",
+              border: "none",
+              borderRadius: 8,
+              cursor: "pointer"
+            }}
+          >
+            Cancel
+          </button>
+        )}
+      </div>
+    </div>
+  </form>
+
+  {/* Promotions List */}
+  {promotionsLoading ? (
+    <p>Loading promotions...</p>
+  ) : (
+    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+      {promotions.length === 0 ? (
+        <p>No promotions yet. Add your first promotion above!</p>
+      ) : (
+        promotions.map(promo => {
+          const now = new Date();
+          const start = new Date(promo.startDate);
+          const end = new Date(promo.endDate);
+          const isActive = now >= start && now <= end;
+          const isUpcoming = now < start;
+          const isExpired = now > end;
+          
+          let statusColor = "#22c55e"; // Active green
+          let statusText = "✓ ACTIVE";
+          
+          if (!promo.active) {
+            statusColor = "#9ca3af"; // Disabled gray
+            statusText = "○ DISABLED";
+          } else if (isExpired) {
+            statusColor = "#ef4444"; // Expired red
+            statusText = "✕ EXPIRED";
+          } else if (isUpcoming) {
+            statusColor = "#3b82f6"; // Upcoming blue
+            statusText = "⏳ UPCOMING";
+          }
+          
+          return (
+            <div
+              key={promo.id}
+              style={{
+                padding: 16,
+                backgroundColor: isActive && promo.active
+                  ? "rgba(209, 250, 229, 0.3)" 
+                  : "rgba(254, 243, 199, 0.3)",
+                borderRadius: 8,
+                border: "1px solid rgba(103, 72, 70, 0.2)"
+              }}
+            >
+              {/* Title & Badges */}
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start", marginBottom: 8 }}>
+                <div style={{ fontWeight: 600, fontSize: 16 }}>
+                  {promo.title}
+                  {promo.discountText && (
+                    <span style={{
+                      marginLeft: 8,
+                      backgroundColor: "#ff6b6b",
+                      color: "white",
+                      padding: "2px 8px",
+                      borderRadius: 4,
+                      fontSize: 12,
+                      fontWeight: "bold"
+                    }}>
+                      {promo.discountText}
+                    </span>
+                  )}
+                </div>
+                <div style={{
+                  display: "flex",
+                  gap: 8,
+                  flexWrap: "wrap"
+                }}>
+                  <span style={{
+                    color: statusColor,
+                    fontWeight: 600,
+                    fontSize: 12
+                  }}>
+                    {statusText}
+                  </span>
+                  {promo.featured && (
+                    <span style={{
+                      backgroundColor: "#a855f7",
+                      color: "white",
+                      padding: "2px 8px",
+                      borderRadius: 4,
+                      fontSize: 11,
+                      fontWeight: 600
+                    }}>
+                      ⭐ FEATURED
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              {/* Description */}
+              <div style={{
+                fontSize: 14,
+                color: "#666",
+                marginBottom: 8
+              }}>
+                {promo.description}
+              </div>
+
+              {/* Metadata */}
+              <div style={{
+                display: "flex",
+                gap: 16,
+                fontSize: 12,
+                color: "#666",
+                marginBottom: 12,
+                flexWrap: "wrap"
+              }}>
+                {promo.code && (
+                  <span style={{
+                    backgroundColor: "#674846",
+                    color: "#fff8dc",
+                    padding: "2px 8px",
+                    borderRadius: 4,
+                    fontWeight: 600,
+                    fontFamily: "monospace"
+                  }}>
+                    CODE: {promo.code}
+                  </span>
+                )}
+                <span>📅 {new Date(promo.startDate).toLocaleDateString()} - {new Date(promo.endDate).toLocaleDateString()}</span>
+                <span>Order: {promo.displayOrder}</span>
+                {promo.bannerColor && (
+                  <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                    Color: <div style={{ width: 16, height: 16, backgroundColor: promo.bannerColor, borderRadius: 4, border: "1px solid #ccc" }}></div>
+                  </span>
+                )}
+              </div>
+
+              {promo.termsAndConditions && (
+                <div style={{
+                  fontSize: 11,
+                  color: "#666",
+                  fontStyle: "italic",
+                  marginBottom: 12,
+                  padding: 8,
+                  backgroundColor: "rgba(255, 255, 255, 0.5)",
+                  borderRadius: 4
+                }}>
+                  * {promo.termsAndConditions}
+                </div>
+              )}
+
+              {/* Actions */}
+              <div style={{ display: "flex", gap: 8 }}>
+                <button
+                  onClick={() => startEditPromotion(promo)}
+                  style={{
+                    padding: "6px 12px",
+                    fontSize: 13,
+                    backgroundColor: "#674846",
+                    color: "#fff8dc",
+                    border: "none",
+                    borderRadius: 6,
+                    cursor: "pointer"
+                  }}
+                >
+                  ✏️ Edit
+                </button>
+                <button
+                  onClick={() => handleDeletePromotion(promo.id)}
+                  style={{
+                    padding: "6px 12px",
+                    fontSize: 13,
+                    backgroundColor: "#dc2626",
+                    color: "white",
+                    border: "none",
+                    borderRadius: 6,
+                    cursor: "pointer"
+                  }}
+                >
+                  🗑️ Delete
+                </button>
+              </div>
+            </div>
+          );
+        })
+      )}
+    </div>
+  )}
+</div>
+          
 
           {/* Manage services & images (edit/delete) */}
           <div style={{ marginTop: 32 }}>

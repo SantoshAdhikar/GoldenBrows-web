@@ -9,7 +9,7 @@ export const styles = {
       "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
 
     // Default text color for most of the site
-    color: "#310a31",
+    color: "#674846",
 
     // Transparent so we see the gradient defined below
     backgroundColor: "transparent",
@@ -19,11 +19,9 @@ export const styles = {
     display: "flex",
     flexDirection: "column",
 
-    // 🔹 Elegant salon gradient background
+    // 🔹 Cornsilk to Rose Ebony gradient background
     background:
-      "radial-gradient(circle at top left, rgba(44, 102, 110, 0.15), transparent 55%)," +
-      "radial-gradient(circle at bottom right, rgba(49, 10, 49, 0.25), transparent 55%)," +
-      "#f0edee",
+      "linear-gradient(135deg, #ad9225ff 0%, #dfb580c7 25%, #d4b5a8 50%, #9d7b75 75%, #e28d87ff 100%)",
     
     // Make gradient large so animation looks smooth
     backgroundSize: "200% 200%",
@@ -43,10 +41,10 @@ export const styles = {
     justifyContent: "space-between",
 
     // Thin bottom border line under the header
-    borderBottom: "1px solid rgba(44, 102, 110, 0.25)",
+    borderBottom: "1px solid rgba(103, 72, 70, 0.25)",
 
-    // Header background color (elegant teal with transparency)
-    backgroundColor: "rgba(44, 102, 110, 0.85)",
+    // Header background color (rose ebony with transparency)
+    backgroundColor: "rgba(103, 72, 70, 0.85)",
 
     position: "sticky",
     top: 0,
@@ -60,7 +58,7 @@ export const styles = {
   logo: {
     fontWeight: "bold",
     fontSize: 20,
-    color: "#f0edee",
+    color: "#fff8dc",
   },
 
   // Container for nav links in header
@@ -68,6 +66,7 @@ export const styles = {
     display: "flex",
     gap: 16,
   },
+
 
  
   // Individual header nav link styling (elegant pill)
@@ -84,16 +83,16 @@ export const styles = {
     fontWeight: 500,
 
     // text color
-    color: "#f0edee",
+    color: "#7a1ae7ff",
 
-    // teal border
-    border: "1px solid rgba(44, 102, 110, 0.6)",
+    // rose ebony border
+    border: "1px solid rgba(103, 72, 70, 0.6)",
 
     // transparent background
-    backgroundColor: "rgba(49, 10, 49, 0.25)",
+    backgroundColor: "rgba(204, 96, 236, 0.15)",
 
     // elegant glow
-    boxShadow: "0 0 16px rgba(22, 201, 224, 0.86)",
+    boxShadow: "0 0 16px rgba(240, 228, 59, 0.3)",
   },
 
   // ===========================
@@ -108,28 +107,28 @@ export const styles = {
   heroTitle: {
     fontSize: 32,
     margin: "0 0 12px",
-    color: "#310a31",
+    color: "#674846",
   },
 
   heroSubtitle: {
     fontSize: 16,
     maxWidth: 520,
     margin: "0 0 20px",
-    color: "#2c666e",
+    color: "#674846",
   },
 
   primaryButton: {
     display: "inline-block",
     padding: "10px 18px",
-    backgroundColor: "#2c666e",
-    color: "#f0edee",
+    backgroundColor: "#674846",
+    color: "#fff8dc",
     borderRadius: 999,
     textDecoration: "none",
     fontSize: 14,
     border: "none",
     cursor: "pointer",
     fontWeight: 600,
-    boxShadow: "0 4px 14px rgba(44, 102, 110, 0.4)",
+    boxShadow: "0 4px 14px rgba(103, 72, 70, 0.4)",
   },
 
   // Hero layout (left text + right socials)
@@ -155,7 +154,7 @@ export const styles = {
     fontSize: 14,
     fontWeight: 600,
     marginBottom: 8,
-    color: "#310a31",
+    color: "#674846",
   },
 
   heroSocialRow: {
@@ -173,19 +172,19 @@ export const styles = {
     alignItems: "center",
     justifyContent: "center",
     textDecoration: "none",
-    color: "#f0edee",
+    color: "#fff8dc",
     fontSize: 14,
     fontWeight: 700,
-    backgroundColor: "#2c666e",
-    boxShadow: "0 0 14px rgba(44, 102, 110, 0.5)",
+    backgroundColor: "#674846",
+    boxShadow: "0 0 14px rgba(103, 72, 70, 0.5)",
   },
 
   // Promo bar container (marquee)
   promoBar: {
     marginTop: 20,
     borderRadius: 999,
-    border: "1px solid rgba(54, 188, 206, 0.72)",
-    background: "rgba(179, 32, 179, 0.9)",
+    border: "1px solid rgba(103, 72, 70, 0.4)",
+    background: "rgba(223, 36, 240, 0.7)",
     padding: "6px 0",
     overflow: "hidden",
   },
@@ -204,13 +203,13 @@ export const styles = {
   sectionTitle: {
     fontSize: 22,
     marginBottom: 16,
-    color: "#310a31",
+    color: "#674846",
   },
 
   // Optional subtitle under section titles
   sectionSubtitle: {
     fontSize: 14,
-    color: "#2c666e",
+    color: "#674846",
     marginBottom: 16,
     maxWidth: 520,
   },
@@ -226,23 +225,23 @@ export const styles = {
   // SERVICE CARD (ELEGANT BOX)
   // ===========================
   serviceCard: {
-    // Elegant salon gradient
+    // Elegant gradient with cornsilk tones
     background:
-      "radial-gradient(circle at top left, rgba(44, 102, 110, 0.12), transparent 55%), rgba(240, 237, 238, 0.95)",
+      "radial-gradient(circle at top left, rgba(255, 248, 220, 0.3), transparent 55%), rgba(255, 248, 220, 0.85)",
 
     borderRadius: 18,
     padding: 16,
 
-    // Teal border
-    border: "1px solid rgba(44, 102, 110, 0.3)",
+    // Rose ebony border
+    border: "1px solid rgba(103, 72, 70, 0.3)",
 
     // Soft shadow
-    boxShadow: "0 8px 24px rgba(49, 10, 49, 0.93)",
+    boxShadow: "0 8px 24px rgba(103, 72, 70, 0.2)",
 
     // Blur behind card (glass effect)
     backdropFilter: "blur(14px)",
 
-    color: "#310a31",
+    color: "#674846",
   },
 
   // Small label text at top of card (category label)
@@ -251,20 +250,20 @@ export const styles = {
     fontWeight: 600,
     textTransform: "uppercase",
     letterSpacing: 0.8,
-    color: "#2c666e",
+    color: "#674846",
   },
 
   // Service name (e.g. "Eyebrow Threading")
   serviceName: {
     fontSize: 18,
     fontWeight: 600,
-    color: "#310a31",
+    color: "#674846",
   },
 
   // Service description text
   serviceDescription: {
     fontSize: 14,
-    color: "#2c666e",
+    color: "#674846",
     marginTop: 4,
     marginBottom: 4,
   },
@@ -275,14 +274,14 @@ export const styles = {
     justifyContent: "space-between",
     alignItems: "center",
     fontSize: 13,
-    color: "#2c666e",
+    color: "#674846",
     marginTop: 4,
   },
 
   // Price text styling
   servicePrice: {
     fontWeight: 600,
-    color: "#310a31",
+    color: "#674846",
   },
 
   // Duration text (minutes)
@@ -296,16 +295,16 @@ export const styles = {
     justifyContent: "space-between",
     alignItems: "center",
     fontSize: 12,
-    color: "#310a31",
+    color: "#674846",
     marginTop: 6,
-    borderTop: "1px dashed rgba(44, 102, 110, 0.3)",
+    borderTop: "1px dashed rgba(103, 72, 70, 0.3)",
     paddingTop: 6,
   },
 
   // Value text in the points row
   servicePointsValue: {
     fontWeight: 600,
-    color: "#2c666e",
+    color: "#674846",
   },
 
   // ===========================
@@ -323,30 +322,62 @@ export const styles = {
     flexDirection: "column",
     fontSize: 14,
     gap: 4,
-    color: "#310a31",
+    color: "#674846",
   },
 
   input: {
     padding: "8px 10px",
     borderRadius: 6,
-    border: "1px solid rgba(44, 102, 110, 0.4)",
+    border: "1px solid rgba(103, 72, 70, 0.4)",
     fontSize: 14,
-    backgroundColor: "rgba(240, 237, 238, 0.9)",
-    color: "#310a31",
+    backgroundColor: "rgba(255, 248, 220, 0.9)",
+    color: "#674846",
   },
+  
 
   // ===========================
   // FOOTER
   // ===========================
   footer: {
     padding: "16px 24px",
-    borderTop: "1px solid rgba(44, 102, 110, 0.25)",
+    borderTop: "1px solid rgba(103, 72, 70, 0.25)",
     fontSize: 13,
     textAlign: "center",
-    backgroundColor: "rgba(49, 10, 49, 0.85)",
+    backgroundColor: "rgba(103, 72, 70, 0.85)",
     backdropFilter: "blur(10px)",
-    color: "#f0edee",
+    color: "#fff8dc",
   },
+
+  logoSection: {
+  flex: "0 0 auto",
+},
+
+logoTitle: {
+  fontSize: "1.25rem",
+  fontWeight: "bold",
+  marginBottom: "0.25rem",
+  color: "#fff8dc",
+},
+
+logoSubline: {
+  fontSize: "0.75rem",
+  color: "#fff8dc",
+  opacity: 0.9,
+},
+
+logoImageContainer: {
+  flex: "0 0 auto",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  margin: "0 1rem",
+},
+
+headerLogoImage: {
+  height: "50px",
+  width: "auto",
+  objectFit: "contain",
+},
 
   // ===========================
   // CONTACT SECTION LAYOUT
@@ -379,11 +410,11 @@ export const styles = {
   socialChip: {
     padding: "6px 10px",
     borderRadius: 999,
-    border: "1px solid rgba(44, 102, 110, 0.5)",
+    border: "1px solid rgba(103, 72, 70, 0.5)",
     fontSize: 13,
     textDecoration: "none",
-    color: "#f0edee",
-    backgroundColor: "rgba(44, 102, 110, 0.8)",
+    color: "#fff8dc",
+    backgroundColor: "rgba(103, 72, 70, 0.8)",
     backdropFilter: "blur(8px)",
   },
 
@@ -392,13 +423,13 @@ export const styles = {
   // ===========================
   cartPanel: {
     background:
-      "radial-gradient(circle at top left, rgba(44, 102, 110, 0.12), transparent 55%), rgba(240, 237, 238, 0.98)",
+      "radial-gradient(circle at top left, rgba(255, 248, 220, 0.3), transparent 55%), rgba(255, 248, 220, 0.92)",
     borderRadius: 18,
     padding: 16,
-    border: "1px solid rgba(44, 102, 110, 0.4)",
-    boxShadow: "0 8px 28px rgba(49, 10, 49, 0.2)",
+    border: "1px solid rgba(103, 72, 70, 0.4)",
+    boxShadow: "0 8px 28px rgba(103, 72, 70, 0.2)",
     backdropFilter: "blur(14px)",
-    color: "#310a31",
+    color: "#674846",
     position: "sticky",
     top: 88,
     minWidth: 260,
@@ -408,12 +439,12 @@ export const styles = {
     fontSize: 18,
     fontWeight: 600,
     marginBottom: 8,
-    color: "#310a31",
+    color: "#674846",
   },
 
   cartEmptyText: {
     fontSize: 13,
-    color: "#2c666e",
+    color: "#674846",
   },
 
   cartList: {
@@ -431,28 +462,28 @@ export const styles = {
     fontSize: 13,
     padding: "8px 10px",
     borderRadius: 10,
-    backgroundColor: "rgba(240, 237, 238, 0.9)",
-    border: "1px solid rgba(44, 102, 110, 0.3)",
+    backgroundColor: "rgba(255, 248, 220, 0.9)",
+    border: "1px solid rgba(103, 72, 70, 0.3)",
     marginBottom: 8,
   },
 
   cartItemName: {
     fontWeight: 500,
-    color: "#310a31",
+    color: "#674846",
   },
 
   cartItemMeta: {
     display: "flex",
     gap: 10,
     fontSize: 12,
-    color: "#2c666e",
+    color: "#674846",
     marginTop: 2,
   },
 
   cartListRemoveButton: {
     border: "none",
     background: "transparent",
-    color: "#310a31",
+    color: "#674846",
     fontSize: 16,
     cursor: "pointer",
     padding: 0,
@@ -461,7 +492,7 @@ export const styles = {
 
   cartTotals: {
     marginTop: 10,
-    borderTop: "1px solid rgba(44, 102, 110, 0.3)",
+    borderTop: "1px solid rgba(103, 72, 70, 0.3)",
     paddingTop: 10,
     fontSize: 13,
   },
@@ -477,13 +508,13 @@ export const styles = {
     width: "100%",
     padding: "8px 12px",
     borderRadius: 999,
-    border: "1px solid #2c666e",
-    backgroundColor: "#2c666e",
-    color: "#f0edee",
+    border: "1px solid #674846",
+    backgroundColor: "#674846",
+    color: "#fff8dc",
     fontSize: 13,
     fontWeight: 500,
     cursor: "pointer",
-    boxShadow: "0 4px 12px rgba(44, 102, 110, 0.3)",
+    boxShadow: "0 4px 12px rgba(103, 72, 70, 0.3)",
   },
 
   cartRemoveButton: {
@@ -491,9 +522,9 @@ export const styles = {
     width: "100%",
     padding: "8px 12px",
     borderRadius: 999,
-    border: "1px solid #310a31",
-    backgroundColor: "rgba(82, 21, 82, 0.15)",
-    color: "#310a31",
+    border: "1px solid #674846",
+    backgroundColor: "rgba(103, 72, 70, 0.15)",
+    color: "#674846",
     fontSize: 13,
     fontWeight: 500,
     cursor: "pointer",
@@ -520,16 +551,16 @@ export const styles = {
     display: "flex",
     flexDirection: "column",
     fontSize: 13,
-    color: "#310a31",
+    color: "#674846",
     gap: 4,
   },
 
   bookingInput: {
     padding: "8px 10px",
     borderRadius: 8,
-    border: "1px solid rgba(44, 102, 110, 0.4)",
-    backgroundColor: "rgba(240, 237, 238, 0.9)",
-    color: "#310a31",
+    border: "1px solid rgba(103, 72, 70, 0.4)",
+    backgroundColor: "rgba(255, 248, 220, 0.9)",
+    color: "#674846",
     fontSize: 13,
     outline: "none",
   },
@@ -542,9 +573,9 @@ export const styles = {
   bookingTextarea: {
     padding: "8px 10px",
     borderRadius: 8,
-    border: "1px solid rgba(44, 102, 110, 0.4)",
-    backgroundColor: "rgba(240, 237, 238, 0.9)",
-    color: "#310a31",
+    border: "1px solid rgba(103, 72, 70, 0.4)",
+    backgroundColor: "rgba(255, 248, 220, 0.9)",
+    color: "#674846",
     fontSize: 13,
     minHeight: 80,
     resize: "vertical",
@@ -557,12 +588,12 @@ export const styles = {
     padding: "10px 14px",
     borderRadius: 999,
     border: "none",
-    backgroundColor: "#2c666e",
-    color: "#f0edee",
+    backgroundColor: "#674846",
+    color: "#fff8dc",
     fontSize: 14,
     fontWeight: 600,
     cursor: "pointer",
-    boxShadow: "0 4px 14px rgba(44, 102, 110, 0.4)",
+    boxShadow: "0 4px 14px rgba(103, 72, 70, 0.4)",
   },
 
   // ===== BLOG DETAIL PAGE =====
@@ -575,32 +606,32 @@ export const styles = {
     display: "inline-block",
     marginBottom: 16,
     fontSize: 13,
-    color: "#2c666e",
+    color: "#674846",
     textDecoration: "none",
   },
 
   blogDetailTitle: {
     fontSize: 28,
     marginBottom: 8,
-    color: "#310a31",
+    color: "#674846",
   },
 
   blogDetailMeta: {
     fontSize: 13,
-    color: "#2c666e",
+    color: "#674846",
     marginBottom: 20,
   },
 
   blogDetailBody: {
     background:
-      "radial-gradient(circle at top left, rgba(44, 102, 110, 0.12), transparent 55%), rgba(240, 237, 238, 0.96)",
+      "radial-gradient(circle at top left, rgba(255, 248, 220, 0.3), transparent 55%), rgba(255, 248, 220, 0.92)",
     borderRadius: 16,
-    border: "1px solid rgba(44, 102, 110, 0.3)",
+    border: "1px solid rgba(103, 72, 70, 0.3)",
     padding: 20,
-    boxShadow: "0 12px 32px rgba(49, 10, 49, 0.15)",
+    boxShadow: "0 12px 32px rgba(103, 72, 70, 0.15)",
     lineHeight: 1.7,
     fontSize: 15,
-    color: "#310a31",
+    color: "#674846",
     marginBottom: 24,
   },
 
@@ -609,9 +640,9 @@ export const styles = {
   },
 
   blogShareBar: {
-    backgroundColor: "rgba(240, 237, 238, 0.9)",
+    backgroundColor: "rgba(255, 248, 220, 0.9)",
     borderRadius: 12,
-    border: "1px solid rgba(44, 102, 110, 0.3)",
+    border: "1px solid rgba(103, 72, 70, 0.3)",
     padding: 12,
     display: "flex",
     flexWrap: "wrap",
@@ -622,16 +653,16 @@ export const styles = {
 
   blogShareLabel: {
     fontSize: 13,
-    color: "#310a31",
+    color: "#674846",
     marginRight: 8,
   },
 
   blogShareButton: {
     padding: "6px 10px",
     borderRadius: 999,
-    border: "1px solid #2c666e",
-    backgroundColor: "#2c666e",
-    color: "#f0edee",
+    border: "1px solid #674846",
+    backgroundColor: "#674846",
+    color: "#fff8dc",
     fontSize: 12,
     cursor: "pointer",
   },
@@ -639,9 +670,9 @@ export const styles = {
   blogShareLink: {
     padding: "6px 10px",
     borderRadius: 999,
-    border: "1px solid rgba(44, 102, 110, 0.4)",
-    backgroundColor: "rgba(240, 237, 238, 0.9)",
-    color: "#310a31",
+    border: "1px solid rgba(103, 72, 70, 0.4)",
+    backgroundColor: "rgba(255, 248, 220, 0.9)",
+    color: "#674846",
     fontSize: 12,
     cursor: "pointer",
     textDecoration: "none",
@@ -650,13 +681,13 @@ export const styles = {
   blogCommentsTitle: {
     fontSize: 18,
     marginBottom: 10,
-    color: "#310a31",
+    color: "#674846",
   },
 
   blogCommentCard: {
-    backgroundColor: "rgba(240, 237, 238, 0.96)",
+    backgroundColor: "rgba(255, 248, 220, 0.92)",
     borderRadius: 12,
-    border: "1px solid rgba(44, 102, 110, 0.3)",
+    border: "1px solid rgba(103, 72, 70, 0.3)",
     padding: 14,
     marginBottom: 12,
   },
@@ -666,52 +697,52 @@ export const styles = {
     justifyContent: "space-between",
     marginBottom: 4,
     fontSize: 12,
-    color: "#2c666e",
+    color: "#674846",
   },
 
   blogCommentName: {
     fontWeight: 600,
-    color: "#310a31",
+    color: "#674846",
   },
 
   blogCommentText: {
     fontSize: 14,
-    color: "#310a31",
+    color: "#674846",
   },
 
   blogCommentFormWrapper: {
     marginTop: 16,
-    borderTop: "1px solid rgba(44, 102, 110, 0.3)",
+    borderTop: "1px solid rgba(103, 72, 70, 0.3)",
     paddingTop: 16,
   },
 
   // ===== BLOG LIST (home + /blog page) =====
   blogListCard: {
     background:
-      "radial-gradient(circle at top left, rgba(44, 102, 110, 0.12), transparent 55%), rgba(240, 237, 238, 0.98)",
+      "radial-gradient(circle at top left, rgba(255, 248, 220, 0.3), transparent 55%), rgba(255, 248, 220, 0.9)",
     borderRadius: 16,
     padding: 16,
     marginBottom: 12,
-    border: "1px solid rgba(44, 102, 110, 0.3)",
-    boxShadow: "0 12px 32px rgba(151, 32, 151, 0.9)",
+    border: "1px solid rgba(103, 72, 70, 0.3)",
+    boxShadow: "0 12px 32px rgba(103, 72, 70, 0.2)",
   },
 
   blogListTitle: {
     fontSize: 18,
     fontWeight: 600,
     marginBottom: 4,
-    color: "#310a31",
+    color: "#674846",
   },
 
   blogListExcerpt: {
     fontSize: 14,
-    color: "#2c666e",
+    color: "#674846",
     marginBottom: 8,
   },
 
   blogListMeta: {
     fontSize: 12,
-    color: "#2c666e",
+    color: "#674846",
     marginBottom: 8,
   },
 
@@ -726,28 +757,28 @@ export const styles = {
   adminTh: {
     textAlign: "left",
     padding: "8px 10px",
-    borderBottom: "1px solid rgba(44, 102, 110, 0.3)",
+    borderBottom: "1px solid rgba(103, 72, 70, 0.3)",
     fontSize: 12,
     textTransform: "uppercase",
     letterSpacing: 0.08,
-    color: "#2c666e",
-    backgroundColor: "rgba(240, 237, 238, 0.9)",
+    color: "#674846",
+    backgroundColor: "rgba(255, 248, 220, 0.9)",
   },
   
   adminTd: {
     padding: "8px 10px",
-    borderBottom: "1px solid rgba(240, 237, 238, 0.8)",
+    borderBottom: "1px solid rgba(255, 248, 220, 0.8)",
     verticalAlign: "top",
-    color: "#310a31",
+    color: "#674846",
   },
   
   adminEditInput: {
     width: "100%",
     padding: "6px 8px",
     borderRadius: 6,
-    border: "1px solid rgba(44, 102, 110, 0.4)",
-    backgroundColor: "#f0edee",
-    color: "#310a31",
+    border: "1px solid rgba(103, 72, 70, 0.4)",
+    backgroundColor: "#fff8dc",
+    color: "#674846",
     fontSize: 13,
   },
   
@@ -755,9 +786,9 @@ export const styles = {
     padding: "6px 10px",
     fontSize: 12,
     borderRadius: 999,
-    border: "1px solid #2c666e",
-    backgroundColor: "#2c666e",
-    color: "#f0edee",
+    border: "1px solid #674846",
+    backgroundColor: "#674846",
+    color: "#fff8dc",
     cursor: "pointer",
   },
   
@@ -765,9 +796,9 @@ export const styles = {
     padding: "6px 10px",
     fontSize: 12,
     borderRadius: 999,
-    border: "1px solid #2c666e",
-    backgroundColor: "#2c666e",
-    color: "#f0edee",
+    border: "1px solid #674846",
+    backgroundColor: "#674846",
+    color: "#fff8dc",
     cursor: "pointer",
     marginRight: 6,
   },
@@ -776,9 +807,70 @@ export const styles = {
     padding: "6px 10px",
     fontSize: 12,
     borderRadius: 999,
-    border: "1px solid rgba(44, 102, 110, 0.4)",
+    border: "1px solid rgba(103, 72, 70, 0.4)",
     backgroundColor: "transparent",
-    color: "#310a31",
+    color: "#674846",
     cursor: "pointer",
   },
+
+  
+
+  
+};
+
+// ============================================
+// MOBILE OPTIMIZATION UTILITIES
+// ============================================
+
+export const breakpoints = {
+  mobile: '768px',
+  tablet: '1024px',
+  desktop: '1280px'
+};
+
+export const isMobile = () => window.innerWidth <= 768;
+export const isTablet = () => window.innerWidth > 768 && window.innerWidth <= 1024;
+export const isDesktop = () => window.innerWidth > 1024;
+
+export const touchTargets = {
+  minHeight: '44px',
+  minWidth: '44px',
+  button: {
+    padding: '12px 24px',
+    fontSize: '16px',
+    minHeight: '44px'
+  },
+  input: {
+    padding: '12px 16px',
+    fontSize: '16px',
+    minHeight: '44px'
+  }
+};
+
+export const mobileButton = {
+  padding: '14px 28px',
+  fontSize: '16px',
+  minHeight: '48px',
+  minWidth: '48px',
+  borderRadius: '12px',
+  border: 'none',
+  cursor: 'pointer',
+  fontWeight: 600,
+  transition: 'all 0.2s ease',
+  WebkitTapHighlightColor: 'transparent',
+  touchAction: 'manipulation',
+  userSelect: 'none'
+};
+
+export const mobileInput = {
+  width: '100%',
+  padding: '14px 16px',
+  fontSize: '16px',
+  border: '2px solid rgba(103, 72, 70, 0.3)',
+  borderRadius: '12px',
+  backgroundColor: 'rgba(255, 248, 220, 0.95)',
+  outline: 'none',
+  minHeight: '48px',
+  WebkitAppearance: 'none',
+  transition: 'border-color 0.2s ease'
 };

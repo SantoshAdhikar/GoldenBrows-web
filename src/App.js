@@ -6,16 +6,21 @@ import { styles } from "./styles";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Hero from "./components/Hero";
-import ServiceSection from "./components/ServiceSection";
-// import BookingSection from "./components/BookingSection";
+import ServicesBookingSection from "./components/ServicesBookingSection";
 import TeamSection from "./components/TeamSection";
 import BlogSection from "./components/BlogSection";
 import ContactSection from "./components/ContactSection";
 import AdminSection from "./components/AdminSection";
+import GallerySection from "./components/GallerySection"; 
+import ReviewsPage from './pages/ReviewsPage';
+import PromotionsPage from './pages/PromotionsPage';
+
 
 import ServicesPage from "./pages/ServicesPage";
 import BlogListPage from "./pages/BlogListPage";
 import BlogDetailPage from "./pages/BlogDetailPage";
+import GalleryPage from './pages/GalleryPage';  // ← ADD THIS LINE
+import FAQPage from './pages/FAQPage';
 
 
 
@@ -35,18 +40,24 @@ function App() {
               element={
                 <>
                   <Hero />
-                  <ServiceSection /> 
+                  <ServicesBookingSection /> 
                   {/* <BookingSection /> */}
                   <TeamSection />
                   <BlogSection />
+                  <GallerySection />
                   <ContactSection />
                 </>
               }
             />
 
+            {/* <Route path="/" element={<HomePage />} /> */}
             <Route path="/services" element={<ServicesPage />} />
+            <Route path="/gallery" element={<GalleryPage />} />
+            <Route path="/reviews" element={<ReviewsPage />} />
+            <Route path="/promotions" element={<PromotionsPage />} />
             <Route path="/blog" element={<BlogListPage />} />
             <Route path="/blog/:slug" element={<BlogDetailPage />} />
+            <Route path="/faq" element={<FAQPage />} />
 
             <Route
               path="/admin"

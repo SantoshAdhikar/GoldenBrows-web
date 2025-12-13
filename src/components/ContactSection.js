@@ -1,7 +1,12 @@
 // src/components/ContactSection.js
+// UPDATED: Fixed logo URL to use backendBase
+
 import React, { useEffect, useState } from "react";
 import { API_BASE } from "../apiConfig";
 import { styles } from "../styles";
+
+// backend host, e.g. http://localhost:8080
+const backendBase = API_BASE.replace("/api", "");
 
 function ContactSection() {
   const [contact, setContact] = useState(null);
@@ -50,6 +55,14 @@ function ContactSection() {
   const salonName =
     contact.salonName || "Golden Brows Threading & Beauty Studio";
 
+  // Build social links array from backend data
+  const socialLinks = [
+    { name: "Instagram", url: contact.instagramUrl },
+    { name: "Facebook", url: contact.facebookUrl },
+    { name: "TikTok", url: contact.tiktokUrl },
+    { name: "Yelp", url: contact.yelpUrl },
+  ].filter((social) => social.url); // Only show if URL exists
+
   return (
     <section id="contact" style={styles.section}>
       <h2 style={styles.sectionTitle}>Contact &amp; Location</h2>
@@ -57,7 +70,7 @@ function ContactSection() {
       <div
         style={{
           display: "grid",
-          gap: 16,
+          gap: 20,
           gridTemplateColumns: "minmax(0, 1.4fr) minmax(0, 1fr)",
         }}
       >
@@ -66,7 +79,7 @@ function ContactSection() {
           {contact.logoUrl && (
             <div style={{ marginBottom: 12 }}>
               <img
-                src={contact.logoUrl}
+                src={backendBase + contact.logoUrl}
                 alt={salonName}
                 style={{ maxWidth: 180, height: "auto" }}
               />
@@ -150,51 +163,28 @@ function ContactSection() {
           </div>
         </div>
 
-        {/* RIGHT: social links */}
+        {/* RIGHT: social links from backend */}
         <div>
           <h3 style={{ marginBottom: 8, fontSize: 16 }}>Follow us</h3>
-          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-            {contact.instagramUrl && (
-              <a
-                href={contact.instagramUrl}
-                target="_blank"
-                rel="noreferrer"
-                style={socialLinkStyle}
-              >
-                Instagram
-              </a>
-            )}
-            {contact.facebookUrl && (
-              <a
-                href={contact.facebookUrl}
-                target="_blank"
-                rel="noreferrer"
-                style={socialLinkStyle}
-              >
-                Facebook
-              </a>
-            )}
-            {contact.tiktokUrl && (
-              <a
-                href={contact.tiktokUrl}
-                target="_blank"
-                rel="noreferrer"
-                style={socialLinkStyle}
-              >
-                TikTok
-              </a>
-            )}
-            {contact.yelpUrl && (
-              <a
-                href={contact.yelpUrl}
-                target="_blank"
-                rel="noreferrer"
-                style={socialLinkStyle}
-              >
-                Yelp
-              </a>
-            )}
-          </div>
+          {socialLinks.length === 0 ? (
+            <p style={{ fontSize: 13, color: "#666" }}>
+              Social links not configured yet.
+            </p>
+          ) : (
+            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+              {socialLinks.map((social) => (
+                <a
+                  key={social.name}
+                  href={social.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={socialLinkStyle}
+                >
+                  {social.name}
+                </a>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </section>
@@ -204,7 +194,7 @@ function ContactSection() {
 const socialLinkStyle = {
   fontSize: 14,
   textDecoration: "none",
-  color: "#b07c4f",
+  color: "#d90de0ff",
 };
 
 export default ContactSection;
