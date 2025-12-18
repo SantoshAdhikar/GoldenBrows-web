@@ -71,8 +71,9 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/api/blog").hasRole("ADMIN")        // create post
                 .requestMatchers(HttpMethod.PUT,  "/api/blog/**").hasRole("ADMIN")     // edit post
                 .requestMatchers(HttpMethod.DELETE, "/api/blog/**").hasRole("ADMIN")   // delete post
-                .requestMatchers(HttpMethod.PUT, "/api/services/**").authenticated()
-                .requestMatchers(HttpMethod.DELETE, "/api/services/**").authenticated()
+                .requestMatchers(HttpMethod.PUT, "/api/services/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/services/**").hasRole("ADMIN")
+
                 .requestMatchers("/api/employees/**").hasRole("ADMIN")
 
                 .requestMatchers(HttpMethod.PUT,   "/api/**").hasRole("ADMIN")

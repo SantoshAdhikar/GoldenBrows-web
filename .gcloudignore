@@ -1,0 +1,9 @@
+# Ignore git + build outputs
+.git/
+target/
+**/target/
+
+# IMPORTANT: include Spring config files
+!src/main/resources/application-prod.properties
+!src/main/resources/application*.properties
+!src/main/resources/application*.yml
