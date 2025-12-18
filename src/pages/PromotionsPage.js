@@ -114,10 +114,11 @@ function PromotionsPage() {
                 style={{
                   ...styles.primaryButton,
                   textDecoration: "none",
-                  display: "inline-block",
+                  display: "block",
                   marginTop: 16,
                   width: "100%",
-                  textAlign: "center"
+                  textAlign: "center",
+                  boxSizing: "border-box"
                 }}
               >
                 Book Now
@@ -155,7 +156,10 @@ const promoCardStyle = {
   border: "2px solid rgba(103, 72, 70, 0.25)",
   boxShadow: "0 15px 45px rgba(103, 72, 70, 0.25), 0 8px 25px rgba(0, 0, 0, 0.12)",
   transition: "transform 0.3s ease, box-shadow 0.3s ease",
-  cursor: "pointer"
+  cursor: "pointer",
+  boxSizing: "border-box",
+  display: "flex",
+  flexDirection: "column"
 };
 
 const cardDiscountBadgeStyle = {
@@ -208,7 +212,7 @@ const cardPromoCodeStyle = {
 };
 
 const cardCodeBoxStyle = {
-  backgroundColor: "#674846",
+  backgroundColor: "#ca3126ff",
   color: "#fff8dc",
   padding: "12px 16px",
   borderRadius: 8,

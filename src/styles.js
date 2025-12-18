@@ -1,102 +1,98 @@
 // src/styles.js
-// Global style object shared across your components
+// 🔥 ULTRA-TRANSPARENT GLASS EFFECT - Like Video Player Controls!
+
 export const styles = {
   // ===========================
-  // PAGE LAYOUT + BACKGROUND
+  // 📄 PAGE LAYOUT + BACKGROUND
   // ===========================
   page: {
-    fontFamily:
-      "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-
-    // Default text color for most of the site
-    color: "#674846",
-
-    // Transparent so we see the gradient defined below
-    backgroundColor: "transparent",
-
-    // Make page fill full height and stack header / main / footer vertically
+    fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+    backgroundColor: "#ffffff",
+    color: "#1f2937",
     minHeight: "100vh",
     display: "flex",
     flexDirection: "column",
-
-    // 🔹 Cornsilk to Rose Ebony gradient background
-    background:
-      "linear-gradient(135deg, #ad9225ff 0%, #dfb580c7 25%, #d4b5a8 50%, #9d7b75 75%, #e28d87ff 100%)",
-    
-    // Make gradient large so animation looks smooth
-    backgroundSize: "200% 200%",
-
-    // Uses @keyframes salonGradientMove from index.css
-    animation: "salonGradientMove 18s ease infinite",
   },
 
   // ===========================
-  // HEADER + NAVBAR
+  // 🔝 HEADER + NAVBAR
   // ===========================
   header: {
     padding: "12px 24px",
-
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-
-    // Thin bottom border line under the header
-    borderBottom: "1px solid rgba(103, 72, 70, 0.25)",
-
-    // Header background color (rose ebony with transparency)
-    backgroundColor: "rgba(103, 72, 70, 0.85)",
-
+    backgroundColor: "rgba(255, 255, 255, 0.15)",
+    backdropFilter: "blur(40px) saturate(180%)",
+    WebkitBackdropFilter: "blur(40px) saturate(180%)",
+    borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
     position: "sticky",
     top: 0,
     zIndex: 20,
-
-    // Soft blur behind header (glass effect)
-    backdropFilter: "blur(12px)",
+    boxShadow: "0 1px 3px rgba(0, 0, 0, 0.03)",
   },
 
-  // Logo text in header
   logo: {
     fontWeight: "bold",
     fontSize: 20,
-    color: "#fff8dc",
+    color: "#1f2937",
   },
 
-  // Container for nav links in header
   nav: {
     display: "flex",
     gap: 16,
   },
 
-
- 
-  // Individual header nav link styling (elegant pill)
   navLink: {
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
-
     padding: "6px 14px",
     borderRadius: 999,
-
     textDecoration: "none",
     fontSize: 16,
     fontWeight: 500,
+    color: "#1f2937",
+    border: "1px solid rgba(255, 255, 255, 0.3)",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    backdropFilter: "blur(20px)",
+    WebkitBackdropFilter: "blur(20px)",
+    transition: "all 0.2s ease",
+  },
 
-    // text color
-    color: "#7a1ae7ff",
+  logoSection: {
+    flex: "0 0 auto",
+  },
 
-    // rose ebony border
-    border: "1px solid rgba(103, 72, 70, 0.6)",
+  logoTitle: {
+    fontSize: "1.25rem",
+    fontWeight: "bold",
+    marginBottom: "0.25rem",
+    color: "#1f2937",
+  },
 
-    // transparent background
-    backgroundColor: "rgba(204, 96, 236, 0.15)",
+  logoSubline: {
+    fontSize: "0.75rem",
+    color: "#6b7280",
+    opacity: 0.9,
+  },
 
-    // elegant glow
-    boxShadow: "0 0 16px rgba(240, 228, 59, 0.3)",
+  logoImageContainer: {
+    flex: "0 0 auto",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    margin: "0 1rem",
+  },
+
+  headerLogoImage: {
+    height: "50px",
+    width: "auto",
+    objectFit: "contain",
   },
 
   // ===========================
-  // HERO SECTION
+  // 🎯 HERO SECTION
   // ===========================
   heroSection: {
     padding: "32px 16px 32px",
@@ -107,31 +103,32 @@ export const styles = {
   heroTitle: {
     fontSize: 32,
     margin: "0 0 12px",
-    color: "#674846",
+    color: "#1f2937",
+    fontWeight: "bold",
   },
 
   heroSubtitle: {
     fontSize: 16,
     maxWidth: 520,
     margin: "0 0 20px",
-    color: "#674846",
+    color: "#4b5563",
   },
 
   primaryButton: {
     display: "inline-block",
     padding: "10px 18px",
     backgroundColor: "#674846",
-    color: "#fff8dc",
+    color: "#ffffff",
     borderRadius: 999,
     textDecoration: "none",
     fontSize: 14,
     border: "none",
     cursor: "pointer",
     fontWeight: 600,
-    boxShadow: "0 4px 14px rgba(103, 72, 70, 0.4)",
+    boxShadow: "0 4px 14px rgba(103, 72, 70, 0.3)",
+    transition: "all 0.2s ease",
   },
 
-  // Hero layout (left text + right socials)
   heroRow: {
     display: "flex",
     alignItems: "center",
@@ -154,7 +151,7 @@ export const styles = {
     fontSize: 14,
     fontWeight: 600,
     marginBottom: 8,
-    color: "#674846",
+    color: "#1f2937",
   },
 
   heroSocialRow: {
@@ -172,143 +169,182 @@ export const styles = {
     alignItems: "center",
     justifyContent: "center",
     textDecoration: "none",
-    color: "#fff8dc",
+    color: "#ffffff",
     fontSize: 14,
     fontWeight: 700,
     backgroundColor: "#674846",
-    boxShadow: "0 0 14px rgba(103, 72, 70, 0.5)",
+    boxShadow: "0 2px 8px rgba(103, 72, 70, 0.3)",
+    transition: "all 0.2s ease",
   },
 
-  // Promo bar container (marquee)
   promoBar: {
     marginTop: 20,
     borderRadius: 999,
-    border: "1px solid rgba(103, 72, 70, 0.4)",
-    background: "rgba(223, 36, 240, 0.7)",
+    border: "1px solid rgba(255, 255, 255, 0.3)",
+    background: "rgba(255, 255, 255, 0.15)",
+    backdropFilter: "blur(40px) saturate(180%)",
+    WebkitBackdropFilter: "blur(40px) saturate(180%)",
     padding: "6px 0",
     overflow: "hidden",
   },
 
   // ===========================
-  // MAIN LAYOUT
+  // 📐 MAIN LAYOUT + SECTIONS
   // ===========================
   main: {
     flex: 1,
   },
 
   section: {
-    padding: "24px",
+    padding: "40px 40px",
+    maxWidth: "1920px",  // ✅ Changed from 1400px - much wider!
+    width: "100%",
+    margin: "0 auto",
+    boxSizing: "border-box",
   },
 
   sectionTitle: {
-    fontSize: 22,
-    marginBottom: 16,
-    color: "#674846",
+    fontSize: 36,
+    fontWeight: 800,
+    textAlign: "center",
+    marginBottom: 12,
+    color: "#1f2937",
   },
 
-  // Optional subtitle under section titles
   sectionSubtitle: {
-    fontSize: 14,
-    color: "#674846",
-    marginBottom: 16,
-    maxWidth: 520,
+    textAlign: "center",
+    color: "#6b7280",
+    marginBottom: 32,
+    fontSize: 16,
   },
 
-  // Layout for services grid on home page
+  // ===========================
+  // 🎴 SERVICES GRID (Small cards for services)
+  // ===========================
   servicesGrid: {
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+    gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))",  // ✅ Small cards
     gap: 16,
+    marginBottom: 60,
+    width: "100%",
   },
 
   // ===========================
-  // SERVICE CARD (ELEGANT BOX)
+  // 👥 TEAM GRID (Larger cards for team members)
+  // ===========================
+  teamGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",  // ✅ Larger cards
+    gap: 24,
+    marginBottom: 60,
+    width: "100%",
+  },
+
+  // ===========================
+  // 💎 SERVICE CARD - ULTRA TRANSPARENT! 🔥
+  // Like video player controls - very see-through!
   // ===========================
   serviceCard: {
-    // Elegant gradient with cornsilk tones
-    background:
-      "radial-gradient(circle at top left, rgba(255, 248, 220, 0.3), transparent 55%), rgba(255, 248, 220, 0.85)",
+    // 🔥 ULTRA TRANSPARENT - Only 8% white!
+    background: "rgba(255, 255, 255, 0.01)",
+    backdropFilter: "blur(30px) saturate(150%)",
+    WebkitBackdropFilter: "blur(30px) saturate(150%)",
 
     borderRadius: 18,
-    padding: 16,
+    padding: 20,
 
-    // Rose ebony border
-    border: "1px solid rgba(103, 72, 70, 0.3)",
+    // Subtle border
+    border: "1px solid rgba(182, 29, 228, 0.86)",
 
     // Soft shadow
-    boxShadow: "0 8px 24px rgba(103, 72, 70, 0.2)",
+    boxShadow: "0 8px 32px rgba(132, 30, 216, 0.59)",
 
-    // Blur behind card (glass effect)
-    backdropFilter: "blur(14px)",
-
-    color: "#674846",
+    transition: "all 0.3s ease",
+    cursor: "pointer",
   },
 
-  // Small label text at top of card (category label)
+  // Small label at top of service card
   serviceLabel: {
     fontSize: 11,
-    fontWeight: 600,
+    fontWeight: 700,
     textTransform: "uppercase",
-    letterSpacing: 0.8,
-    color: "#674846",
+    letterSpacing: "0.05em",
+    marginBottom: 12,
   },
 
-  // Service name (e.g. "Eyebrow Threading")
+  // Service name/title
   serviceName: {
     fontSize: 18,
-    fontWeight: 600,
-    color: "#674846",
+    fontWeight: 800,
+    marginBottom: 8,
+    color: "#e930f0ff",
+    textShadow: "0 2px 8px rgba(0,0,0,0.3)",
   },
 
-  // Service description text
+  // Service description
   serviceDescription: {
-    fontSize: 14,
-    color: "#674846",
-    marginTop: 4,
-    marginBottom: 4,
+    fontSize: 13,
+    color: "rgba(133, 11, 233, 0.85)",
+    marginBottom: 16,
+    lineHeight: 1.5,
   },
 
-  // Row that holds price + duration
+  // Row with price + duration
   serviceMetaRow: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    fontSize: 13,
-    color: "#674846",
-    marginTop: 4,
+    marginBottom: 16,
   },
 
-  // Price text styling
+  // Price text
   servicePrice: {
-    fontWeight: 600,
-    color: "#674846",
+    fontSize: 22,
+    fontWeight: 900,
+    color: "#a507eeff",
+    textShadow: "0 2px 8px rgba(226, 31, 31, 0.84)",
   },
 
-  // Duration text (minutes)
+  // Duration text
   serviceDuration: {
-    fontStyle: "italic",
-  },
-
-  // Optional "points" row
-  servicePointsRow: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    fontSize: 12,
-    color: "#674846",
-    marginTop: 6,
-    borderTop: "1px dashed rgba(103, 72, 70, 0.3)",
-    paddingTop: 6,
-  },
-
-  // Value text in the points row
-  servicePointsValue: {
+    fontSize: 14,
+    color: "rgba(211, 19, 236, 1)",
     fontWeight: 600,
-    color: "#674846",
   },
 
   // ===========================
-  // FORMS (e.g. Contact / Booking)
+  // 🛒 CART BUTTONS
+  // ===========================
+  cartAddButton: {
+    width: "100%",
+    padding: "14px",
+    borderRadius: 12,
+    border: "none",
+    background: "linear-gradient(135deg, #674846 0%, #8b6361 100%)",
+    color: "#fff",
+    fontSize: 15,
+    fontWeight: 800,
+    cursor: "pointer",
+    transition: "all 0.2s ease",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
+  },
+
+  cartRemoveButton: {
+    width: "100%",
+    padding: "14px",
+    borderRadius: 12,
+    border: "none",
+    background: "rgba(239, 68, 68, 0.9)",
+    color: "#fff",
+    fontSize: 15,
+    fontWeight: 800,
+    cursor: "pointer",
+    transition: "all 0.2s ease",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
+  },
+
+  // ===========================
+  // 📝 FORMS + INPUTS
   // ===========================
   form: {
     maxWidth: 480,
@@ -322,65 +358,38 @@ export const styles = {
     flexDirection: "column",
     fontSize: 14,
     gap: 4,
-    color: "#674846",
+    color: "#374151",
   },
 
   input: {
     padding: "8px 10px",
-    borderRadius: 6,
-    border: "1px solid rgba(103, 72, 70, 0.4)",
+    borderRadius: 10,
+    border: "1px solid rgba(255, 255, 255, 0.3)",
     fontSize: 14,
-    backgroundColor: "rgba(255, 248, 220, 0.9)",
-    color: "#674846",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    backdropFilter: "blur(20px)",
+    WebkitBackdropFilter: "blur(20px)",
+    color: "#1f2937",
+    outline: "none",
+    transition: "all 0.2s ease",
   },
-  
 
   // ===========================
-  // FOOTER
+  // 🦶 FOOTER
   // ===========================
   footer: {
     padding: "16px 24px",
-    borderTop: "1px solid rgba(103, 72, 70, 0.25)",
+    borderTop: "1px solid rgba(255, 255, 255, 0.2)",
     fontSize: 13,
     textAlign: "center",
-    backgroundColor: "rgba(103, 72, 70, 0.85)",
-    backdropFilter: "blur(10px)",
-    color: "#fff8dc",
+    backgroundColor: "rgba(103, 72, 70, 0.95)",
+    backdropFilter: "blur(20px)",
+    WebkitBackdropFilter: "blur(20px)",
+    color: "#ffffff",
   },
 
-  logoSection: {
-  flex: "0 0 auto",
-},
-
-logoTitle: {
-  fontSize: "1.25rem",
-  fontWeight: "bold",
-  marginBottom: "0.25rem",
-  color: "#fff8dc",
-},
-
-logoSubline: {
-  fontSize: "0.75rem",
-  color: "#fff8dc",
-  opacity: 0.9,
-},
-
-logoImageContainer: {
-  flex: "0 0 auto",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  margin: "0 1rem",
-},
-
-headerLogoImage: {
-  height: "50px",
-  width: "auto",
-  objectFit: "contain",
-},
-
   // ===========================
-  // CONTACT SECTION LAYOUT
+  // 📞 CONTACT SECTION
   // ===========================
   contactGrid: {
     display: "grid",
@@ -389,7 +398,6 @@ headerLogoImage: {
     alignItems: "flex-start",
   },
 
-  // Logo image shown in footer or contact section
   logoImage: {
     width: 90,
     height: "auto",
@@ -398,7 +406,6 @@ headerLogoImage: {
     objectFit: "cover",
   },
 
-  // Row for social link chips
   socialRow: {
     display: "flex",
     flexWrap: "wrap",
@@ -406,30 +413,31 @@ headerLogoImage: {
     marginTop: 4,
   },
 
-  // Individual social link pill
   socialChip: {
     padding: "6px 10px",
     borderRadius: 999,
-    border: "1px solid rgba(103, 72, 70, 0.5)",
+    border: "1px solid rgba(255, 255, 255, 0.3)",
     fontSize: 13,
     textDecoration: "none",
-    color: "#fff8dc",
-    backgroundColor: "rgba(103, 72, 70, 0.8)",
-    backdropFilter: "blur(8px)",
+    color: "#ffffff",
+    backgroundColor: "rgba(103, 72, 70, 0.9)",
+    backdropFilter: "blur(20px)",
+    WebkitBackdropFilter: "blur(20px)",
+    transition: "all 0.2s ease",
   },
 
   // ===========================
-  // CART PANEL (Services page)
+  // 🛒 CART PANEL (if used)
   // ===========================
   cartPanel: {
-    background:
-      "radial-gradient(circle at top left, rgba(255, 248, 220, 0.3), transparent 55%), rgba(255, 248, 220, 0.92)",
-    borderRadius: 18,
+    background: "rgba(255, 255, 255, 0.15)",
+    backdropFilter: "blur(40px) saturate(180%)",
+    WebkitBackdropFilter: "blur(40px) saturate(180%)",
+    borderRadius: 20,
     padding: 16,
-    border: "1px solid rgba(103, 72, 70, 0.4)",
-    boxShadow: "0 8px 28px rgba(103, 72, 70, 0.2)",
-    backdropFilter: "blur(14px)",
-    color: "#674846",
+    border: "1px solid rgba(255, 255, 255, 0.25)",
+    boxShadow: "0 8px 32px rgba(0, 0, 0, 0.06)",
+    color: "#1f2937",
     position: "sticky",
     top: 88,
     minWidth: 260,
@@ -439,12 +447,12 @@ headerLogoImage: {
     fontSize: 18,
     fontWeight: 600,
     marginBottom: 8,
-    color: "#674846",
+    color: "#1f2937",
   },
 
   cartEmptyText: {
     fontSize: 13,
-    color: "#674846",
+    color: "#6b7280",
   },
 
   cartList: {
@@ -461,29 +469,31 @@ headerLogoImage: {
     alignItems: "center",
     fontSize: 13,
     padding: "8px 10px",
-    borderRadius: 10,
-    backgroundColor: "rgba(255, 248, 220, 0.9)",
-    border: "1px solid rgba(103, 72, 70, 0.3)",
+    borderRadius: 12,
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    backdropFilter: "blur(20px)",
+    WebkitBackdropFilter: "blur(20px)",
+    border: "1px solid rgba(255, 255, 255, 0.3)",
     marginBottom: 8,
   },
 
   cartItemName: {
     fontWeight: 500,
-    color: "#674846",
+    color: "#1f2937",
   },
 
   cartItemMeta: {
     display: "flex",
     gap: 10,
     fontSize: 12,
-    color: "#674846",
+    color: "#6b7280",
     marginTop: 2,
   },
 
   cartListRemoveButton: {
     border: "none",
     background: "transparent",
-    color: "#674846",
+    color: "#ef4444",
     fontSize: 16,
     cursor: "pointer",
     padding: 0,
@@ -492,7 +502,7 @@ headerLogoImage: {
 
   cartTotals: {
     marginTop: 10,
-    borderTop: "1px solid rgba(103, 72, 70, 0.3)",
+    borderTop: "1px solid rgba(255, 255, 255, 0.3)",
     paddingTop: 10,
     fontSize: 13,
   },
@@ -501,37 +511,11 @@ headerLogoImage: {
     display: "flex",
     justifyContent: "space-between",
     marginBottom: 4,
-  },
-
-  cartAddButton: {
-    marginTop: 12,
-    width: "100%",
-    padding: "8px 12px",
-    borderRadius: 999,
-    border: "1px solid #674846",
-    backgroundColor: "#674846",
-    color: "#fff8dc",
-    fontSize: 13,
-    fontWeight: 500,
-    cursor: "pointer",
-    boxShadow: "0 4px 12px rgba(103, 72, 70, 0.3)",
-  },
-
-  cartRemoveButton: {
-    marginTop: 12,
-    width: "100%",
-    padding: "8px 12px",
-    borderRadius: 999,
-    border: "1px solid #674846",
-    backgroundColor: "rgba(103, 72, 70, 0.15)",
-    color: "#674846",
-    fontSize: 13,
-    fontWeight: 500,
-    cursor: "pointer",
+    color: "#1f2937",
   },
 
   // ===========================
-  // BOOKING FORM (Services page)
+  // 📋 BOOKING FORM (if used separately)
   // ===========================
   bookingForm: {
     marginTop: 14,
@@ -551,18 +535,21 @@ headerLogoImage: {
     display: "flex",
     flexDirection: "column",
     fontSize: 13,
-    color: "#674846",
+    color: "#374151",
     gap: 4,
   },
 
   bookingInput: {
     padding: "8px 10px",
-    borderRadius: 8,
-    border: "1px solid rgba(103, 72, 70, 0.4)",
-    backgroundColor: "rgba(255, 248, 220, 0.9)",
-    color: "#674846",
+    borderRadius: 10,
+    border: "1px solid rgba(255, 255, 255, 0.3)",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    backdropFilter: "blur(20px)",
+    WebkitBackdropFilter: "blur(20px)",
+    color: "#1f2937",
     fontSize: 13,
     outline: "none",
+    transition: "all 0.2s ease",
   },
 
   bookingSelect: {
@@ -572,14 +559,17 @@ headerLogoImage: {
 
   bookingTextarea: {
     padding: "8px 10px",
-    borderRadius: 8,
-    border: "1px solid rgba(103, 72, 70, 0.4)",
-    backgroundColor: "rgba(255, 248, 220, 0.9)",
-    color: "#674846",
+    borderRadius: 10,
+    border: "1px solid rgba(255, 255, 255, 0.3)",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    backdropFilter: "blur(20px)",
+    WebkitBackdropFilter: "blur(20px)",
+    color: "#1f2937",
     fontSize: 13,
     minHeight: 80,
     resize: "vertical",
     outline: "none",
+    transition: "all 0.2s ease",
   },
 
   bookingSubmitButton: {
@@ -589,14 +579,49 @@ headerLogoImage: {
     borderRadius: 999,
     border: "none",
     backgroundColor: "#674846",
-    color: "#fff8dc",
+    color: "#ffffff",
     fontSize: 14,
     fontWeight: 600,
     cursor: "pointer",
-    boxShadow: "0 4px 14px rgba(103, 72, 70, 0.4)",
+    boxShadow: "0 4px 14px rgba(103, 72, 70, 0.3)",
+    transition: "all 0.2s ease",
   },
 
-  // ===== BLOG DETAIL PAGE =====
+  // ===========================
+  // 📝 BLOG STYLES (if used)
+  // ===========================
+  blogListCard: {
+    background: "rgba(255, 255, 255, 0.15)",
+    backdropFilter: "blur(40px) saturate(180%)",
+    WebkitBackdropFilter: "blur(40px) saturate(180%)",
+    borderRadius: 20,
+    padding: 16,
+    marginBottom: 12,
+    border: "1px solid rgba(255, 255, 255, 0.25)",
+    boxShadow: "0 8px 32px rgba(0, 0, 0, 0.06)",
+    transition: "all 0.3s ease",
+  },
+
+  blogListTitle: {
+    fontSize: 18,
+    fontWeight: 600,
+    marginBottom: 4,
+    color: "#1f2937",
+  },
+
+  blogListExcerpt: {
+    fontSize: 14,
+    color: "#4b5563",
+    marginBottom: 8,
+  },
+
+  blogListMeta: {
+    fontSize: 12,
+    color: "#9ca3af",
+    marginBottom: 8,
+  },
+
+  // Blog detail page
   blogDetailWrapper: {
     maxWidth: "900px",
     margin: "0 auto",
@@ -613,36 +638,41 @@ headerLogoImage: {
   blogDetailTitle: {
     fontSize: 28,
     marginBottom: 8,
-    color: "#674846",
+    color: "#1f2937",
+    fontWeight: "bold",
   },
 
   blogDetailMeta: {
     fontSize: 13,
-    color: "#674846",
+    color: "#6b7280",
     marginBottom: 20,
   },
 
   blogDetailBody: {
-    background:
-      "radial-gradient(circle at top left, rgba(255, 248, 220, 0.3), transparent 55%), rgba(255, 248, 220, 0.92)",
-    borderRadius: 16,
-    border: "1px solid rgba(103, 72, 70, 0.3)",
+    background: "rgba(255, 255, 255, 0.15)",
+    backdropFilter: "blur(40px) saturate(180%)",
+    WebkitBackdropFilter: "blur(40px) saturate(180%)",
+    borderRadius: 20,
+    border: "1px solid rgba(255, 255, 255, 0.25)",
     padding: 20,
-    boxShadow: "0 12px 32px rgba(103, 72, 70, 0.15)",
+    boxShadow: "0 8px 32px rgba(0, 0, 0, 0.06)",
     lineHeight: 1.7,
     fontSize: 15,
-    color: "#674846",
+    color: "#1f2937",
     marginBottom: 24,
   },
 
   blogDetailParagraph: {
     marginBottom: 12,
+    color: "#374151",
   },
 
   blogShareBar: {
-    backgroundColor: "rgba(255, 248, 220, 0.9)",
-    borderRadius: 12,
-    border: "1px solid rgba(103, 72, 70, 0.3)",
+    backgroundColor: "rgba(255, 255, 255, 0.15)",
+    backdropFilter: "blur(30px)",
+    WebkitBackdropFilter: "blur(30px)",
+    borderRadius: 16,
+    border: "1px solid rgba(255, 255, 255, 0.3)",
     padding: 12,
     display: "flex",
     flexWrap: "wrap",
@@ -653,41 +683,48 @@ headerLogoImage: {
 
   blogShareLabel: {
     fontSize: 13,
-    color: "#674846",
+    color: "#6b7280",
     marginRight: 8,
   },
 
   blogShareButton: {
     padding: "6px 10px",
     borderRadius: 999,
-    border: "1px solid #674846",
+    border: "none",
     backgroundColor: "#674846",
-    color: "#fff8dc",
+    color: "#ffffff",
     fontSize: 12,
     cursor: "pointer",
+    transition: "all 0.2s ease",
   },
 
   blogShareLink: {
     padding: "6px 10px",
     borderRadius: 999,
-    border: "1px solid rgba(103, 72, 70, 0.4)",
-    backgroundColor: "rgba(255, 248, 220, 0.9)",
+    border: "1px solid rgba(255, 255, 255, 0.3)",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    backdropFilter: "blur(20px)",
+    WebkitBackdropFilter: "blur(20px)",
     color: "#674846",
     fontSize: 12,
     cursor: "pointer",
     textDecoration: "none",
+    transition: "all 0.2s ease",
   },
 
   blogCommentsTitle: {
     fontSize: 18,
     marginBottom: 10,
-    color: "#674846",
+    color: "#1f2937",
+    fontWeight: "bold",
   },
 
   blogCommentCard: {
-    backgroundColor: "rgba(255, 248, 220, 0.92)",
-    borderRadius: 12,
-    border: "1px solid rgba(103, 72, 70, 0.3)",
+    backgroundColor: "rgba(255, 255, 255, 0.15)",
+    backdropFilter: "blur(30px)",
+    WebkitBackdropFilter: "blur(30px)",
+    borderRadius: 16,
+    border: "1px solid rgba(255, 255, 255, 0.25)",
     padding: 14,
     marginBottom: 12,
   },
@@ -697,56 +734,28 @@ headerLogoImage: {
     justifyContent: "space-between",
     marginBottom: 4,
     fontSize: 12,
-    color: "#674846",
+    color: "#6b7280",
   },
 
   blogCommentName: {
     fontWeight: 600,
-    color: "#674846",
+    color: "#1f2937",
   },
 
   blogCommentText: {
     fontSize: 14,
-    color: "#674846",
+    color: "#374151",
   },
 
   blogCommentFormWrapper: {
     marginTop: 16,
-    borderTop: "1px solid rgba(103, 72, 70, 0.3)",
+    borderTop: "1px solid rgba(255, 255, 255, 0.2)",
     paddingTop: 16,
   },
 
-  // ===== BLOG LIST (home + /blog page) =====
-  blogListCard: {
-    background:
-      "radial-gradient(circle at top left, rgba(255, 248, 220, 0.3), transparent 55%), rgba(255, 248, 220, 0.9)",
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 12,
-    border: "1px solid rgba(103, 72, 70, 0.3)",
-    boxShadow: "0 12px 32px rgba(103, 72, 70, 0.2)",
-  },
-
-  blogListTitle: {
-    fontSize: 18,
-    fontWeight: 600,
-    marginBottom: 4,
-    color: "#674846",
-  },
-
-  blogListExcerpt: {
-    fontSize: 14,
-    color: "#674846",
-    marginBottom: 8,
-  },
-
-  blogListMeta: {
-    fontSize: 12,
-    color: "#674846",
-    marginBottom: 8,
-  },
-
-  // ===== ADMIN SERVICE TABLE =====
+  // ===========================
+  // ⚙️ ADMIN STYLES (if used)
+  // ===========================
   adminTable: {
     width: "100%",
     borderCollapse: "collapse",
@@ -757,69 +766,73 @@ headerLogoImage: {
   adminTh: {
     textAlign: "left",
     padding: "8px 10px",
-    borderBottom: "1px solid rgba(103, 72, 70, 0.3)",
+    borderBottom: "1px solid rgba(255, 255, 255, 0.3)",
     fontSize: 12,
     textTransform: "uppercase",
     letterSpacing: 0.08,
-    color: "#674846",
-    backgroundColor: "rgba(255, 248, 220, 0.9)",
+    color: "#374151",
+    backgroundColor: "rgba(255, 255, 255, 0.15)",
   },
   
   adminTd: {
     padding: "8px 10px",
-    borderBottom: "1px solid rgba(255, 248, 220, 0.8)",
+    borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
     verticalAlign: "top",
-    color: "#674846",
+    color: "#1f2937",
   },
   
   adminEditInput: {
     width: "100%",
     padding: "6px 8px",
-    borderRadius: 6,
-    border: "1px solid rgba(103, 72, 70, 0.4)",
-    backgroundColor: "#fff8dc",
-    color: "#674846",
+    borderRadius: 8,
+    border: "1px solid rgba(81, 106, 219, 1)",
+    backgroundColor: "rgba(221, 77, 77, 0.3)",
+    backdropFilter: "blur(20px)",
+    WebkitBackdropFilter: "blur(20px)",
+    color: "#1f2937",
     fontSize: 13,
+    outline: "none",
   },
   
   adminEditButton: {
     padding: "6px 10px",
     fontSize: 12,
     borderRadius: 999,
-    border: "1px solid #674846",
+    border: "none",
     backgroundColor: "#674846",
-    color: "#fff8dc",
+    color: "#ffffff",
     cursor: "pointer",
+    transition: "all 0.2s ease",
   },
   
   adminSaveButton: {
     padding: "6px 10px",
     fontSize: 12,
     borderRadius: 999,
-    border: "1px solid #674846",
+    border: "none",
     backgroundColor: "#674846",
-    color: "#fff8dc",
+    color: "#ffffff",
     cursor: "pointer",
     marginRight: 6,
+    transition: "all 0.2s ease",
   },
   
   adminCancelButton: {
     padding: "6px 10px",
     fontSize: 12,
     borderRadius: 999,
-    border: "1px solid rgba(103, 72, 70, 0.4)",
-    backgroundColor: "transparent",
+    border: "1px solid rgba(255, 255, 255, 0.3)",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    backdropFilter: "blur(20px)",
+    WebkitBackdropFilter: "blur(20px)",
     color: "#674846",
     cursor: "pointer",
+    transition: "all 0.2s ease",
   },
-
-  
-
-  
 };
 
 // ============================================
-// MOBILE OPTIMIZATION UTILITIES
+// 📱 MOBILE OPTIMIZATION UTILITIES
 // ============================================
 
 export const breakpoints = {
@@ -866,11 +879,13 @@ export const mobileInput = {
   width: '100%',
   padding: '14px 16px',
   fontSize: '16px',
-  border: '2px solid rgba(103, 72, 70, 0.3)',
+  border: '2px solid rgba(255, 255, 255, 0.3)',
   borderRadius: '12px',
-  backgroundColor: 'rgba(255, 248, 220, 0.95)',
+  backgroundColor: 'rgba(255, 255, 255, 0.2)',
+  backdropFilter: 'blur(20px)',
+  WebkitBackdropFilter: 'blur(20px)',
   outline: 'none',
   minHeight: '48px',
   WebkitAppearance: 'none',
-  transition: 'border-color 0.2s ease'
+  transition: 'all 0.2s ease'
 };

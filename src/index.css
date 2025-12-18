@@ -1,3 +1,7 @@
+/* ============================================
+   BASE STYLES (Keep your existing ones)
+   ============================================ */
+
 html,
 body,
 #root {
@@ -5,7 +9,6 @@ body,
   padding: 0;
   height: 100%;
 }
-
 
 *,
 *::before,
@@ -20,7 +23,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: transparent; /* page div handles the gradient */
+  background: transparent;
 }
 
 code {
@@ -34,7 +37,10 @@ h3 {
   margin-top: 0;
 }
 
-/* 🔹 This MUST exist for your animation name */
+/* ============================================
+   ANIMATIONS (Keep existing)
+   ============================================ */
+
 @keyframes salonGradientMove {
   0% {
     background-position: 0% 50%;
@@ -46,6 +52,29 @@ h3 {
     background-position: 0% 50%;
   }
 }
+
+@keyframes promoScroll {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.promo-marquee-inner {
+  display: inline-block;
+  white-space: nowrap;
+  padding: 0 1.5rem;
+  font-size: 14px;
+  color: #e5e7eb;
+  animation: promoScroll 22s linear infinite;
+}
+
+/* ============================================
+   SERVICES LAYOUT (Keep existing)
+   ============================================ */
+
 .services-layout {
   display: flex;
   flex-direction: column;
@@ -57,32 +86,6 @@ h3 {
   width: 100%;
 }
 
-/* Desktop: side-by-side */
-@media (min-width: 960px) {
-  .services-layout {
-    flex-direction: row;
-    align-items: flex-start;
-  }
-  .services-layout-left {
-    flex: 2;
-  }
-  .services-layout-right {
-    flex: 1;
-  }
-}
-/* Services page layout: grid on the left, cart on the right (desktop) */
-.services-layout {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.services-layout-left,
-.services-layout-right {
-  width: 100%;
-}
-
-/* Desktop: show services and cart side-by-side */
 @media (min-width: 1024px) {
   .services-layout {
     flex-direction: row;
@@ -96,52 +99,18 @@ h3 {
   .services-layout-right {
     flex: 1.3;
   }
-  /* ===== Promo ticker animation under hero ===== */
-.promo-marquee-inner {
-  display: inline-block;
-  padding-left: 100%;
-  white-space: nowrap;
-  animation: promoScroll 18s linear infinite;
-  font-size: 14px;
-  color: #e5e7eb;
 }
 
-@keyframes promoScroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
-}
-/* ===== Hero promo ticker animation ===== */
-.promo-marquee-inner {
-  display: inline-block;
-  white-space: nowrap;
-  padding: 0 1.5rem;
-  font-size: 14px;
-  color: #e5e7eb;
+/* ============================================
+   ADMIN BLOG PLACEHOLDERS (Keep existing)
+   ============================================ */
 
-  /* Start fully off the right side, move to left, then loop */
-  animation: promoScroll 22s linear infinite;
-}
-
-@keyframes promoScroll {
-  0% {
-    transform: translateX(100%);   /* start off-screen on the right */
-  }
-  100% {
-    transform: translateX(-100%);  /* move off-screen to the left */
-  }
-}
-/* Make placeholders in the Add Blog Post form clearly visible */
 .admin-blog-post input::placeholder,
 .admin-blog-post textarea::placeholder {
-  color: #cf0101 !important;  /* light pink/white, very visible */
+  color: #cf0101 !important;
   opacity: 1;
 }
 
-/* Extra vendor prefixes just in case */
 .admin-blog-post input::-webkit-input-placeholder,
 .admin-blog-post textarea::-webkit-input-placeholder {
   color: #e710e7 !important;
@@ -157,6 +126,653 @@ h3 {
   color: #ffe4ff !important;
 }
 
+/* ============================================
+   🔥 NEW MOBILE FIXES - ADD THESE!
+   ============================================ */
 
+/* ===== HEADER MOBILE FIX ===== */
+@media (max-width: 768px) {
+  /* Header: Smaller on mobile */
+  header {
+    padding: 8px 0 !important;
+  }
+
+  /* Logo/Name section: Smaller */
+  header img {
+    height: 40px !important;
+  }
+
+  header > div > div > a > div > div:first-child {
+    font-size: 14px !important;
+  }
+
+  header > div > div > a > div > div:last-child {
+    font-size: 9px !important;
+  }
 }
 
+/* ===== HERO SECTION MOBILE FIX ===== */
+@media (max-width: 768px) {
+  /* Hero: Center everything on mobile */
+  .hero-section {
+    text-align: center !important;
+  }
+
+  /* Hero row: Stack vertically */
+  .hero-row,
+  [style*="heroRow"] {
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  /* Hero left (text + button) */
+  .hero-left,
+  [style*="heroLeft"] {
+    width: 100% !important;
+    text-align: center !important;
+  }
+
+  /* Hero right (Follow & Contact) */
+  .hero-right,
+  [style*="heroRight"] {
+    width: 100% !important;
+    text-align: center !important;
+    margin-top: 16px !important;
+  }
+
+  /* Social icons: Center */
+  .hero-social-row,
+  [style*="heroSocialRow"] {
+    justify-content: center !important;
+  }
+
+  /* Hero title: Smaller */
+  h1 {
+    font-size: 24px !important;
+  }
+
+  /* Hero subtitle: Smaller */
+  .hero-section p {
+    font-size: 14px !important;
+  }
+}
+
+/* ===== SERVICE CARDS MOBILE FIX ===== */
+@media (max-width: 768px) {
+  /* Services grid: 2 columns on mobile */
+  [style*="servicesGrid"],
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  /* Service cards: Smaller padding */
+  [style*="serviceCard"],
+  .service-card {
+    padding: 12px !important;
+  }
+
+  /* Service name: Smaller */
+  [style*="serviceName"],
+  .service-card h3 {
+    font-size: 14px !important;
+    margin-bottom: 4px !important;
+  }
+
+  /* Service description: Smaller */
+  [style*="serviceDescription"],
+  .service-card p {
+    font-size: 12px !important;
+    margin-bottom: 6px !important;
+    line-height: 1.3 !important;
+  }
+
+  /* Service images: Smaller */
+  .service-card img {
+    height: 100px !important;
+    margin-bottom: 8px !important;
+  }
+
+  /* Service price/duration: Smaller */
+  [style*="serviceMetaRow"],
+  [style*="servicePrice"],
+  [style*="serviceDuration"] {
+    font-size: 11px !important;
+  }
+
+  /* Add to cart button: Smaller */
+  [style*="cartAddButton"],
+  [style*="cartRemoveButton"] {
+    font-size: 12px !important;
+    padding: 6px 10px !important;
+  }
+}
+
+/* Very small phones: 1 column */
+@media (max-width: 400px) {
+  [style*="servicesGrid"],
+  .services-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ===== GALLERY MOBILE FIX ===== */
+@media (max-width: 768px) {
+  /* Gallery grid: 2 columns on mobile */
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+  }
+
+  .gallery-item {
+    height: 150px !important;
+  }
+}
+
+/* ===== REVIEWS MOBILE FIX ===== */
+@media (max-width: 768px) {
+  /* Review cards: Full width on mobile */
+  .review-card {
+    margin-bottom: 12px !important;
+    padding: 14px !important;
+  }
+
+  .review-card h3 {
+    font-size: 15px !important;
+  }
+
+  .review-card p {
+    font-size: 13px !important;
+  }
+}
+
+/* ===== TEAM SECTION MOBILE FIX ===== */
+@media (max-width: 768px) {
+  /* Team grid: 2 columns on mobile */
+  .team-grid,
+  [style*="teamGrid"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  .team-card {
+    padding: 12px !important;
+  }
+
+  .team-card img {
+    height: 120px !important;
+  }
+
+  .team-card h3 {
+    font-size: 14px !important;
+  }
+
+  .team-card p {
+    font-size: 12px !important;
+  }
+}
+
+/* ===== CONTACT SECTION MOBILE FIX ===== */
+@media (max-width: 768px) {
+  .contact-grid,
+  [style*="contactGrid"] {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+}
+
+/* ===== BOOKING FORM MOBILE FIX ===== */
+@media (max-width: 768px) {
+  /* Form inputs: Larger touch targets */
+  input,
+  textarea,
+  select {
+    min-height: 44px !important;
+    font-size: 16px !important;
+    padding: 12px 14px !important;
+  }
+
+  /* Booking row: Stack vertically */
+  [style*="bookingRow"],
+  .booking-row {
+    flex-direction: column !important;
+  }
+
+  [style*="bookingLabel"],
+  .booking-label {
+    width: 100% !important;
+  }
+
+  /* Submit button: Full width */
+  button[type="submit"],
+  [style*="bookingSubmitButton"] {
+    width: 100% !important;
+    padding: 14px !important;
+    font-size: 16px !important;
+  }
+}
+
+/* ===== CART PANEL MOBILE FIX ===== */
+@media (max-width: 1024px) {
+  /* Cart: Not sticky on mobile */
+  [style*="cartPanel"],
+  .cart-panel {
+    position: relative !important;
+    top: auto !important;
+    margin-bottom: 20px !important;
+  }
+}
+
+/* ===== STICKY CHECKOUT BUTTON MOBILE FIX ===== */
+@media (max-width: 768px) {
+  .sticky-checkout-btn {
+    bottom: 10px !important;
+    left: 10px !important;
+    right: 10px !important;
+    transform: none !important;
+    width: calc(100% - 20px) !important;
+    min-width: auto !important;
+    padding: 14px 20px !important;
+  }
+}
+
+/* ===== BLOG CARDS MOBILE FIX ===== */
+@media (max-width: 768px) {
+  .blog-grid,
+  [style*="blogGrid"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  [style*="blogListCard"],
+  .blog-card {
+    padding: 14px !important;
+  }
+
+  [style*="blogListTitle"],
+  .blog-card h3 {
+    font-size: 16px !important;
+  }
+
+  [style*="blogListExcerpt"],
+  .blog-card p {
+    font-size: 13px !important;
+  }
+}
+
+/* ===== PRICING PAGE MOBILE FIX ===== */
+@media (max-width: 768px) {
+  .pricing-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  .pricing-card {
+    padding: 16px !important;
+  }
+}
+
+/* ===== FAQ MOBILE FIX ===== */
+@media (max-width: 768px) {
+  .faq-item {
+    padding: 14px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .faq-question {
+    font-size: 15px !important;
+  }
+
+  .faq-answer {
+    font-size: 13px !important;
+  }
+}
+
+/* ===== PROMOTION BANNER MOBILE FIX ===== */
+@media (max-width: 768px) {
+  .promo-banner {
+    margin: 12px 0 !important;
+    padding: 10px !important;
+  }
+
+  .promo-marquee-inner {
+    font-size: 12px !important;
+  }
+}
+
+/* ===== GENERAL MOBILE IMPROVEMENTS ===== */
+@media (max-width: 768px) {
+  /* Sections: Smaller padding */
+  section {
+    padding: 16px !important;
+  }
+
+  /* Titles: Smaller */
+  h2 {
+    font-size: 20px !important;
+  }
+
+  h3 {
+    font-size: 16px !important;
+  }
+
+  /* Buttons: Full width on mobile */
+  a[style*="primaryButton"],
+  button[style*="primary"] {
+    width: 100% !important;
+    text-align: center !important;
+    padding: 12px 20px !important;
+  }
+}
+
+/* ===== LIGHT PLACEHOLDERS ===== */
+input::placeholder,
+textarea::placeholder,
+select::placeholder {
+  color: #9ca3af !important;
+  opacity: 0.7 !important;
+}
+
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder,
+select::-webkit-input-placeholder {
+  color: #9ca3af !important;
+  opacity: 0.7 !important;
+}
+
+input::-moz-placeholder,
+textarea::-moz-placeholder,
+select::-moz-placeholder {
+  color: #9ca3af !important;
+  opacity: 0.7 !important;
+}
+
+/* ===== FOCUS EFFECTS ===== */
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: rgba(103, 72, 70, 0.3) !important;
+  box-shadow: 0 0 0 3px rgba(103, 72, 70, 0.05) !important;
+  outline: none !important;
+}
+
+/* ===== HOVER EFFECTS (Desktop only) ===== */
+@media (min-width: 769px) {
+  .service-card:hover,
+  .blog-card:hover,
+  .team-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08) !important;
+    transition: all 0.3s ease;
+  }
+}
+
+/* ===== TOUCH-FRIENDLY (Mobile) ===== */
+@media (max-width: 768px) {
+  /* All interactive elements: Min 44px */
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    min-height: 44px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Remove hover effects on mobile */
+  * {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  }
+  
+}
+
+/* ============================================
+   ✅ ADD TO index.css - iOS Glass Effect for Services
+   ============================================ */
+
+/* Service Cards - iOS Glass Effect */
+[style*="serviceCard"],
+.service-card {
+  background: rgba(255, 255, 255, 0.15) !important;
+  backdrop-filter: blur(40px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(40px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Cart Panel - iOS Glass Effect */
+[style*="cartPanel"],
+.cart-panel {
+  background: rgba(255, 255, 255, 0.15) !important;
+  backdrop-filter: blur(40px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(40px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Cart Items - Slightly More Transparent */
+[style*="cartListItem"],
+.cart-item {
+  background: rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Booking Form Inputs - Glass Effect */
+[style*="bookingInput"],
+[style*="bookingTextarea"],
+.booking-input,
+.booking-textarea {
+  background: rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Category Buttons - Transparent */
+button[style*="borderRadius: 999"] {
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+}
+
+/* Active Category Button */
+button[style*="22c55e"] {
+  background: rgba(34, 197, 94, 0.3) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+}
+
+/* Sticky Checkout Button - Glass Effect */
+.sticky-checkout-btn {
+  background: rgba(103, 72, 70, 0.95) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border: 2px solid rgba(231, 203, 46, 0.8) !important;
+}
+
+/* Mobile: Make sure glass effect works on small screens */
+@media (max-width: 768px) {
+  [style*="serviceCard"],
+  .service-card,
+  [style*="cartPanel"],
+  .cart-panel {
+    background: rgba(255, 255, 255, 0.2) !important;
+    backdrop-filter: blur(30px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(30px) saturate(180%) !important;
+  }
+}
+
+/* Hover Effects - Desktop Only */
+@media (min-width: 769px) {
+  [style*="serviceCard"]:hover,
+  .service-card:hover {
+    background: rgba(255, 255, 255, 0.25) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08) !important;
+    transition: all 0.3s ease;
+  }
+}
+.gb-bookingPanel{
+  border-radius:24px;
+  padding:18px;
+  background: rgba(255,255,255,0.16);
+  backdrop-filter: blur(26px) saturate(160%);
+  -webkit-backdrop-filter: blur(26px) saturate(160%);
+  border: 1px solid rgba(255,255,255,0.22);
+  box-shadow: 0 16px 50px rgba(0,0,0,0.10);
+  position: sticky;
+  top: 16px;
+}
+
+.gb-bookingHeader{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+  padding-bottom:12px;
+  border-bottom: 1px solid rgba(255,255,255,0.16);
+}
+
+.gb-bookingTitle{ margin:0; font-size:18px; font-weight:800; color:#0b1120; }
+.gb-bookingSub{ margin:6px 0 0 0; font-size:12.5px; color: rgba(11,17,32,0.72); }
+
+.gb-badges{ display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
+.gb-badge{
+  font-size:12px;
+  padding:6px 10px;
+  border-radius:999px;
+  background: rgba(15,23,42,0.10);
+  border: 1px solid rgba(15,23,42,0.10);
+  color: rgba(11,17,32,0.85);
+  font-weight:700;
+}
+.gb-badgeGold{
+  background: rgba(231,203,46,0.18);
+  border-color: rgba(231,203,46,0.25);
+}
+
+.gb-selectedCard{
+  margin-top:14px;
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius:18px;
+  padding:14px;
+}
+
+.gb-selectedTop{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.gb-selectedTitle{ font-weight:800; color:#0b1120; font-size:13px; }
+.gb-selectedHint{ font-size:12px; color: rgba(11,17,32,0.62); }
+
+.gb-selectedList{ margin-top:10px; display:flex; flex-direction:column; gap:10px; }
+.gb-selectedRow{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:10px;
+  padding:10px 10px;
+  border-radius:14px;
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.16);
+}
+.gb-selectedName{ font-weight:800; color:#0b1120; font-size:13px; }
+.gb-selectedMeta{ display:flex; gap:8px; font-size:12px; color: rgba(11,17,32,0.65); margin-top:4px; }
+
+.gb-removeBtn{
+  border:none;
+  background: rgba(103,72,70,0.12);
+  color:#674846;
+  width:32px;
+  height:32px;
+  border-radius:10px;
+  font-size:18px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.gb-removeBtn:hover{ background: rgba(103,72,70,0.18); }
+
+.gb-summaryRow{ margin-top:12px; display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.gb-summaryBox{
+  background: rgba(15,23,42,0.08);
+  border: 1px solid rgba(15,23,42,0.08);
+  border-radius:14px;
+  padding:10px 12px;
+}
+.gb-summaryLabel{ font-size:11.5px; color: rgba(11,17,32,0.65); font-weight:700; }
+.gb-summaryValue{ margin-top:3px; font-size:15px; font-weight:900; color:#0b1120; }
+
+.gb-form{ margin-top:14px; display:flex; flex-direction:column; gap:12px; }
+.gb-grid2{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+@media (max-width: 980px){ .gb-grid2{ grid-template-columns:1fr; } }
+
+.gb-field{ display:flex; flex-direction:column; gap:6px; }
+.gb-label{ font-size:12px; font-weight:800; color: rgba(11,17,32,0.75); }
+.gb-req{ color: rgba(239,68,68,0.95); }
+
+.gb-input{
+  width:100%;
+  border-radius:14px;
+  border: 1px solid rgba(15,23,42,0.14);
+  background: rgba(255,255,255,0.55);
+  padding:12px 12px;
+  font-size:14px;
+  color:#0b1120;
+  outline:none;
+  transition: box-shadow .15s ease, border-color .15s ease, transform .15s ease;
+}
+.gb-input:focus{
+  border-color: rgba(231,203,46,0.65);
+  box-shadow: 0 0 0 4px rgba(231,203,46,0.18);
+}
+.gb-textarea{ min-height: 96px; resize: vertical; }
+
+.gb-submit{
+  margin-top:4px;
+  border:none;
+  border-radius:16px;
+  padding:14px 14px;
+  background: #674846;
+  color:#fff8dc;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow: 0 12px 30px rgba(103,72,70,0.25);
+  transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+}
+.gb-submit:hover{ transform: translateY(-1px); box-shadow: 0 16px 36px rgba(103,72,70,0.32); }
+.gb-submit:disabled{ opacity:0.65; cursor:not-allowed; transform:none; }
+
+.gb-alert{
+  margin-top:6px;
+  padding:10px 12px;
+  border-radius:14px;
+  font-size:12.5px;
+  font-weight:700;
+}
+.gb-alertOk{ background: rgba(34,197,94,0.16); border:1px solid rgba(34,197,94,0.22); color: rgba(11,17,32,0.85); }
+.gb-alertBad{ background: rgba(239,68,68,0.14); border:1px solid rgba(239,68,68,0.22); color: rgba(11,17,32,0.85); }
+
+.gb-empty{
+  margin-top:14px;
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+  padding:14px;
+  border-radius:18px;
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.16);
+}
+.gb-emptyIcon{ font-size:22px; }
+.gb-emptyTitle{ font-weight:900; color:#0b1120; }
+.gb-emptySub{ margin-top:4px; font-size:12.5px; color: rgba(11,17,32,0.65); }
+
+.gb-error{
+  font-size:12px;
+  font-weight:700;
+  color: rgba(239,68,68,0.95);
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

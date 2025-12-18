@@ -21,6 +21,17 @@ function PromotionBanner() {
     }
   }, [promotions.length]);
 
+  // Track promotion views
+  useEffect(() => {
+    if (promotions.length > 0 && promotions[currentIndex] && window.gtag) {
+      window.gtag('event', 'view_promotion', {
+        event_category: 'engagement',
+        event_label: promotions[currentIndex].title,
+        value: 1
+      });
+    }
+  }, [promotions, currentIndex]);
+
   async function loadFeaturedPromotions() {
     try {
       const res = await fetch(`${API_BASE}/promotions/featured`);

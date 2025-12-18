@@ -1,4 +1,6 @@
 // src/components/TeamSection.js
+// FIXED: Uses teamGrid for larger cards + reasonable image heights
+
 import React, { useEffect, useState } from "react";
 import { API_BASE } from "../apiConfig";
 import { styles } from "../styles";
@@ -80,24 +82,25 @@ function TeamSection() {
         <p>Team coming soon.</p>
       )}
 
-      <div style={styles.servicesGrid}>
+      {/* ✅ CHANGED: servicesGrid → teamGrid */}
+      <div style={styles.teamGrid}>
         {employees.map((e) => (
           <div key={e.id} style={styles.serviceCard}>
             {e.photoUrl && (
-  <div style={{ marginBottom: 8 }}>
-    <img
-      src={backendBase + e.photoUrl}
-      alt={e.displayName || e.fullName}
-      style={{
-        width: "100%",
-        height: 500,
-        borderRadius: 8,
-        objectFit: "cover",
-        display: "block",
-      }}
-    />
-  </div>
-)}
+              <div style={{ marginBottom: 8 }}>
+                <img
+                  src={backendBase + e.photoUrl}
+                  alt={e.displayName || e.fullName}
+                  style={{
+                    width: "100%",
+                    height: 300,  // ✅ CHANGED: 500 → 300
+                    borderRadius: 8,
+                    objectFit: "cover",
+                    display: "block",
+                  }}
+                />
+              </div>
+            )}
 
             <h3 style={{ marginBottom: 6 }}>
               {e.displayName || e.fullName}
@@ -119,7 +122,6 @@ function TeamSection() {
               </p>
             )}
           </div>
-          
         ))}
       </div>
     </section>

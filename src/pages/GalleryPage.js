@@ -14,6 +14,14 @@ function GalleryPage() {
 
   useEffect(() => {
     loadGallery();
+    
+    // Track gallery page view
+    if (window.gtag) {
+      window.gtag('event', 'view_gallery', {
+        event_category: 'engagement',
+        value: 1
+      });
+    }
   }, []);
 
   async function loadGallery() {

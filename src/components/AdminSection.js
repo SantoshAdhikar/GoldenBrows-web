@@ -1271,30 +1271,36 @@ function cancelEditReply() {
   // ---------- RENDER ----------
 
   return (
-    <section style={styles.section} className="admin-section">
+    <section style={adminSectionStyle} className="admin-section">
+  <div style={adminWrap}>
+
       <h2 style={styles.sectionTitle}>Admin</h2>
 
       {!adminAuth && (
-        <form onSubmit={testLogin} style={styles.form}>
+  <form
+    onSubmit={testLogin}
+    style={{ ...styles.form, ...glassCard }}
+  >
+
           <p style={{ fontSize: 13, marginBottom: 8 }}>
             Admin login (for you / staff only).
           </p>
-          <label style={styles.label}>
+          <label style={adminLabel}>
             Username
             <input
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              style={styles.input}
+              style={adminInput}
             />
           </label>
-          <label style={styles.label}>
+          <label style={adminLabel}>
             Password
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              style={styles.input}
+              style={adminInput}
             />
           </label>
           <button type="submit" style={styles.primaryButton}>
@@ -1328,8 +1334,9 @@ function cancelEditReply() {
           </p>
 
           {/* APPOINTMENTS DASHBOARD */}
-          <div style={{ marginBottom: 24 }}>
-            <h3 style={{ marginBottom: 8 }}>Appointments</h3>
+<div style={{ ...glassCard, ...span12, marginBottom: 24, padding: 20 }}>
+
+  <h3 style={{ marginBottom: 8 }}>Appointments</h3>
 
             <div
               style={{
@@ -1339,22 +1346,22 @@ function cancelEditReply() {
                 marginBottom: 12,
               }}
             >
-              <label style={{ ...styles.label, maxWidth: 180 }}>
+              <label style={{ ...adminLabel, maxWidth: 180 }}>
                 Date
                 <input
                   type="date"
                   value={selectedDate}
                   onChange={(e) => setSelectedDate(e.target.value)}
-                  style={styles.input}
+                  style={adminInput}
                 />
               </label>
 
-              <label style={{ ...styles.label, maxWidth: 200 }}>
+              <label style={{ ...adminLabel, maxWidth: 200 }}>
                 Staff
                 <select
                   value={filterEmployeeId}
                   onChange={(e) => setFilterEmployeeId(e.target.value)}
-                  style={styles.input}
+                  style={adminInput}
                 >
                   <option value="">All staff</option>
                   {employees.map((emp) => (
@@ -1365,12 +1372,12 @@ function cancelEditReply() {
                 </select>
               </label>
 
-              <label style={{ ...styles.label, maxWidth: 180 }}>
+              <label style={{ ...adminLabel, maxWidth: 180 }}>
                 Status
                 <select
                   value={filterStatus}
                   onChange={(e) => setFilterStatus(e.target.value)}
-                  style={styles.input}
+                  style={adminInput}
                 >
                   <option value="">All</option>
                   <option value="PENDING">Pending</option>
@@ -1465,31 +1472,28 @@ function cancelEditReply() {
           </div>
 
           {/* GRID: service / contact / blog / employee forms */}
-          <div
-            style={{
-              display: "grid",
-              gap: 24,
-              gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-            }}
-          >
+          <div style={adminGrid}>
+
             {/* Add Service */}
-            <form onSubmit={handleAddService} style={styles.form}>
+            <form onSubmit={handleAddService} style={{ ...adminForm, ...glassCard, ...span4 }}>
+
+
               <h3 style={{ marginBottom: 8 }}>Add Service</h3>
-              <label style={styles.label}>
+              <label style={adminLabel}>
                 Name
                 <input
                   type="text"
                   value={serviceName}
                   onChange={(e) => setServiceName(e.target.value)}
-                  style={styles.input}
+                  style={adminInput}
                 />
               </label>
-              <label style={styles.label}>
+              <label style={adminLabel}>
                 Category
                 <select
                   value={serviceCategory}
                   onChange={(e) => setServiceCategory(e.target.value)}
-                  style={styles.input}
+                  style={adminInput}
                 >
                   <option value="">(none)</option>
                   {SERVICE_CATEGORIES.map((cat) => (
@@ -1499,31 +1503,31 @@ function cancelEditReply() {
                   ))}
                 </select>
               </label>
-              <label style={styles.label}>
+              <label style={adminLabel}>
                 Price ($)
                 <input
                   type="number"
                   step="0.01"
                   value={servicePrice}
                   onChange={(e) => setServicePrice(e.target.value)}
-                  style={styles.input}
+                  style={adminInput}
                 />
               </label>
-              <label style={styles.label}>
+              <label style={adminLabel}>
                 Duration (minutes)
                 <input
                   type="number"
                   value={serviceDuration}
                   onChange={(e) => setServiceDuration(e.target.value)}
-                  style={styles.input}
+                  style={adminInput}
                 />
               </label>
-              <label style={styles.label}>
+              <label style={adminLabel}>
                 Description
                 <textarea
                   value={serviceDescription}
                   onChange={(e) => setServiceDescription(e.target.value)}
-                  style={{ ...styles.input, minHeight: 80, resize: "vertical" }}
+                  style={{ ...adminInput, minHeight: 80, resize: "vertical" }}
                 />
               </label>
               <button type="submit" style={styles.primaryButton}>
@@ -1532,30 +1536,32 @@ function cancelEditReply() {
             </form>
 
             {/* Contact & Social */}
-            <form onSubmit={handleSaveContact} style={styles.form}>
+            <form onSubmit={handleSaveContact} style={{ ...styles.form, ...glassCard, ...span4 }}>
+
+
               <h3 style={{ marginBottom: 8 }}>Contact & Social</h3>
 
-              <label style={styles.label}>
+              <label style={adminLabel}>
                 Phone
                 <input
                   type="text"
                   value={contactPhone}
                   onChange={(e) => setContactPhone(e.target.value)}
-                  style={styles.input}
+                  style={adminInput}
                 />
               </label>
 
-              <label style={styles.label}>
+              <label style={adminLabel}>
                 Email
                 <input
                   type="email"
                   value={contactEmail}
                   onChange={(e) => setContactEmail(e.target.value)}
-                  style={styles.input}
+                  style={adminInput}
                 />
               </label>
 
-              <label style={styles.label}>
+              <label style={adminLabel}>
                 Address line 1
                 <input
                   type="text"
@@ -1563,11 +1569,11 @@ function cancelEditReply() {
                   onChange={(e) =>
                     setContactAddress1(e.target.value)
                   }
-                  style={styles.input}
+                  style={adminInput}
                 />
               </label>
 
-              <label style={styles.label}>
+              <label style={adminLabel}>
                 Address line 2
                 <input
                   type="text"
@@ -1575,22 +1581,22 @@ function cancelEditReply() {
                   onChange={(e) =>
                     setContactAddress2(e.target.value)
                   }
-                  style={styles.input}
+                  style={adminInput}
                 />
               </label>
 
-              <label style={styles.label}>
+              <label style={adminLabel}>
                 Google Maps URL
                 <input
                   type="text"
                   value={contactMaps}
                   onChange={(e) => setContactMaps(e.target.value)}
-                  style={styles.input}
+                  style={adminInput}
                   placeholder="https://maps.google.com/…"
                 />
               </label>
 
-              <label style={styles.label}>
+              <label style={adminLabel}>
                 Instagram URL
                 <input
                   type="text"
@@ -1598,12 +1604,12 @@ function cancelEditReply() {
                   onChange={(e) =>
                     setContactInstagram(e.target.value)
                   }
-                  style={styles.input}
+                  style={adminInput}
                   placeholder="https://instagram.com/…"
                 />
               </label>
 
-              <label style={styles.label}>
+              <label style={adminLabel}>
                 Facebook URL
                 <input
                   type="text"
@@ -1611,41 +1617,41 @@ function cancelEditReply() {
                   onChange={(e) =>
                     setContactFacebook(e.target.value)
                   }
-                  style={styles.input}
+                  style={adminInput}
                 />
               </label>
 
-              <label style={styles.label}>
+              <label style={adminLabel}>
                 TikTok URL
                 <input
                   type="text"
                   value={contactTiktok}
                   onChange={(e) => setContactTiktok(e.target.value)}
-                  style={styles.input}
+                  style={adminInput}
                 />
               </label>
-              <label style={styles.label}>
+              <label style={adminLabel}>
   Twitter/X URL
   <input
     type="text"
     value={contactTwitter}
     onChange={(e) => setContactTwitter(e.target.value)}
-    style={styles.input}
+    style={adminInput}
     placeholder="https://x.com/your-page"
   />
 </label>
 
-              <label style={styles.label}>
+              <label style={adminLabel}>
                 Yelp URL
                 <input
                   type="text"
                   value={contactYelp}
                   onChange={(e) => setContactYelp(e.target.value)}
-                  style={styles.input}
+                  style={adminInput}
                 />
               </label>
 
-              <label style={styles.label}>
+              <label style={adminLabel}>
   Logo (PNG, JPEG, JPG)
   <div style={{ marginBottom: 8 }}>
     <input
@@ -1653,7 +1659,7 @@ function cancelEditReply() {
       accept="image/png,image/jpeg,image/jpg"
       onChange={handleLogoFileChange}
       style={{
-        ...styles.input,
+        ...adminInput,
         padding: '8px',
         cursor: 'pointer',
       }}
@@ -1689,7 +1695,7 @@ function cancelEditReply() {
       type="text"
       value={contactLogoUrl}
       onChange={(e) => setContactLogoUrl(e.target.value)}
-      style={{ ...styles.input, marginTop: 4 }}
+      style={{ ...adminInput, marginTop: 4 }}
       placeholder="https://…/logo.png"
     />
   </details>
@@ -1707,49 +1713,47 @@ function cancelEditReply() {
             </form>
 
                         {/* Add / Edit Blog Post */}
-            <form
-              onSubmit={handleAddBlogPost}
-              style={styles.form}
-              className="admin-blog-post"
-            >
+            <form onSubmit={handleAddBlogPost} style={{ ...styles.form, ...glassCard, ...span4 }} className="admin-blog-post">
+
+
               <h3 style={{ marginBottom: 8 }}>
                 {editingBlogId ? "Edit Blog Post" : "Add Blog Post"}
               </h3>
-              <label style={styles.label}>
+              <label style={adminLabel}>
                 Title
                 <input
                   type="text"
                   value={blogTitle}
                   onChange={(e) => setBlogTitle(e.target.value)}
-                  style={styles.input}
+                  style={adminInput}
                 />
               </label>
-              <label style={styles.label}>
+              <label style={adminLabel}>
                 Slug (optional)
                 <input
                   type="text"
                   value={blogSlug}
                   onChange={(e) => setBlogSlug(e.target.value)}
-                  style={styles.input}
+                  style={adminInput}
                   placeholder="why-threading-is-better"
                 />
               </label>
-              <label style={styles.label}>
+              <label style={adminLabel}>
                 Excerpt
                 <input
                   type="text"
                   value={blogExcerpt}
                   onChange={(e) => setBlogExcerpt(e.target.value)}
-                  style={styles.input}
+                  style={adminInput}
                   placeholder="Short summary shown in list..."
                 />
               </label>
-              <label style={styles.label}>
+              <label style={adminLabel}>
                 Content
                 <textarea
                   value={blogContent}
                   onChange={(e) => setBlogContent(e.target.value)}
-                  style={{ ...styles.input, minHeight: 120, resize: "vertical" }}
+                  style={{ ...adminInput, minHeight: 120, resize: "vertical" }}
                 />
               </label>
               <button type="submit" style={styles.primaryButton}>
@@ -1758,12 +1762,14 @@ function cancelEditReply() {
             </form>
 
             {/* Add / Edit Gallery Item */}
-            <form onSubmit={handleSaveGallery} style={styles.form}>
+            <form onSubmit={handleSaveGallery} style={{ ...styles.form, ...glassCard, ...span6 }}>
+
+
               <h3 style={{ marginBottom: 8 }}>
                 {editingGalleryId ? "Edit Gallery" : "Add Gallery Item"}
               </h3>
 
-              <label style={styles.label}>
+              <label style={adminLabel}>
                 Title *
                 <input
                   type="text"
@@ -1771,22 +1777,22 @@ function cancelEditReply() {
                   onChange={(e) =>
                     setGalleryForm({ ...galleryForm, title: e.target.value })
                   }
-                  style={styles.input}
+                  style={adminInput}
                 />
               </label>
 
-              <label style={styles.label}>
+              <label style={adminLabel}>
                 Description
                 <textarea
                   value={galleryForm.description}
                   onChange={(e) =>
                     setGalleryForm({ ...galleryForm, description: e.target.value })
                   }
-                  style={{ ...styles.input, minHeight: 60, resize: "vertical" }}
+                  style={{ ...adminInput, minHeight: 60, resize: "vertical" }}
                 />
               </label>
 
-              <label style={styles.label}>
+              <label style={adminLabel}>
                 Category (e.g., Threading, Facial, Waxing)
                 <input
                   type="text"
@@ -1794,12 +1800,12 @@ function cancelEditReply() {
                   onChange={(e) =>
                     setGalleryForm({ ...galleryForm, category: e.target.value })
                   }
-                  style={styles.input}
+                  style={adminInput}
                   placeholder="Threading"
                 />
               </label>
 
-              <label style={styles.label}>
+              <label style={adminLabel}>
                 Main Image (or "After" image) *
                 <input
                   type="file"
@@ -1809,7 +1815,7 @@ function cancelEditReply() {
                     handleGalleryImageUpload(e.target.files[0], "main")
                   }
                   disabled={uploadingGalleryMain}
-                  style={styles.input}
+                  style={adminInput}
                 />
                 {uploadingGalleryMain && <span style={{ fontSize: 12 }}>Uploading...</span>}
                 {galleryForm.imageUrl && (
@@ -1821,7 +1827,7 @@ function cancelEditReply() {
                 )}
               </label>
 
-              <label style={styles.label}>
+              <label style={adminLabel}>
                 Before Image (optional - for before/after)
                 <input
                   type="file"
@@ -1831,7 +1837,7 @@ function cancelEditReply() {
                     handleGalleryImageUpload(e.target.files[0], "before")
                   }
                   disabled={uploadingGalleryBefore}
-                  style={styles.input}
+                  style={adminInput}
                 />
                 {uploadingGalleryBefore && <span style={{ fontSize: 12 }}>Uploading...</span>}
                 {galleryForm.beforeImageUrl && (
@@ -1843,7 +1849,7 @@ function cancelEditReply() {
                 )}
               </label>
 
-              <label style={styles.label}>
+              <label style={adminLabel}>
                 Customer Name (optional)
                 <input
                   type="text"
@@ -1851,12 +1857,12 @@ function cancelEditReply() {
                   onChange={(e) =>
                     setGalleryForm({ ...galleryForm, customerName: e.target.value })
                   }
-                  style={styles.input}
+                  style={adminInput}
                   placeholder="Optional: customer who allowed this photo"
                 />
               </label>
 
-              <label style={styles.label}>
+              <label style={adminLabel}>
                 Display Order (lower = first)
                 <input
                   type="number"
@@ -1867,7 +1873,7 @@ function cancelEditReply() {
                       displayOrder: parseInt(e.target.value) || 0,
                     })
                   }
-                  style={styles.input}
+                  style={adminInput}
                 />
               </label>
 
@@ -1919,12 +1925,14 @@ function cancelEditReply() {
 
 
             {/* Add / Edit Employee */}
-            <form onSubmit={handleSaveEmployee} style={styles.form}>
+           <form onSubmit={handleSaveEmployee} style={{ ...styles.form, ...glassCard, ...span6 }}>
+
+
               <h3 style={{ marginBottom: 8 }}>
                 {editingEmployeeId ? "Edit Employee" : "Add Employee"}
               </h3>
 
-              <label style={styles.label}>
+              <label style={adminLabel}>
                 Full Name
                 <input
                   type="text"
@@ -1932,11 +1940,11 @@ function cancelEditReply() {
                   onChange={(e) =>
                     setEmployeeFullName(e.target.value)
                   }
-                  style={styles.input}
+                  style={adminInput}
                 />
               </label>
 
-              <label style={styles.label}>
+              <label style={adminLabel}>
                 Display Name
                 <input
                   type="text"
@@ -1944,11 +1952,11 @@ function cancelEditReply() {
                   onChange={(e) =>
                     setEmployeeDisplayName(e.target.value)
                   }
-                  style={styles.input}
+                  style={adminInput}
                 />
               </label>
 
-              <label style={styles.label}>
+              <label style={adminLabel}>
                 Role
                 <input
                   type="text"
@@ -1956,11 +1964,11 @@ function cancelEditReply() {
                   onChange={(e) =>
                     setEmployeeRole(e.target.value)
                   }
-                  style={styles.input}
+                  style={adminInput}
                 />
               </label>
 
-              <label style={styles.label}>
+              <label style={adminLabel}>
                 Specialties
                 <input
                   type="text"
@@ -1968,12 +1976,12 @@ function cancelEditReply() {
                   onChange={(e) =>
                     setEmployeeSpecialties(e.target.value)
                   }
-                  style={styles.input}
+                  style={adminInput}
                   placeholder="Threading, Waxing, Facials"
                 />
               </label>
 
-              <label style={styles.label}>
+              <label style={adminLabel}>
                 Bio
                 <textarea
                   value={employeeBio}
@@ -1981,20 +1989,20 @@ function cancelEditReply() {
                     setEmployeeBio(e.target.value)
                   }
                   style={{
-                    ...styles.input,
+                    ...adminInput,
                     minHeight: 80,
                     resize: "vertical",
                   }}
                 />
               </label>
 
-              <label style={styles.label}>
+              <label style={adminLabel}>
                 Photo
                 <input
                   type="file"
                   accept="image/*"
                   onChange={handleEmployeePhotoFileChange}
-                  style={styles.input}
+                  style={adminInput}
                 />
                 {employeePhotoUrl && (
                   <p style={{ fontSize: 12, marginTop: 4 }}>
@@ -2042,8 +2050,14 @@ function cancelEditReply() {
           </div>
 
           {/* Employees list (edit / delete) */}
-          <div style={{ marginTop: 32 }}>
-            <h3 style={{ marginBottom: 8 }}>Employees</h3>
+<div
+  style={{
+    ...glassCard,
+    marginTop: 32,
+    padding: 20,
+  }}
+>
+  <h3 style={{ marginBottom: 8 }}>Employees</h3>
 
             {employees.length === 0 ? (
               <p>No employees yet.</p>
@@ -2103,8 +2117,14 @@ function cancelEditReply() {
           </div>
 
           {/* Blog posts admin list (publish / unpublish / edit) */}
-          <div style={{ marginTop: 32 }}>
-            <h3 style={{ marginBottom: 8 }}>Blog Posts</h3>
+<div
+  style={{
+    ...glassCard,
+    marginTop: 32,
+    padding: 20,
+  }}
+>
+  <h3 style={{ marginBottom: 8 }}>Blog Posts</h3>
 
             {blogLoading && <p>Loading blog posts...</p>}
             {blogError && (
@@ -2163,8 +2183,14 @@ function cancelEditReply() {
           </div>
 
           {/* Blog comments admin view */}
-          <div style={{ marginTop: 32 }}>
-            <h3 style={{ marginBottom: 8 }}>Blog Comments</h3>
+<div
+  style={{
+    ...glassCard,
+    marginTop: 32,
+    padding: 20,
+  }}
+>
+  <h3 style={{ marginBottom: 8 }}>Blog Comments</h3>
 
             {commentsLoading && <p>Loading comments...</p>}
             {commentsError && (
@@ -2231,7 +2257,7 @@ function cancelEditReply() {
                               }))
                             }
                             style={{
-                              ...styles.input,
+                              ...adminInput,
                               minHeight: 60,
                               resize: "vertical",
                             }}
@@ -2256,8 +2282,14 @@ function cancelEditReply() {
           </div>
 
           {/* Gallery items admin list */}
-          <div style={{ marginTop: 32 }}>
-            <h3 style={{ marginBottom: 8 }}>Gallery Items</h3>
+<div
+  style={{
+    ...glassCard,
+    marginTop: 32,
+    padding: 20,
+  }}
+>
+  <h3 style={{ marginBottom: 8 }}>Gallery Items</h3>
 
             {galleryLoading && <p>Loading gallery...</p>}
             {galleryError && (
@@ -2350,14 +2382,15 @@ function cancelEditReply() {
           </div>
 
 
+
 {/* Reviews Management - ADD AFTER Gallery Items section */}
-<div style={{
-  background: "rgba(255, 248, 220, 0.9)",
-  borderRadius: 12,
-  padding: 20,
-  marginBottom: 24,
-  border: "1px solid rgba(103, 72, 70, 0.3)"
-}}>
+<div
+  style={{
+    ...glassCard,
+    marginBottom: 24,
+    padding: 20,
+  }}
+>
   <h3 style={{ fontSize: 20, marginBottom: 16, color: "#674846" }}>
     Customer Reviews
   </h3>
@@ -2608,14 +2641,15 @@ function cancelEditReply() {
 </div>
 
 
+
 {/* FAQ Management */}
-<div style={{
-  background: "rgba(255, 248, 220, 0.9)",
-  borderRadius: 12,
-  padding: 20,
-  marginBottom: 24,
-  border: "1px solid rgba(103, 72, 70, 0.3)"
-}}>
+<div
+  style={{
+    ...glassCard,
+    marginBottom: 24,
+    padding: 20,
+  }}
+>
   <h3 style={{ fontSize: 20, marginBottom: 16, color: "#674846" }}>
     FAQ Management
   </h3>
@@ -2861,13 +2895,14 @@ function cancelEditReply() {
 </div>
 
 {/* Promotions Management */}
-<div style={{
-  background: "rgba(255, 248, 220, 0.9)",
-  borderRadius: 12,
-  padding: 20,
-  marginBottom: 24,
-  border: "1px solid rgba(103, 72, 70, 0.3)"
-}}>
+<div
+  style={{
+    ...glassCard,
+    marginBottom: 24,
+    padding: 20,
+  }}
+>
+
   <h3 style={{ fontSize: 20, marginBottom: 16, color: "#674846" }}>
     🎁 Promotions Management
   </h3>
@@ -3167,7 +3202,7 @@ function cancelEditReply() {
                   {promo.discountText && (
                     <span style={{
                       marginLeft: 8,
-                      backgroundColor: "#ff6b6b",
+                      backgroundColor: "#e71515ff",
                       color: "white",
                       padding: "2px 8px",
                       borderRadius: 4,
@@ -3279,7 +3314,7 @@ function cancelEditReply() {
                   style={{
                     padding: "6px 12px",
                     fontSize: 13,
-                    backgroundColor: "#dc2626",
+                    backgroundColor: "#7a1717ff",
                     color: "white",
                     border: "none",
                     borderRadius: 6,
@@ -3299,9 +3334,16 @@ function cancelEditReply() {
           
 
           {/* Manage services & images (edit/delete) */}
-          <div style={{ marginTop: 32 }}>
-            <AdminServicesManager authHeader={authHeader} />
-          </div>
+<div
+  style={{
+    ...glassCard,
+    marginTop: 32,
+    padding: 20,
+  }}
+>
+  <AdminServicesManager authHeader={authHeader} />
+</div>
+
 
           {saveMessage && (
             <p
@@ -3315,9 +3357,44 @@ function cancelEditReply() {
           )}
         </>
       )}
+      </div>
     </section>
   );
 }
+const adminSectionStyle = {
+  ...styles.section,
+  background: "linear-gradient(135deg, #e0f2ff 0%, #f5fbff 100%)",
+  minHeight: "100vh",
+  paddingTop: 24,
+  paddingBottom: 40,
+  color: "#0f172a",
+};
+
+const glassCard = {
+  backgroundColor: "rgba(255, 255, 255, 0.75)",
+  borderRadius: 16,
+  border: "1px solid rgba(255, 255, 255, 0.7)",
+  boxShadow: "0 18px 40px rgba(15, 23, 42, 0.08)",
+  backdropFilter: "blur(10px)",
+};
+const adminWrap = {
+  maxWidth: 1200,
+  margin: "0 auto",
+  width: "100%",
+};
+
+const adminGrid = {
+  display: "grid",
+  gap: 24,
+  gridTemplateColumns: "repeat(12, minmax(0, 1fr))",
+  alignItems: "start",
+};
+
+const span12 = { gridColumn: "span 12" };
+const span6 = { gridColumn: "span 6" };
+const span4 = { gridColumn: "span 4" };
+
+
 
 const thStyle = {
   textAlign: "left",
@@ -3340,5 +3417,31 @@ const smallBtn = (color) => ({
   backgroundColor: color,
   color: "#fff",
 });
+
+const adminForm = {
+  display: "grid",
+  gap: 12,
+};
+
+const adminLabel = {
+  display: "grid",
+  gap: 6,
+  fontSize: 13,
+  fontWeight: 700,
+  color: "#674846",
+};
+
+const adminInput = {
+  width: "100%",
+  boxSizing: "border-box",
+  padding: "10px 12px",
+  borderRadius: 10,
+  border: "1px solid rgba(103,72,70,0.25)",
+  backgroundColor: "rgba(255,255,255,0.70)",
+  fontSize: 14,
+  color: "#0f172a",
+  outline: "none",
+};
+
 
 export default AdminSection;
