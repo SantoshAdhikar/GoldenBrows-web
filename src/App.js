@@ -25,6 +25,7 @@ import BlogDetailPage from "./pages/BlogDetailPage";
 import GalleryPage from "./pages/GalleryPage";
 import FAQPage from "./pages/FAQPage";
 
+
 function App() {
   const [adminAuth, setAdminAuth] = useState(null);
 

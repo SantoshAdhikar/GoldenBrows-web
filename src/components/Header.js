@@ -268,7 +268,7 @@ function Header() {
 const headerStyle = {
   position: "sticky",
   top: 0,
-  backgroundColor: "rgba(231, 203, 46, 0.98)",
+  backgroundColor: "rgba(162, 245, 238, 0.98)",
   backdropFilter: "blur(10px)",
   boxShadow: "0 2px 10px rgba(103, 72, 70, 0.1)",
   zIndex: 100,
@@ -293,16 +293,16 @@ const leftSectionStyle = {
 };
 
 const businessNameStyle = {
-  fontSize: "16px",
+  fontSize: "24px",
   fontWeight: "bold",
   marginBottom: "3px",
-  color: "#674846",
+  color: "#e713cbff",
   lineHeight: 1.2
 };
 
 const businessAddressStyle = {
-  fontSize: "10px",
-  color: "#674846",
+  fontSize: "16px",
+  color: "#ee11eedc",
   opacity: 0.9,
   lineHeight: 1.3
 };

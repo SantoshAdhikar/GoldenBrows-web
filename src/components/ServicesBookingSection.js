@@ -198,7 +198,7 @@ export default function ServicesBookingSection() {
 
   // Neon accent colors for service cards
   const neonStyles = [
-    { border: "#22d3ee" },
+    { border: "#0bdeffff" },
     { border: "#a855f7" },
     { border: "#f97316" },
     { border: "#4ade80" },
@@ -1125,127 +1125,165 @@ export default function ServicesBookingSection() {
           }
         }
 
-        /* ===== FORM ===== */
-        /* Booking form with date, time, name, phone, email, notes */
-        .booking-form {
-          display: flex;
-          flex-direction: column;
-          gap: 20px;
-        }
+        /* ===== BOOKING FORM CSS - FIXED OVERLAPPING FIELDS ===== */
+/* Replace the form CSS section in your ServicesBookingSection.js <style> tag */
 
-        /* Row with 2 fields side by side (date/time, name/phone) */
-        .form-row {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 20px;
-        }
+/* ===== FORM ===== */
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
 
-        @media (max-width: 640px) {
-          .form-row {
-            grid-template-columns: 1fr;
-            gap: 16px;
-          }
-        }
+/* ===== FORM ROW - Side by side fields ===== */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;  /* 2 equal columns */
+  gap: 20px;
+  width: 100%;
+  margin: 0;
+  box-sizing: border-box;
+}
 
-        .form-field {
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
-        }
+/* Mobile: Stack vertically */
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr;  /* 1 column */
+    gap: 16px;
+  }
+}
 
-        .form-label {
-          font-size: 14px;
-          font-weight: 700;
-          color: #374151;
-        }
+/* ===== FORM FIELD ===== */
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;  /* Prevents overflow */
+  box-sizing: border-box;
+}
 
-        /* Input fields (text, date, time, email, phone, select) */
-        .form-input {
-          width: 100%;
-          padding: 16px;
-          border-radius: 14px;
-          border: 1px solid rgba(0, 0, 0, 0.15);
-          background: rgba(255, 255, 255, 0.9);
-          backdrop-filter: blur(10px);
-          font-size: 15px;
-          color: #111827;
-          outline: none;
-          transition: all 0.2s ease;
-          font-family: inherit;
-        }
+/* ===== FORM LABEL ===== */
+.form-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #374151;
+  margin: 0;
+  white-space: nowrap;
+}
 
-        .form-input:focus {
-          border-color: rgba(103, 72, 70, 0.6);
-          box-shadow: 0 0 0 4px rgba(103, 72, 70, 0.12);
-          background: rgba(255, 255, 255, 1);
-        }
+/* ===== FORM INPUT ===== */
+.form-input {
+  width: 100%;
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  font-size: 15px;
+  color: #111827;
+  outline: none;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  box-sizing: border-box;
+}
 
-        .form-textarea {
-          min-height: 120px;
-          resize: vertical;
-        }
+.form-input:focus {
+  border-color: rgba(103, 72, 70, 0.6);
+  box-shadow: 0 0 0 4px rgba(103, 72, 70, 0.12);
+  background: rgba(255, 255, 255, 1);
+}
 
-        /* Error messages below invalid fields */
-        .form-error {
-          font-size: 12px;
-          font-weight: 600;
-          color: #ef4444;
-        }
+/* ===== TEXTAREA ===== */
+.form-textarea {
+  min-height: 120px;
+  resize: vertical;
+}
 
-        /* Submit button */
-        .form-submit {
-          width: 100%;
-          padding: 18px;
-          border: none;
-          border-radius: 16px;
-          background: linear-gradient(135deg, #674846 0%, #8b6361 100%);
-          color: #fff8dc;
-          font-size: 17px;
-          font-weight: 900;
-          cursor: pointer;
-          box-shadow: 
-            0 12px 28px rgba(103, 72, 70, 0.3),
-            0 4px 8px rgba(0, 0, 0, 0.1);
-          transition: all 0.3s ease;
-        }
+/* ===== ERROR MESSAGE ===== */
+.form-error {
+  font-size: 12px;
+  font-weight: 600;
+  color: #ef4444;
+  margin: 0;
+  padding-top: 4px;
+}
 
-        .form-submit:hover {
-          transform: translateY(-2px);
-          box-shadow: 
-            0 16px 35px rgba(103, 72, 70, 0.4),
-            0 6px 12px rgba(0, 0, 0, 0.15);
-        }
+/* ===== SUBMIT BUTTON ===== */
+.form-submit {
+  width: 100%;
+  padding: 18px;
+  border: none;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #674846 0%, #8b6361 100%);
+  color: #fff8dc;
+  font-size: 17px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 
+    0 12px 28px rgba(103, 72, 70, 0.3),
+    0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
 
-        .form-submit:active {
-          transform: translateY(0);
-        }
+.form-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 16px 35px rgba(103, 72, 70, 0.4),
+    0 6px 12px rgba(0, 0, 0, 0.15);
+}
 
-        .form-submit:disabled {
-          opacity: 0.6;
-          cursor: not-allowed;
-          transform: none;
-        }
+.form-submit:active {
+  transform: translateY(0);
+}
 
-        /* Success/error message after submission */
-        .form-message {
-          padding: 14px 16px;
-          border-radius: 14px;
-          font-size: 14px;
-          font-weight: 600;
-          line-height: 1.5;
-        }
+.form-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
 
-        .form-message-success {
-          background: rgba(34, 197, 94, 0.12);
-          border: 1px solid rgba(34, 197, 94, 0.3);
-          color: #14532d;
-        }
+/* ===== SUCCESS/ERROR MESSAGES ===== */
+.form-message {
+  padding: 14px 16px;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+  margin: 0;
+  box-sizing: border-box;
+}
 
-        .form-message-error {
-          background: rgba(239, 68, 68, 0.12);
-          border: 1px solid rgba(239, 68, 68, 0.3);
-          color: #7f1d1d;
-        }
+.form-message-success {
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #14532d;
+}
+
+.form-message-error {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #7f1d1d;
+}
+
+/* ===== MOBILE ADJUSTMENTS ===== */
+@media (max-width: 640px) {
+  .form-input {
+    padding: 14px;
+    font-size: 14px;
+  }
+  
+  .form-submit {
+    padding: 16px;
+    font-size: 16px;
+  }
+  
+  .form-label {
+    font-size: 13px;
+  }
+}
 
         /* ===== FLOATING BOOK BUTTON ===== */
         /* Fixed button at bottom - appears when booking form is off-screen */

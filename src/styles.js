@@ -22,7 +22,7 @@ export const styles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    backgroundColor: "rgba(255, 255, 255, 0.15)",
+    backgroundColor: "rgba(245, 12, 12, 0.15)",
     backdropFilter: "blur(40px) saturate(180%)",
     WebkitBackdropFilter: "blur(40px) saturate(180%)",
     borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
@@ -34,7 +34,7 @@ export const styles = {
 
   logo: {
     fontWeight: "bold",
-    fontSize: 20,
+    fontSize: 25,
     color: "#1f2937",
   },
 
@@ -52,8 +52,8 @@ export const styles = {
     textDecoration: "none",
     fontSize: 16,
     fontWeight: 500,
-    color: "#1f2937",
-    border: "1px solid rgba(255, 255, 255, 0.3)",
+    color: "#ee09eeff",
+    border: "1px solid rgba(200, 14, 224, 0.94)",
     backgroundColor: "rgba(255, 255, 255, 0.2)",
     backdropFilter: "blur(20px)",
     WebkitBackdropFilter: "blur(20px)",
@@ -68,12 +68,12 @@ export const styles = {
     fontSize: "1.25rem",
     fontWeight: "bold",
     marginBottom: "0.25rem",
-    color: "#1f2937",
+    color: "#096bf5ff",
   },
 
   logoSubline: {
     fontSize: "0.75rem",
-    color: "#6b7280",
+    color: "#064fe2ff",
     opacity: 0.9,
   },
 
@@ -117,7 +117,7 @@ export const styles = {
   primaryButton: {
     display: "inline-block",
     padding: "10px 18px",
-    backgroundColor: "#674846",
+    backgroundColor: "#d214ebff",
     color: "#ffffff",
     borderRadius: 999,
     textDecoration: "none",
@@ -151,7 +151,7 @@ export const styles = {
     fontSize: 14,
     fontWeight: 600,
     marginBottom: 8,
-    color: "#1f2937",
+    color: "#f304f3ff",
   },
 
   heroSocialRow: {
@@ -169,7 +169,7 @@ export const styles = {
     alignItems: "center",
     justifyContent: "center",
     textDecoration: "none",
-    color: "#ffffff",
+    color: "#ffffffff",
     fontSize: 14,
     fontWeight: 700,
     backgroundColor: "#674846",
@@ -208,7 +208,7 @@ export const styles = {
     fontWeight: 800,
     textAlign: "center",
     marginBottom: 12,
-    color: "#1f2937",
+    color: "#db16f5ff",
   },
 
   sectionSubtitle: {
@@ -246,7 +246,7 @@ export const styles = {
   // ===========================
   serviceCard: {
     // 🔥 ULTRA TRANSPARENT - Only 8% white!
-    background: "rgba(255, 255, 255, 0.01)",
+    background: "rgba(216, 0, 0, 0.01)",
     backdropFilter: "blur(30px) saturate(150%)",
     WebkitBackdropFilter: "blur(30px) saturate(150%)",
 
@@ -308,7 +308,7 @@ export const styles = {
   // Duration text
   serviceDuration: {
     fontSize: 14,
-    color: "rgba(211, 19, 236, 1)",
+    color: "rgba(236, 88, 19, 1)",
     fontWeight: 600,
   },
 
@@ -767,7 +767,7 @@ export const styles = {
     textAlign: "left",
     padding: "8px 10px",
     borderBottom: "1px solid rgba(255, 255, 255, 0.3)",
-    fontSize: 12,
+    fontSize: 15,
     textTransform: "uppercase",
     letterSpacing: 0.08,
     color: "#374151",
@@ -850,12 +850,12 @@ export const touchTargets = {
   minWidth: '44px',
   button: {
     padding: '12px 24px',
-    fontSize: '16px',
+    fontSize: '18px',
     minHeight: '44px'
   },
   input: {
     padding: '12px 16px',
-    fontSize: '16px',
+    fontSize: '18px',
     minHeight: '44px'
   }
 };
