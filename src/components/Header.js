@@ -301,6 +301,7 @@ const businessNameStyle = {
 };
 
 const businessAddressStyle = {
+  fontFamily: "inherit",
   fontSize: "16px",
   color: "#ee11eedc",
   opacity: 0.9,
@@ -321,9 +322,10 @@ const rightNavStyle = {
 // ✅ FIX: Smaller nav links
 const navLinkStyle = {
   ...styles.navLink,
-  padding: "5px 10px", // Smaller padding
-  fontSize: "14px", // Smaller font
-  whiteSpace: "nowrap" // Don't break words
+  fontFamily: "inherit",   // ✅ add this to override any fontFamily inside styles.navLink
+  padding: "5px 10px",
+  fontSize: "14px",
+  whiteSpace: "nowrap"
 };
 
 const hamburgerStyle = {
@@ -418,6 +420,7 @@ const mobileNavLinksStyle = {
 };
 
 const mobileNavLinkStyle = {
+  fontFamily: "inherit",
   textDecoration: "none",
   color: "#674846",
   fontWeight: 600,
@@ -431,6 +434,7 @@ const mobileNavLinkStyle = {
 };
 
 const mobileContactStyle = {
+  fontFamily: "inherit",
   marginTop: "auto",
   padding: "20px 12px",
   borderTop: "2px solid rgba(103, 72, 70, 0.2)",
@@ -440,6 +444,7 @@ const mobileContactStyle = {
 };
 
 const mobileContactLinkStyle = {
+  fontFamily: "inherit",
   textDecoration: "none",
   color: "#674846",
   fontSize: "15px",

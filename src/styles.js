@@ -6,13 +6,14 @@ export const styles = {
   // 📄 PAGE LAYOUT + BACKGROUND
   // ===========================
   page: {
-    fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-    backgroundColor: "#ffffff",
-    color: "#1f2937",
-    minHeight: "100vh",
-    display: "flex",
-    flexDirection: "column",
-  },
+  fontFamily: "inherit", // ✅ use whatever index.css sets
+  backgroundColor: "#ffffff",
+  color: "#1f2937",
+  minHeight: "100vh",
+  display: "flex",
+  flexDirection: "column",
+},
+
 
   // ===========================
   // 🔝 HEADER + NAVBAR

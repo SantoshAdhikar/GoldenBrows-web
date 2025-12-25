@@ -112,6 +112,10 @@ export default function ServicesBookingSection() {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
+  
+const [savedBookingData, setSavedBookingData] = useState({
+  name: "", date: "", time: ""
+});
   // Staff options
   const [staffOptions, setStaffOptions] = useState(["Any staff"]);
 
@@ -417,16 +421,24 @@ export default function ServicesBookingSection() {
         throw new Error(text || "Failed to book appointment");
       }
 
-      setShowSuccessModal(true);
+      // ✅ SAVE data BEFORE clearing
+setSavedBookingData({
+  name: bookingName,
+  date: bookingDate,
+  time: bookingTime
+});
 
-      setCart([]);
-      setBookingName("");
-      setBookingPhone("");
-      setBookingEmail("");
-      setBookingNotes("");
-      setBookingDate("");
-      setBookingTime("");
-      setBookingStaff("Any staff");
+setShowSuccessModal(true);
+
+// NOW clear the form
+setCart([]);
+setBookingName("");
+setBookingPhone("");
+setBookingEmail("");
+setBookingNotes("");
+setBookingDate("");
+setBookingTime("");
+setBookingStaff("Any staff");
       setTouched({ name: false, email: false, phone: false });
       setFieldErrors({ name: "", email: "", phone: "" });
     } catch (err) {
@@ -840,12 +852,12 @@ export default function ServicesBookingSection() {
 
       {/* Success modal - shows after booking confirmed */}
       <SuccessMessageModal
-        isOpen={showSuccessModal}
-        onClose={() => setShowSuccessModal(false)}
-        customerName={bookingName}
-        appointmentDate={bookingDate}
-        appointmentTime={bookingTime}
-      />
+  isOpen={showSuccessModal}
+  onClose={() => setShowSuccessModal(false)}
+  customerName={savedBookingData.name}
+  appointmentDate={savedBookingData.date}
+  appointmentTime={savedBookingData.time}
+/>
 
       {/* ===== 🎨 COMPONENT STYLES ===== */}
       {/* All CSS for this component */}
