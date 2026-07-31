@@ -1,11 +1,12 @@
 GOLDEN BROWS THREADING & BEAUTY STUDIO
 Full-Stack Salon Website and Booking Platform
 
-Live Website:
-https://goldenbrowsthreading.com
+# Golden Brows Booking and Business Management Platform
 
-Temporary Firebase URL:
-https://golden-brows.web.app
+> **Project status:** Fully functional in local development and ready for deployment. Public hosting is currently inactive.
+
+A full-stack salon booking and business-management platform developed for Golden Brows Threading & Beauty Studio in Paramount, California.
+
 
 
 1. PROJECT OVERVIEW
@@ -18,7 +19,7 @@ select one or more services, choose a staff member or "Any Staff," and submit
 an appointment request. It also provides administrative tools for managing
 bookings, services, employees, promotions, blog content, comments, and reviews.
 
-This project was designed, developed, and deployed by Santosh Adhikari.
+This project was designed and developed by Santosh Adhikari and configured for cloud deployment.
 
 
 2. MAIN FEATURES
@@ -177,25 +178,15 @@ Run the packaged backend:
 The exact JAR filename may change when the project version changes.
 
 
-10. DEPLOYMENT
+10. Deployment Configuration
 
-Frontend:
-- Hosted with Firebase Hosting
-- Firebase project: golden-brows
-- Firebase Hosting public directory: build
-- Single-page application routes rewrite to /index.html
+Public deployment is currently inactive. The project includes configuration for:
 
-Typical frontend deployment:
+- Firebase Hosting for the React frontend
+- Google Cloud Run for the Spring Boot backend
+- Google Cloud SQL for the MySQL database
 
-   cd frontend
-   npm run build
-   firebase deploy --only hosting
-
-Backend:
-- Deployed as a Spring Boot service on Google Cloud Run
-- Uses environment variables for production configuration
-- Connects to a MySQL database hosted on Google Cloud SQL
-- The application listens on the PORT value supplied by Cloud Run
+The application can be deployed again after valid cloud services, environment variables, and database credentials are configured.
 
 
 11. SECURITY NOTES
